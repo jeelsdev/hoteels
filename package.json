@@ -16,7 +16,9 @@
         "vite": "^5.0.0"
     },
     "dependencies": {
+        "@fullcalendar/resource-timeline": "^6.1.11",
         "apexcharts": "^3.46.0",
-        "flowbite": "^2.3.0"
+        "flowbite": "^2.3.0",
+        "fullcalendar": "^6.1.11"
     }
 }
