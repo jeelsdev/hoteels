@@ -1,7 +1,7 @@
 <x-guest-layout>
-    <div class="flex flex-col justify-center items-center px-6 pt-8 mx-auto md:h-screen pt:mt-0">
-    <a href="#" class="flex justify-center items-center mb-8 text-2xl font-semibold lg:mb-10">
-        <img src="#" class="mr-4 h-10" alt="logo">
+    <div class="flex flex-col justify-center items-center px-6 mx-auto md:h-screen pt:mt-0">
+    <a href="{{ route('login') }}" class="flex justify-center items-center mb-8 text-2xl font-semibold lg:mb-10">
+        <img src="https://www.casonadejerusalen.com/favicons/favicon.ico" class="mr-4 h-10" alt="logo">
         <span class="self-center text-2xl font-bold whitespace-nowrap">La Casona de Jerusalén</span> 
     </a>
     <!-- Card -->
@@ -38,7 +38,7 @@
                     <x-apps.input type="password" name="password" id="password" placeholder="••••••••" autocomplete="current-password">
                     </x-apps.input>
                 </div>
-                <div class="flex items-start">
+                {{-- <div class="flex items-start">
                     <div class="flex items-center h-5">
                     <input id="remember" aria-describedby="remember" name="remember" type="checkbox" class="w-5 h-5  rounded border-gray-300 focus:outline-none focus:ring-0 checked:bg-dark-900" required="false">
                     </div>
@@ -48,12 +48,12 @@
                     @if (Route::has('password.request'))
                         <x-apps.link href="{{ route('password.request') }}" class="pl-5">Olvidaste tu contraseña?</x-apps.link>
                     @endif
-                </div>
+                </div> --}}
                 <x-apps.button>Iniciar sesión</x-apps.button>
-                <div class="text-sm font-medium text-gray-500">
+                {{-- <div class="text-sm font-medium text-gray-500">
                     No estas registrado?
                     <x-apps.link href="{{ route('register') }}">Crear cuenta</x-apps.link>
-                </div>
+                </div> --}}
             </form>
         </div>
     </div>
