@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\ReservationController;
+use App\Livewire\Admin\Reservation\ShowReservations;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +29,6 @@ Route::middleware([
     })->name('dashboard');
 
     Route::prefix('reservation')->group(function () {
-        Route::get('/', [ReservationController::class, 'index'])->name('reservation.index');
+        Route::get('/', ShowReservations::class)->name('reservation.index');
     });
 });
