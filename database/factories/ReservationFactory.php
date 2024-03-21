@@ -17,8 +17,8 @@ class ReservationFactory extends Factory
     public function definition(): array
     {
         return [
-            'entry_date' => $this->faker->dateTimeBetween('-1 month', '+1 month'),
-            'exit_date' => $this->faker->dateTimeBetween('+1 month', '+2 month'),
+            'entry_date' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
+            'exit_date' => $this->faker->dateTimeBetween('+1 week', '+2 week'),
             'status_id' => $this->faker->numberBetween(1, 3),
             'origin' => $this->faker->randomElement(['WEB', 'APP', 'CALL', 'RED', 'BOOKING', 'OTHERS']),
             'room_id' => $this->faker->numberBetween(1, 20),
