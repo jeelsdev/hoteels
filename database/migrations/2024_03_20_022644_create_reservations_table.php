@@ -13,8 +13,8 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
-            $table->date('entry_date');
-            $table->date('exit_date');
+            $table->datetimes('entry_date');
+            $table->datetimes('exit_date');
             $table->string('origin');
             $table->unsignedBigInteger('status_id');
             $table->foreign('status_id')->references('id')->on('reservation_statuses');

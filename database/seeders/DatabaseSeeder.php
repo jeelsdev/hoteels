@@ -23,14 +23,10 @@ class DatabaseSeeder extends Seeder
         // ]);
 
         $room_types = [
-            [1,"Habitación con cama extragrande y balcón",	124],
-            [2,"Habitación triple con baño privado"	,168],
-            [3,"Habitación familiar con baño privado", 185],
-            [4,"Habitación individual con baño compartido",	74],
-            [5,"Habitación individual con baño privado",84],
-            [6,"Habitación doble con baño compartido", 84],
-            [7,"Habitación doble con baño privado", 97],
-            [8,"Habitación familiar con baño privado",146],
+            [1,"S",	124],
+            [2,"D"	,168],
+            [3,"T", 185],
+            [4,"M",	74],
         ];
 
         foreach ($room_types as $room_type) {
