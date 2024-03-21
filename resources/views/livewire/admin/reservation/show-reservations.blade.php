@@ -1,4 +1,10 @@
 <div class="pt-24 px-8">
+    @script
+        <script>
+            window.rooms = @json($rooms);
+            window.reservations = @json($reservations);
+        </script>
+    @endscript
 
     <livewire:admin.reservation.create-reservation />
     
