@@ -22,9 +22,13 @@ class UserFactory extends Factory
     {
         return [
             'name' => $this->faker->name(),
+            'surname' => $this->faker->lastName(),
+            'document' => $this->faker->unique()->randomNumber(8),
+            'document_type' => 'DNI', // 'DNI', 'PAS', 'CEX', 'RUC', 'PASAPORTE', 'OTROS'
+            'phone' => $this->faker->unique()->phoneNumber(),
             'email' => $this->faker->unique()->safeEmail(),
             'email_verified_at' => now(),
-            'password' => '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', // password
+            'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
