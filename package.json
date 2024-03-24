@@ -18,7 +18,9 @@
     "dependencies": {
         "@fullcalendar/resource-timeline": "^6.1.11",
         "apexcharts": "^3.46.0",
+        "chosen-js": "^1.8.7",
         "flowbite": "^2.3.0",
-        "fullcalendar": "^6.1.11"
+        "fullcalendar": "^6.1.11",
+        "jquery": "^3.7.1"
     }
 }
