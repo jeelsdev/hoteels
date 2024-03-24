@@ -1,5 +1,5 @@
 <x-guest-layout>
-    <div class="flex flex-col justify-center items-center px-6 mx-auto md:h-screen pt:mt-0">
+    <div class="flex flex-col justify-center items-center px-6 mx-auto pt-32 md:pt-0 md:h-screen pt:mt-0">
     <a href="{{ route('login') }}" class="flex justify-center items-center mb-8 text-2xl font-semibold lg:mb-10">
         <img src="https://www.casonadejerusalen.com/favicons/favicon.ico" class="mr-4 h-10" alt="logo">
         <span class="self-center text-2xl font-bold whitespace-nowrap">La Casona de Jerusalén</span> 
