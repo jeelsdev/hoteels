@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Reservation;
 
 use App\Models\Reservation;
 use App\Models\Room;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ShowReservations extends Component
@@ -11,6 +12,7 @@ class ShowReservations extends Component
     public $rooms = [];
     public $reservations = [];
 
+    // #[On('create-reservation')]
     public function render()
     {
         $this->rooms = Room::with('roomType')

@@ -3,6 +3,9 @@
 namespace App\Livewire\Admin\Reservation;
 
 use App\Models\Reservation;
+use App\Models\ReservationStatus;
+use App\Models\Room;
+use App\Models\User;
 use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
@@ -12,6 +15,9 @@ class CreateReservation extends Component
 {
     public $open = false;
     public $data;
+    public $rooms = [];
+    public $users = [];
+    public $statuses = [];
 
     #[Validate('required')]
     public $start_date;
@@ -38,7 +44,7 @@ class CreateReservation extends Component
     public function openModal($data)
     {
         $start_date = Carbon::parse($data['date'] ? $data['date'] : $data['date'])->format('Y-m-d');
-
+        $this->room_id = $data['resource']['id'];
         $this->open = true;
         $this->start_date = $start_date;
     }
@@ -55,10 +61,17 @@ class CreateReservation extends Component
             'origin' => $this->origin,
             'total' => $this->total,
         ]);
+
+        $this->reset(['start_date', 'end_date', 'room_id', 'status_id', 'origin', 'total']);
+        $this->dispatch('create-reservation');
+        $this->open = false;
     }
 
     public function render()
     {
+        $this->users = User::all();
+        $this->statuses = ReservationStatus::all();
+        $this->rooms = Room::all();
         return view('livewire.admin.reservation.create-reservation');
     }
 }
