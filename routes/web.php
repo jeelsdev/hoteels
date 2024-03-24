@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ReservationController;
 use App\Livewire\Admin\Reservation\ShowReservations;
+use App\Livewire\Admin\Room\ShowRooms;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -30,5 +31,9 @@ Route::middleware([
 
     Route::prefix('reservation')->group(function () {
         Route::get('/', ShowReservations::class)->name('reservation.index');
+    });
+
+    Route::prefix('room')->group(function () {
+        Route::get('/', ShowRooms::class)->name('room.index');
     });
 });
