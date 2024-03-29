@@ -14,10 +14,12 @@ return new class extends Migration
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
             $table->timestamp('entry_date');
-            $table->timestamp('exit_date');
+            $table->timestamp('exit_date')->nullable();
             $table->string('origin');
-            $table->unsignedBigInteger('status_id');
-            $table->foreign('status_id')->references('id')->on('reservation_statuses');
+            $table->string('comments')->nullable();
+            $table->string('status');
+            $table->decimal('total');
+            $table->decimal('pending_payment')->nullable();
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->timestamps();
