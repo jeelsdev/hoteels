@@ -2,6 +2,8 @@
 
 namespace Database\Factories;
 
+use App\Enums\Origin;
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,9 +21,11 @@ class ReservationFactory extends Factory
         return [
             'entry_date' => $this->faker->dateTimeBetween('-1 week', '+1 week'),
             'exit_date' => $this->faker->dateTimeBetween('+1 week', '+2 week'),
-            'status_id' => $this->faker->numberBetween(1, 3),
-            'origin' => $this->faker->randomElement(['WEB', 'APP', 'CALL', 'RED', 'BOOKING', 'OTHERS']),
+            'status' => Status::getRandomValue(),
+            'origin' => Origin::getRandomValue(),
+            'comments' => $this->faker->sentence(),
             'room_id' => $this->faker->numberBetween(1, 20),
+            'total' => $this->faker->randomFloat(2, 100, 1000),
         ];
     }
 }

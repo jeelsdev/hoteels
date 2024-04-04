@@ -7,24 +7,17 @@
     @endscript
 
     <livewire:admin.reservation.create-reservation />
+    <livewire:admin.reservation.edit-reservation />
     
     <div id="calendar"></div>
 
     @script
-
         <script>
-            window.handleDateClick = (info) => {
-                console.log(info.resource._resource);
-
-                $wire.dispatch('openModal', { data: info });
-                console.log('dispatched');
-                // alert('Clicked on: ' + info.dateStr);
-                // alert('Coordinates: ' + info.jsEvent.pageX + ',' + info.jsEvent.pageY);
-                // alert('Current view: ' + info.view.type);
-                // change the day's background color just for fun
-                // info.dayEl.style.backgroundColor = 'red';
-            }
+            window.handleEventClick = (info) => {
+                console.log(info)
+                $wire.dispatch('abrir-modal-evento', { data: info });
+                console.log("evento clickeado")
+                }
         </script>
-
     @endscript
 </div> 

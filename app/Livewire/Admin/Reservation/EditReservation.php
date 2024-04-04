@@ -14,7 +14,7 @@ use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class CreateReservation extends Component
+class EditReservation extends Component
 {
     public $open = false;
     public $data;
@@ -24,6 +24,7 @@ class CreateReservation extends Component
     public $origins = [];
     public $xtras = [];
     public $tours = [];
+    public $reservation;
 
     #[Validate('required')]
     public $start_date;
@@ -131,17 +132,25 @@ class CreateReservation extends Component
         }
     }
 
-    #[On('openModalCreate')]
+    #[On('open-modal-edit')]
     public function openModal($data)
     {
-        $date = Carbon::parse($data['date'] ? $data['date'] : $data['date']);
-        $this->room_id = $data['resource']['id'];
+        $start = Carbon::parse($data['event']['start']);
+        $end = Carbon::parse($data['event']['end']);
+        $this->room_id = $data['event']['extendedProps']['custom_data']['room_id'];
+        $reservation_id = $data['event']['extendedProps']['custom_data']['reservation_id'];
         $this->open = true;
-        $this->start_date = $date->format('Y-m-d');
-        $this->end_date = $date->addDay()->format('Y-m-d');
+        $this->start_date = $start->format('Y-m-d');
+        $this->end_date = $end->format('Y-m-d');
         $room = Room::find($this->room_id);
+        $this->reservation = Reservation::find($reservation_id);
+        $this->total = $this->reservation->total;
+        if($this->reservation->pending_payment) {
+            $this->showPendingPayment = true;
+            $this->pending_payment = $this->reservation->pending_payment;
+        }
+        $this->comments = $this->reservation->comments;
         $this->price = $room->roomType->price;
-        $this->calculateTotalPrice();
     }
 
     public function updated()
@@ -208,6 +217,6 @@ class CreateReservation extends Component
         $this->origins = Origin::getArrayValues();
         $this->xtras = Xtra::all();
         $this->tours = Tour::all();
-        return view('livewire.admin.reservation.create-reservation');
+        return view('livewire.admin.reservation.edit-reservation');
     }
 }

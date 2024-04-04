@@ -12,15 +12,14 @@ class ShowReservations extends Component
     public $rooms = [];
     public $reservations = [];
 
-    // #[On('create-reservation')]
+    #[On('reservation-created')]
     public function render()
     {
         $this->rooms = Room::with('roomType')
             ->orderBy('floor', 'asc')
             ->get();
 
-        $this->reservations = Reservation::with('status')
-            ->orderBy('entry_date', 'asc')
+        $this->reservations = Reservation::orderBy('entry_date', 'asc')
             ->get();
 
         return view('livewire.admin.reservation.show-reservations');

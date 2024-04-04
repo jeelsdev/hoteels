@@ -1,7 +1,7 @@
 <form wire:submit="save" >
     <x-dialog-modal maxWidth="2xl" wire:model="open">
         <x-slot name="title">
-            Crear reservación
+            Editar reservación
         </x-slot>
         <x-slot name="content">
             <div class="mt-4 text-sm text-gray-600">
@@ -21,7 +21,7 @@
                         <x-apps.select id="usersTotal" class="chosen-select mt-1 block w-full" wire:model="usersTotal.0">
                             <option value="">Seleccionar usuario</option>
                             @foreach($users as $user)
-                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                            <option value="{{ $user->id }}" @if($open) {{ $user->id == $reservation->users[0]->id?'selected':'' }}  @endif>{{ $user->name }}</option>
                             @endforeach
                         </x-apps.select>
                         <x-input-error for="user_id" class="mt-2" />
@@ -32,7 +32,7 @@
                         <x-apps.select id="origin" class="mt-1 block w-full" wire:model="origin">
                             <option value="">Seleccionar origen</option>
                             @foreach($origins as $origin)
-                            <option value="{{ $origin->value }}">{{ $origin->name }}</option>
+                            <option value="{{ $origin->value }}" @if($open) {{ $origin->value == $reservation->origin?'selected':'' }}  @endif>{{ $origin->name }}</option>
                             @endforeach
                         </x-apps.select>
                         <x-input-error for="origin" class="mt-2" />
@@ -53,7 +53,7 @@
                         <x-apps.select id="status" class="mt-1 block w-full" wire:model="status" wire:change="checkStatusPending()">
                             <option value="">Seleccionar estado</option>
                             @foreach($statuses as $status)
-                            <option value="{{ $status->value }}">{{ $status->name }}</option>
+                            <option value="{{ $status->value }}" @if($open) {{ $status->value == $reservation->status?'selected':'' }}  @endif>{{ $status->name }}</option>
                             @endforeach
                         </x-apps.select>
                         <x-input-error for="status" class="mt-2" />
@@ -71,7 +71,7 @@
                     </div>
                     <div>
                         <x-label for="total" value="Total" />
-                        <x-input id="total" type="number" class="mt-1 block w-full" wire:model="total" value="{{ old('total') }}"/>
+                        <x-input id="total" type="number" class="mt-1 block w-full" wire:model="total"/>
                         <x-input-error for="total" class="mt-2" />
                     </div>
                 </div>
@@ -171,3 +171,4 @@
 
     </x-dialog-modal>
 </form>
+

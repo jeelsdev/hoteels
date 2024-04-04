@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Enums\Origin;
+use App\Enums\Status;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -13,20 +15,25 @@ class Reservation extends Model
         'room_id',
         'entry_date',
         'exit_date',
-        'status_id',
+        'status',
         'origin',
+        'comments',
+        'total',
+        'pending_payment',
     ];
 
-    protected $dates = ['entry_date', 'exit_date'];
+    protected $cast = [
+        'origin' => Origin::class,
+        'status' => Status::class,
+        'entry_date' => 'date',
+        'exit_date' => 'date',
+    ];
+
+    protected $with = ['users', 'payment', 'xtras', 'tours'];
 
     public function room()
     {
         return $this->belongsTo(Room::class);
-    }
-
-    public function status()
-    {
-        return $this->belongsTo(ReservationStatus::class);
     }
 
     public function users()
@@ -37,5 +44,15 @@ class Reservation extends Model
     public function payment()
     {
         return $this->hasOne(Payment::class);
+    }
+
+    public function xtras()
+    {
+        return $this->belongsToMany(Xtra::class);
+    }
+
+    public function tours()
+    {
+        return $this->belongsToMany(Tour::class);
     }
 }
