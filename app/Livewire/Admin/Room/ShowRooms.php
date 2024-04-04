@@ -7,11 +7,17 @@ use Livewire\Component;
 
 class ShowRooms extends Component
 {
-    public $rooms = [];
+    public $search = '';
+
+    public function dispatchOpenModal()
+    {
+        $this->dispatch('openCreateRoomModal')->to(CreateRoom::class);
+    }
 
     public function render()
     {
-        $this->rooms = Room::all();
-        return view('livewire.admin.room.show-rooms');
+        $rooms = Room::where('code', 'like', '%'.$this->search.'%')
+            ->paginate(20);
+        return view('livewire.admin.room.show-rooms', compact('rooms'));
     }
 }
