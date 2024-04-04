@@ -6,31 +6,41 @@ document.addEventListener('DOMContentLoaded', function() {
   const rooms = [];
   const events = [];
   let color = '#000000';
-
+  let title = '';
   if (window.reservations.length > 0)
   {
-    console.log("events")
-    console.log(window.reservations);
     window.reservations.forEach(event => {
-      switch (event.status.id) {
-        case 1:
-          color = '#87CEEB';
+      switch (event.status) {
+        case 'pending':
+          color = '#ff3333';
           break;
-        case 2:
-          color = '#00913f';
+        case 'confirmed':
+          color = '#1acd61';
           break;
-        case 3:
-          color = '#fff000';
+        case 'canceled':
+          color = '#cac118';
+          break;
+        case 'waiting':
+          color = '#0fb5cb';
           break;
       }
+      if(event.users[0] != undefined)
+      {
+        title = event.users[0].name + event.total;
+      }else {
+        title = "Sin Usuario" + event.total;
+      }
       events.push({
-        title: event.origin,
-        description: event.origin,
+        title: title,
         start: event.entry_date,
         end: event.exit_date,
         color: color,
         textColor: "white",
-        resourceId: event.room_id
+        resourceId: event.room_id,
+        custom_data: {
+          reservation_id: event.id,
+          room_id: event.room_id,
+        }
       });
     });
   }
@@ -46,15 +56,15 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  console.log(events);
-
   const calendarEl = document.getElementById('calendar')
   const calendar = new Calendar(calendarEl, {
     locales: 'es',
+    width: 1000,
+
    headerToolbar: {
       left: 'today prev,next',
       center: 'title',
-      right: 'resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth'
+      right: 'resourceTimelineMonth'
     },
     buttonText: {
         today: 'Hoy',
@@ -64,18 +74,36 @@ document.addEventListener('DOMContentLoaded', function() {
         list: 'Listado'
     },
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
-    aspectRatio: 1.6,
+    aspectRatio: 2,
     initialView: 'resourceTimelineMonth',
     plugins: [ resourceTimelinePlugin ],
-    dateClick: window.handleDateClick,
+    dateClick: handleDateClick,
     resourceGroupField: 'building',
     resourceAreaWidth: '10%',
-    resourceLabelText: 'IMPIANTI',
+    // resourceLabelText: 'IMPIANTI',
     resourcesInitiallyExpanded: true,
-    resourceText: 'Habitaciones',
+    // resourceText: 'Habitaciones',
     refetchResourcesOnNavigate: true,
+    resourceAreaColumns: [
+      {
+        headerContent: 'Habitaciones'
+      }
+    ],
     resources: rooms,
-    events: events
+
+    events: events,
+    eventResourceEditable: true,
+    eventMinWidth: 30,
+    eventMaxStack:2,
+    eventClick: handleEventClick,
   })
   calendar.render()
 })
+
+const handleDateClick = (info) => {
+  Livewire.dispatch('openModalCreate', { data: info });
+}
+
+const handleEventClick = (info) => {
+  Livewire.dispatch('open-modal-edit', { data: info });
+}
