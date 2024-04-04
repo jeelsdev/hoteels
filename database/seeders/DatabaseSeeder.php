@@ -5,8 +5,11 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Reservation;
+use App\Models\Tour;
 use App\Models\User;
+use App\Models\Xtra;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Str;
 
 class DatabaseSeeder extends Seeder
 {
@@ -17,10 +20,20 @@ class DatabaseSeeder extends Seeder
     {
         $users = User::factory(20)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
+        \App\Models\User::factory()->create([
+            'name' => 'Test User',
+            'surname' => 'Test Surname',
+            'document' => '12345678',
+            'document_type' => 'DNI',
+            'phone' => '123456789',
+            'email' => 'admin@yopmail.com',
+            'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
 
         $room_types = [
             [1,"S",	124],
@@ -39,19 +52,6 @@ class DatabaseSeeder extends Seeder
 
         $this->call(RoomSeeder::class);
 
-        $reservation_status = [
-            [1,"Pending"],
-            [2,"Confirmed"],
-            [3,"Cancelled"],
-        ];
-
-        foreach ($reservation_status as $status) {
-            \App\Models\ReservationStatus::create([
-                'id' => $status[0],
-                'status' => $status[1],
-            ]);
-        }
-
         // $this->call(ReservationSeeder::class);
         $reservations = Reservation::factory(20)->create();
 
@@ -63,6 +63,19 @@ class DatabaseSeeder extends Seeder
             );
         }
 
+        $tours = Tour::factory(20)->create();
+        foreach ($tours as $tour) {
+            $tour->reservations()->attach(
+                $reservations->random(rand(1, 3))->pluck('id')->toArray()
+            );
+        }
+
+        $xtras = Xtra::factory(20)->create();
+        foreach ($xtras as $xtra) {
+            $xtra->reservations()->attach(
+                $reservations->random(rand(1, 3))->pluck('id')->toArray()
+            );
+        }
 
     }
 }
