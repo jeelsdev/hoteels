@@ -1,16 +1,16 @@
-@props(['href'=>'#','notify'=>false, 'notifyName'=>'Pro', 'active'=>false, 'method'=>'GET'])
+@props(['href'=>'','notify'=>false, 'notifyName'=>'Pro', 'active'=>false, 'method'=>'GET'])
 
 
 
 @if ($method == 'POST')
     <form method="POST" action="{{ $href }}" sidebar-toggle-collapse>
         @csrf
-        <button type="submit" class="flex items-center py-2.5 px-4 text-base font-normal w-full text-dark-500 rounded-lg  group transition-all duration-200 {{ $active?'bg-white shadow-lg':'hover:bg-gray-200' }}">
+        <button type="submit" class="flex items-center py-2.5 px-4 text-base font-normal w-full text-white group transition-all duration-200 {{ $active?'bg-vulcan-999':'hover:bg-vulcan-999' }}">
           <div
-            class="shadow-lg shadow-gray-300 text-dark-700 w-8 h-8  mr-1 rounded-lg text-center grid place-items-center {{ $active?'bg-fuchsia-500 text-white':'bg-white' }}">
+            class="text-white w-8 h-8  mr-1 rounded-lg text-center grid place-items-center">
             {{ $svg }}
           </div>
-          <span class="ml-3 text-dark-500 text-sm font-light" sidebar-toggle-item>
+          <span class="ml-3 text-sm font-light" sidebar-toggle-item>
             {{ $slot }}
           </span>
 
@@ -18,13 +18,13 @@
     </form>
 @else
   <a href="{{ $href }}"
-              class="flex items-center py-2.5 px-4 text-base font-normal text-dark-500 rounded-lg  group transition-all duration-200 {{ $active?'bg-white shadow-lg':'hover:bg-gray-200' }}"
+              class="flex items-center py-2.5 px-4 text-base font-normal text-white group transition-all duration-200 {{ $active?'bg-vulcan-999':'hover:bg-vulcan-999' }}"
             sidebar-toggle-collapse>
             <div
-                class="shadow-lg shadow-gray-300 text-dark-700 w-8 h-8  mr-1 rounded-lg text-center grid place-items-center {{ $active?'bg-fuchsia-500 text-white':'bg-white' }}">
+                class="text-white w-8 h-8  mr-1 rounded-lg text-center grid place-items-center">
                {{ $svg }}
               </div>
-              <span class="ml-3 text-dark-500 text-sm font-light" sidebar-toggle-item>
+              <span class="ml-3 text-sm font-light" sidebar-toggle-item>
                 {{ $slot }}
               </span>
                 @if($notify)
