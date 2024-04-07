@@ -31,6 +31,7 @@ class User extends Authenticatable
         'document_type',
         'document',
         'phone',
+        'favorite',
     ];
 
     /**
