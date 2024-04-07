@@ -7,6 +7,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const events = [];
   let color = '#000000';
   let title = '';
+  let total = 0;
+  let originE = '';
+  const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   if (window.reservations.length > 0)
   {
     window.reservations.forEach(event => {
@@ -26,12 +29,16 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       if(event.users[0] != undefined)
       {
-        title = event.users[0].name + event.total;
+        title = event.users[0].name;
+        total = event.total;
+        originE = event.origin; 
       }else {
-        title = "Sin Usuario" + event.total;
+        title = "Sin Usuario";
+        total = event.total;
+        originE = event.origin; 
       }
       events.push({
-        title: title,
+        title: '<h2 class="font-bold"> '+title+' </h2><p class="font-bold text-white"> s/ '+total+' </p><p class="text-white">'+originE+'</p>',
         start: event.entry_date,
         end: event.exit_date,
         color: color,
@@ -59,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar')
   const calendar = new Calendar(calendarEl, {
     locales: 'es',
-    width: 1000,
+    width: 100000000,
 
    headerToolbar: {
       left: 'today prev,next',
@@ -75,14 +82,14 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
     aspectRatio: 2,
+    width: 'auto',
+    height: 'auto',
     initialView: 'resourceTimelineMonth',
     plugins: [ resourceTimelinePlugin ],
     dateClick: handleDateClick,
     resourceGroupField: 'building',
     resourceAreaWidth: '10%',
-    // resourceLabelText: 'IMPIANTI',
     resourcesInitiallyExpanded: true,
-    // resourceText: 'Habitaciones',
     refetchResourcesOnNavigate: true,
     resourceAreaColumns: [
       {
@@ -93,9 +100,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
     events: events,
     eventResourceEditable: true,
-    eventMinWidth: 30,
-    eventMaxStack:2,
+    eventMinWidth: 60,
     eventClick: handleEventClick,
+    eventContent: function(arg) {
+      return {
+        html: '<div class="p-2 w-max">' + arg.event.title + '</div>',
+      };
+    },
+    dayHeaderContent: function(arg) {
+      
+      return dayNames[arg.date.getDay()] + ' ' + arg.date.getDate();
+    },
+    dayMinWidth: 100,
+    views: {
+      resourceTimelineMonth: {
+        slotLabelContent: function(arg) {
+          return dayNames[arg.date.getDay()] + ' ' + arg.date.getDate();
+        }
+      }
+    },
   })
   calendar.render()
 })
