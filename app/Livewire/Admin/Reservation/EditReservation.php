@@ -63,13 +63,34 @@ class EditReservation extends Component
     public $uI = 0;
     public $tI = 0;
     public $xI = 0;
+    public $userFavorite = false;
+    public $isFavorite = false;
 
     public $showPendingPayment = false;
+
+    public function isFavoriteUser()
+    {
+        if($this->usersTotal[0])
+        {
+            $user = User::find($this->usersTotal[0]);
+            $this->isFavorite = true;
+            $this->userFavorite = $user->favorite;
+        }else {
+            $this->isFavorite = false;
+        }
+    }
+
+    public function addFavoriteUser()
+    {
+        $this->userFavorite? $this->userFavorite = false : $this->userFavorite = true;
+    }
 
     public function checkStatusPending()
     {
         if($this->status == 'pending') {
             $this->showPendingPayment = true;
+        }else {
+            $this->showPendingPayment = false;
         }
     }
 
@@ -135,22 +156,58 @@ class EditReservation extends Component
     #[On('open-modal-edit')]
     public function openModal($data)
     {
+        //dates
         $start = Carbon::parse($data['event']['start']);
         $end = Carbon::parse($data['event']['end']);
-        $this->room_id = $data['event']['extendedProps']['custom_data']['room_id'];
-        $reservation_id = $data['event']['extendedProps']['custom_data']['reservation_id'];
-        $this->open = true;
         $this->start_date = $start->format('Y-m-d');
         $this->end_date = $end->format('Y-m-d');
+
+        // room
+        $this->room_id = $data['event']['extendedProps']['custom_data']['room_id'];
         $room = Room::find($this->room_id);
+
+        // reservation
+        $reservation_id = $data['event']['extendedProps']['custom_data']['reservation_id'];
         $this->reservation = Reservation::find($reservation_id);
         $this->total = $this->reservation->total;
         if($this->reservation->pending_payment) {
             $this->showPendingPayment = true;
             $this->pending_payment = $this->reservation->pending_payment;
         }
+
+        // status
+        $this->status = $this->reservation->status;
+
+        // origin
+        $this->origin = $this->reservation->origin;
+
+        // comments
         $this->comments = $this->reservation->comments;
+
+        // price
         $this->price = $room->roomType->price;
+
+        // Users
+        $this->usersTotal = $this->reservation->users->pluck('id')->toArray();
+        $this->uI = count($this->usersTotal);
+        $this->inputUsers = range(0, $this->uI-1);
+        $this->isFavorite = true;
+        $this->isFavoriteUser();
+
+        // Xtras
+        $this->xtrasTotal = $this->reservation->xtras->pluck('id')->toArray();
+        $this->xtrasPayment = $this->reservation->xtras->pluck('price')->toArray();
+        $this->xI = count($this->xtrasTotal);
+        $this->inputXtras = range(0, $this->xI-1);
+
+        // Tours
+        $this->toursTotal = $this->reservation->tours->pluck('id')->toArray();
+        $this->toursPayment = $this->reservation->tours->pluck('price')->toArray();
+        $this->tI = count($this->toursTotal);
+        $this->inputTours = range(0, $this->tI-1);
+
+        // open modal
+        $this->open = true;
     }
 
     public function updated()
@@ -176,7 +233,7 @@ class EditReservation extends Component
             $this->pending_payment = null;
         }
 
-        $reservation = Reservation::create([
+        $this->reservation->update([
             'entry_date' => $this->start_date,
             'exit_date' => $this->end_date,
             'room_id' => $this->room_id,
@@ -187,19 +244,26 @@ class EditReservation extends Component
             'total' => $this->total,
         ]);
 
+        if($this->userFavorite)
+        {
+            $user = User::find($this->usersTotal[0]);
+            $user->favorite = true;
+            $user->save();
+        }
+
         if(!empty($this->usersTotal))
         {
-            $reservation->users()->attach($this->usersTotal);
+            $this->reservation->users()->sync($this->usersTotal);
         }
 
         if(!empty($this->xtrasTotal))
         {
-            $reservation->xtras()->attach($this->xtrasTotal);
+            $this->reservation->xtras()->sync($this->xtrasTotal);
         }
 
         if(!empty($this->toursTotal))
         {
-            $reservation->tours()->attach($this->toursTotal);
+            $this->reservation->tours()->sync($this->toursTotal);
         }
 
         $this->resetInputs();

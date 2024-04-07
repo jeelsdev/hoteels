@@ -1,4 +1,4 @@
-<div class="pt-24 px-8">
+<div class="pt-24 min-w-full">
     @script
         <script>
             window.rooms = @json($rooms);
@@ -9,7 +9,9 @@
     <livewire:admin.reservation.create-reservation />
     <livewire:admin.reservation.edit-reservation />
     
-    <div id="calendar"></div>
+    <div class="calendar-container">
+        <div id="calendar"></div>
+    </div>
 
     @script
         <script>

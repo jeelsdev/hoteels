@@ -62,13 +62,34 @@ class CreateReservation extends Component
     public $uI = 0;
     public $tI = 0;
     public $xI = 0;
+    public $userFavorite = false;
+    public $isFavorite = false;
 
     public $showPendingPayment = false;
+
+    public function isFavoriteUser()
+    {
+        if($this->usersTotal[0])
+        {
+            $user = User::find($this->usersTotal[0]);
+            $this->isFavorite = true;
+            $this->userFavorite = $user->favorite;
+        }else {
+            $this->isFavorite = false;
+        }
+    }
+
+    public function addFavoriteUser()
+    {
+        $this->userFavorite? $this->userFavorite = false : $this->userFavorite = true;
+    }
 
     public function checkStatusPending()
     {
         if($this->status == 'pending') {
             $this->showPendingPayment = true;
+        }else {
+            $this->showPendingPayment = false;
         }
     }
 
@@ -151,7 +172,7 @@ class CreateReservation extends Component
 
     public function resetInputs()
     {
-        $this->reset(['start_date', 'end_date', 'room_id', 'status', 'origin', 'total', 'comments', 'pending_payment', 'price', 'inputUsers', 'inputXtras', 'inputTours', 'xtrasPayment', 'toursPayment', 'xtrasTotal', 'toursTotal', 'usersTotal', 'uI', 'tI', 'xI']);
+        $this->reset(['start_date', 'end_date', 'room_id', 'status', 'origin', 'total', 'comments', 'pending_payment', 'price', 'inputUsers', 'inputXtras', 'inputTours', 'xtrasPayment', 'toursPayment', 'xtrasTotal', 'toursTotal', 'usersTotal', 'uI', 'tI', 'xI', 'userFavorite', 'isFavorite', 'showPendingPayment']);
         $this->open = false;
     }
 
@@ -177,6 +198,13 @@ class CreateReservation extends Component
             'pending_payment' => $this->pending_payment,
             'total' => $this->total,
         ]);
+
+        if($this->userFavorite)
+        {
+            $user = User::find($this->usersTotal[0]);
+            $user->favorite = true;
+            $user->save();
+        }
 
         if(!empty($this->usersTotal))
         {

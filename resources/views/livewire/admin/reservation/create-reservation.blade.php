@@ -1,7 +1,14 @@
 <form wire:submit="save" >
     <x-dialog-modal maxWidth="2xl" wire:model="open">
         <x-slot name="title">
-            Crear reservación
+            <div class="flex justify-between mb-3">
+                <h2>Crear reservación</h2>
+                <button {{ $isFavorite?'':'disabled' }} class="p-1 border-none outline-none disabled:text-gray-500" type="button" wire:click="addFavoriteUser()">
+                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-7 {{ $userFavorite?'text-yellow-900':'' }}">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M11.48 3.499a.562.562 0 0 1 1.04 0l2.125 5.111a.563.563 0 0 0 .475.345l5.518.442c.499.04.701.663.321.988l-4.204 3.602a.563.563 0 0 0-.182.557l1.285 5.385a.562.562 0 0 1-.84.61l-4.725-2.885a.562.562 0 0 0-.586 0L6.982 20.54a.562.562 0 0 1-.84-.61l1.285-5.386a.562.562 0 0 0-.182-.557l-4.204-3.602a.562.562 0 0 1 .321-.988l5.518-.442a.563.563 0 0 0 .475-.345L11.48 3.5Z" />
+                    </svg>
+                </button>
+            </div>
         </x-slot>
         <x-slot name="content">
             <div class="mt-4 text-sm text-gray-600">
@@ -18,7 +25,7 @@
                     </div>
                     <div class="w-full">
                         <x-label for="usersTotal" value="Usuario" />
-                        <x-apps.select id="usersTotal" class="chosen-select mt-1 block w-full" wire:model="usersTotal.0">
+                        <x-apps.select id="usersTotal" class="chosen-select mt-1 block w-full" wire:model="usersTotal.0" wire:change="isFavoriteUser()">
                             <option value="">Seleccionar usuario</option>
                             @foreach($users as $user)
                             <option value="{{ $user->id }}">{{ $user->name }}</option>
@@ -162,10 +169,10 @@
         </x-slot>
         <x-slot name="footer">
             <x-secondary-button wire:click="resetInputs()" wire:loading.attr="disabled">
-                {{ __('Cancel') }}
+                Cancelar
             </x-secondary-button>
             <x-button class="ml-2" wire:loading.attr="disabled" type="submit">
-                {{ __('Create') }}
+                Crear
             </x-button>
         </x-slot>
 
