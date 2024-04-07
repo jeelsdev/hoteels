@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Reservation;
+use App\Models\Room;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Xtra;
@@ -28,6 +29,7 @@ class DatabaseSeeder extends Seeder
             'phone' => '123456789',
             'email' => 'admin@yopmail.com',
             'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
+            'favorite' => false,
             'two_factor_secret' => null,
             'two_factor_recovery_codes' => null,
             'remember_token' => Str::random(10),
@@ -53,7 +55,13 @@ class DatabaseSeeder extends Seeder
         $this->call(RoomSeeder::class);
 
         // $this->call(ReservationSeeder::class);
-        $reservations = Reservation::factory(20)->create();
+        $roomIds = Room::all()->pluck('id')->toArray();
+        foreach ($roomIds as $roomId) {
+            Reservation::factory()->create([
+                'room_id' => $roomId,
+            ]);
+        }
+        $reservations = Reservation::all();
 
         $this->call(PaymentSeeder::class);
 

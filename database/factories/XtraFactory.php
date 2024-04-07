@@ -17,7 +17,7 @@ class XtraFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => $this->faker->name,
+            'name' => $this->faker->word(),
             'price' => $this->faker->randomFloat(0, 10, 30),
         ];
     }
