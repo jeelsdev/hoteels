@@ -1,4 +1,4 @@
-<div class="pt-24">
+<div class="">
     <div
         class="block justify-between items-center p-4 mx-4 mt-4 mb-6 bg-white rounded-2xl shadow-xl shadow-gray-200 lg:p-5 sm:flex">
         <div class="mb-1 w-full">

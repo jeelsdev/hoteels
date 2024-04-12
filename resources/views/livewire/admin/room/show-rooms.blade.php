@@ -1,6 +1,6 @@
-<div class="pt-24">
+<div class="">
     <div
-        class="block justify-between items-center p-4 mx-4 mt-4 mb-6 bg-white rounded-2xl shadow-xl shadow-gray-200 lg:p-5 sm:flex">
+        class="block justify-between items-center mx-4 mt-4 mb-6 bg-white rounded-2xl shadow-xl shadow-gray-200 lg:p-5 sm:flex">
         <div class="mb-1 w-full">
             <div class="block items-center sm:flex md:divide-x md:divide-gray-100">
                     <div class="relative mt-1 sm:w-64 xl:w-96">
@@ -28,7 +28,7 @@
                                 d="M10 5a1 1 0 011 1v3h3a1 1 0 110 2h-3v3a1 1 0 11-2 0v-3H6a1 1 0 110-2h3V6a1 1 0 011-1z"
                                 clip-rule="evenodd"></path>
                         </svg>
-                        Craer habitación
+                        Crear habitación
                     </button>
                 </div>
             </div>

@@ -6,7 +6,7 @@
     <body class="font-sans antialiased">
         <x-banner />
 
-        <div class="min-h-screen bg-gray-100">
+        <div class="min-h-screen bg-zinc-100">
             @include('layouts.components.navigation-menu')
             @include('layouts.components.sidebar')
 
@@ -21,7 +21,7 @@
 
             <!-- Page Content -->
             <main>
-                <div id="main-content" class="h-full bg-gray-50 relative overflow-y-auto lg:ml-64">
+                <div id="main-content" class="h-full bg-zinc-100 relative overflow-y-auto lg:ml-64 mt-5">
                     {{ $slot }}
                 </div>
             </main>
@@ -30,5 +30,6 @@
         @stack('modals')
 
         @livewireScripts
+        @stack('scripts')
     </body>
 </html>

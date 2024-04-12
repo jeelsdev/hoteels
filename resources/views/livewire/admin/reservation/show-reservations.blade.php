@@ -1,4 +1,4 @@
-<div class="pt-24 min-w-full">
+<div class="min-w-full">
     @script
         <script>
             window.rooms = @json($rooms);

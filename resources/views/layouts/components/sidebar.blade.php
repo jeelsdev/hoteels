@@ -1,13 +1,10 @@
 <aside id="sidebar"
-  class="flex hidden fixed top-0 left-0 z-20 flex-col flex-shrink-0 pt-16 w-56 h-full duration-200 lg:flex transition-width"
+  class="flex hidden fixed top-0 left-0 z-20 flex-col flex-shrink-0 w-56 h-full duration-200 lg:flex transition-width"
   aria-label="Sidebar">
   <div class="flex relative flex-col flex-1 pt-0 min-h-0 bg-vulcan-950 shadow-md">
     <div class="flex overflow-y-auto flex-col flex-1 pt-8 pb-4">
       <div class="flex-1 bg-vulcan-950" id="sidebar-items">
         <ul class="pb-2 pt-1">
-          <li>
-            <x-apps.search />
-          </li>
           <li>
             <x-partials.link-sidebar href="{{ route('dashboard') }}" :active="Route::is('dashboard')">
                 <x-slot:svg>
