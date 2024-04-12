@@ -9,7 +9,4 @@
             <livewire:admin.dashboard.content-dashboard />
         </div>
     </div>
-    @push('scripts')
-        <script src="{{ mix('js/charts.js') }}"></script>
-    @endpush
 </div>
