@@ -60,15 +60,6 @@ toggleSidebarMobileSearch.addEventListener("click", () => {
   );
 });
 
-toggleSidebarMobileEl.addEventListener("click", () => {
-  toggleSidebarMobile(
-    sidebar,
-    sidebarBackdrop,
-    toggleSidebarMobileHamburger,
-    toggleSidebarMobileClose
-  );
-});
-
 sidebarBackdrop.addEventListener("click", () => {
   toggleSidebarMobile(
     sidebar,
