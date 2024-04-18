@@ -31,6 +31,24 @@ class Reservation extends Model
 
     protected $with = ['users', 'payment', 'xtras', 'tours'];
 
+    public function profits()
+    {
+        $totalSales =  Reservation::whereDate('created_at', today())
+            ->sum('total');
+        return $totalSales * 0.18;
+    }
+
+    public function totalReservations()
+    {
+        return Reservation::whereDate('created_at', today())
+            ->count();
+    }
+
+    public function totalSales()
+    {
+        return Reservation::whereDate('created_at', today())->sum('total');
+    }
+
     public function room()
     {
         return $this->belongsTo(Room::class);
