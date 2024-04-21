@@ -268,7 +268,7 @@ class EditReservation extends Component
 
         $this->resetInputs();
 
-        session()->flash('message', '¡Reservación creada con éxito!');
+        session()->flash('flash.message', 'Reservación actualizada correctamente.');
         // $this->dispatch('reservation-created');
         return redirect()->route('reservation.index');
     }

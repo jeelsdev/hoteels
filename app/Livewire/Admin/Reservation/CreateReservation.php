@@ -223,7 +223,7 @@ class CreateReservation extends Component
 
         $this->resetInputs();
 
-        session()->flash('message', '¡Reservación creada con éxito!');
+        session()->flash('flash.message', '¡Reservación creada con éxito!');
         // $this->dispatch('reservation-created');
         return redirect()->route('reservation.index');
     }
