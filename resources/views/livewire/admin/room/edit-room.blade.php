@@ -4,7 +4,7 @@
             <x-apps.form submit="save" >
                 <div maxWidth="2xl">
                     <x-slot name="title">
-                        Registrar habitación
+                        Editar habitación
                     </x-slot>
                     <x-slot name="content">
                         <div class="mt-4 text-sm text-gray-600">
@@ -13,7 +13,7 @@
                                 <x-apps.select id="roomType" class="chosen-select mt-1 block w-full" wire:model="roomType">
                                     <option value=""></option>
                                     @foreach($roomTypes as $roomType)
-                                    <option value="{{ $roomType->id }}">{{ getEnumValue('RoomType', $roomType->description) }}</option>
+                                        <option value="{{ $roomType->id }}">{{ getEnumValue('RoomType', $roomType->description) }}</option>
                                     @endforeach
                                 </x-apps.select>
                                 <x-input-error for="roomType" class="mt-2" />
@@ -51,4 +51,5 @@
     </div>
     
 </div>
+
 

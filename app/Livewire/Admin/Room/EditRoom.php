@@ -7,9 +7,10 @@ use App\Models\RoomType;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
 
-class CreateRoom extends Component
+class EditRoom extends Component
 {
     public $roomTypes = [];
+    public Room $room;
 
     #[Validate(['required'])]
     public $roomType;
@@ -35,13 +36,22 @@ class CreateRoom extends Component
         $room->save();
 
         $this->resetInputs();
-        session()->flash('flash.message', 'Habitación creada correctamente.');
+        session()->flash('flash.message', 'Habitación actualizada correctamente.');
         return redirect()->route('room.index');
+    }
+    
+    public function mount($id)
+    {
+        $this->room = Room::findOrfail($id);
+        $this->roomTypes = RoomType::all();
+        $this->roomType = $this->room->room_type_id;
+        $this->code = $this->room->code;
+        $this->floor = $this->room->floor;
+        $this->description = $this->room->description;
     }
 
     public function render()
     {
-        $this->roomTypes = RoomType::all();
-        return view('livewire.admin.room.create-room');
+        return view('livewire.admin.room.edit-room');
     }
 }
