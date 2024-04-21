@@ -1,5 +1,5 @@
-<div class="flex flex-col my-6 mx-4 rounded-2xl shadow-xl shadow-gray-200">
-    <div class="overflow-x-auto rounded-2xl">
+<div class="flex flex-col mx-4">
+    <div class="overflow-x-auto">
         <div class="inline-block min-w-full align-middle">
             <div class="overflow-hidden shadow-lg">
                 <table class="min-w-full divide-y divide-gray-200 table-fixed">

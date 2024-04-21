@@ -1,4 +1,4 @@
 @props(['href' => '#'])
-<a href="{{ $href }}" {{ $attributes->merge(['class'=>'text-fuchsia-600 hover:underline']) }}>
+<a href="{{ $href }}" {{ $attributes->merge(['class'=>'text-elf-green-600 hover:underline']) }}>
     {{ $slot }}
 </a>
