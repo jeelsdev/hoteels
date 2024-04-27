@@ -5,7 +5,7 @@ namespace App\Enums;
 use ReflectionClass;
 
 enum Status: string {
-    case Espera = 'waiting';
+    case Reserva = 'booking';
     case Pendiente = 'pending';
     case Confirmado = 'confirmed';
     case Cancelado = 'canceled';
