@@ -63,12 +63,18 @@ class DatabaseSeeder extends Seeder
         }
         $reservations = Reservation::all();
 
-        $this->call(PaymentSeeder::class);
+        // $this->call(PaymentSeeder::class);
+        $reservationIds = $reservations->pluck('id')->toArray();
+        foreach ($reservationIds as $reservationId) {
+            \App\Models\Payment::factory()->create([
+                'reservation_id' => $reservationId,
+            ]);
+        }
 
         foreach ($users as $user) {
             $user->reservations()->attach(
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
-            );
+            , ['total' => random_int(100, 1000), 'reserver' => true]);
         }
 
         $tours = Tour::factory(20)->create();
