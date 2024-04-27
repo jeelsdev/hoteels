@@ -11,7 +11,12 @@ class Payment extends Model
 
     protected $fillable = [
         'reservation_id',
-        'amount',
+        'total_reservation',
+        'advance_reservation',
+        'total_xtras',
+        'advance_xtras',
+        'total_tours',
+        'advance_tours',
         'type'
     ];
 }
