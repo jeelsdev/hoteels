@@ -19,9 +19,8 @@ class ShowReservations extends Component
             ->orderBy('floor', 'asc')
             ->get();
 
-        $this->reservations = Reservation::orderBy('entry_date', 'asc')
-            ->get();
-
+        $this->reservations = Reservation::all();
+//dd($this->reservations[0]->users[0]->pivot);
         return view('livewire.admin.reservation.show-reservations');
     }
 }

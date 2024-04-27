@@ -9,34 +9,36 @@ document.addEventListener('DOMContentLoaded', function() {
   let title = '';
   let total = 0;
   let originE = '';
+      console.log(window.reservations);
   const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   if (window.reservations.length > 0)
-  {
+  {console.log(window.reservations);
     window.reservations.forEach(event => {
       switch (event.status) {
         case 'pending':
-          color = '#ff3333';
+          color = '#f98b07';
           break;
         case 'confirmed':
-          color = '#1acd61';
+          color = '#61a146';
           break;
         case 'canceled':
-          color = '#cac118';
+          color = '#fde012';
           break;
-        case 'waiting':
-          color = '#0fb5cb';
+        case 'booking':
+          color = '#0195b9';
           break;
       }
-      if(event.users[0] != undefined)
-      {
-        title = event.users[0].name;
-        total = event.total;
-        originE = event.origin; 
-      }else {
-        title = "Sin Usuario";
-        total = event.total;
-        originE = event.origin; 
-      }
+      event.users.some(user => {
+        if(user.pivot.reserver == 1)
+        {
+          title = user.name;
+          return true;
+        }else {
+          title = "Sin Reservador";
+        }
+      });
+      total = event.payment.total_reservation;
+      originE = event.origin; 
       events.push({
         title: '<h2 class="font-bold"> '+title+' </h2><p class="font-bold text-white"> s/ '+total+' </p><p class="text-white">'+originE+'</p>',
         start: event.entry_date,

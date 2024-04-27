@@ -17,7 +17,8 @@ return new class extends Migration
             $table->foreign('reservation_id')->references('id')->on('reservations');
             $table->unsignedBigInteger('user_id');
             $table->foreign('user_id')->references('id')->on('users');
-            $table->timestamps();
+            $table->string('total');
+            $table->boolean('reserver')->nullable();
         });
     }
 

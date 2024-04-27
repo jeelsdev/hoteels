@@ -27,8 +27,6 @@ class ReservationFactory extends Factory
             'status' => Status::getRandomValue(),
             'origin' => Origin::getRandomValue(),
             'comments' => $this->faker->sentence(),
-            // 'room_id' => $this->faker->numberBetween(1, 20),
-            'total' => $this->faker->randomFloat(2, 100, 1000),
         ];
     }
 }

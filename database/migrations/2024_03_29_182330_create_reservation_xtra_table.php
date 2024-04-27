@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->foreignId('reservation_id');
             $table->foreignId('xtra_id');
+            $table->string('total')->nullable();
         });
     }
 

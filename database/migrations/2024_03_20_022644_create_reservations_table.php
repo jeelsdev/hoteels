@@ -18,8 +18,6 @@ return new class extends Migration
             $table->string('origin');
             $table->string('comments')->nullable();
             $table->string('status');
-            $table->decimal('total');
-            $table->decimal('pending_payment')->nullable();
             $table->unsignedBigInteger('room_id');
             $table->foreign('room_id')->references('id')->on('rooms');
             $table->timestamps();

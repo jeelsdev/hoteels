@@ -60,15 +60,20 @@
                         <x-apps.select id="status" class="mt-1 block w-full" wire:model="status" wire:change="checkStatusPending()">
                             <option value="">Seleccionar estado</option>
                             @foreach($statuses as $status)
-                            <option value="{{ $status->value }}" @if($open) {{ $status->value == $reservation->status?'selected':'' }}  @endif>{{ $status->name }}</option>
+                                @if ($status->value != 'pending')
+                                    <option value="{{ $status->value }}" @if($open) {{ $status->value == $reservation->status?'selected':'' }}  @endif>{{ $status->name }}</option>
+                                @endif
                             @endforeach
                         </x-apps.select>
                         <x-input-error for="status" class="mt-2" />
                     </div>
                     <div class="content_payment {{ !$showPendingPayment?'hidden':'' }}">
+                        <x-label for="advance_reservation" value="Ingresar adelanto" />
+                        <x-input id="advance_reservation" type="number" class="mt-1 block w-full" wire:model.live="advance_reservation" min="1" max="{{ $total_reservation }}"/>
+                        <x-input-error for="advance_reservation" class="mt-2" />
                     </div>
                     <div class="content_payment {{ !$showPendingPayment?'hidden':'' }}">
-                        <x-label for="pending_payment" value="Indicar monto pendiente" />
+                        <x-label for="pending_payment" value="Monto pendiente" />
                         <x-input id="pending_payment" type="number" class="mt-1 block w-full" wire:model="pending_payment"/>
                         <x-input-error for="pending_payment" class="mt-2" />
                     </div>
@@ -78,7 +83,7 @@
                     </div>
                     <div>
                         <x-label for="total" value="Total" />
-                        <x-input id="total" type="number" class="mt-1 block w-full" wire:model="total"/>
+                        <x-input id="total" type="number" class="mt-1 block w-full" wire:model="total_reservation"/>
                         <x-input-error for="total" class="mt-2" />
                     </div>
                 </div>
@@ -98,25 +103,30 @@
                             </svg>
                         </button>
                     </div>
-                    <div>
+                    <div class="grid grid-cols-12">
                         @if (count($usersTotal) > 1)
-                            @foreach ($inputUsers as $value)
+                            @foreach ($inputUsers as $key => $value)
                                 @if ($value !== 0 && !empty($usersTotal[$value]))
-                                    <x-apps.select id="xtras" class="mt-1 block w-full" wire:model="usersTotal.{{ $value }}">
-                                        <option value="">Seleccionar usuario</option>
-                                        @foreach($users as $user)
-                                        <option value="{{ $user->id }}" {{ $user->id == $usersTotal[$value]?'selected':'' }}>{{ $user->name }}</option>
-                                        @endforeach
-                                    </x-apps.select>
-                                @else
-                                    @if ($value !== 0)
-                                        <x-apps.select id="xtras" class="mt-1 block w-full" wire:model="usersTotal.{{ $value }}">
+                                    <x-apps.select id="xtras" class="mt-1 block w-full col-span-11" wire:model="usersTotal.{{ $value }}">
                                         <option value="">Seleccionar usuario</option>
                                         @foreach($users as $user)
                                         <option value="{{ $user->id }}">{{ $user->name }}</option>
                                         @endforeach
                                     </x-apps.select>
-                                        
+                                    <button type="button" class="flex justify-center items-center col-span-1" wire:click="removeInputUser({{ $key }}, {{ $value }})">
+                                        <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
+                                    </button>
+                                @else
+                                    @if ($value !== 0)
+                                        <x-apps.select id="xtras" class="mt-1 block w-full col-span-11" wire:model="usersTotal.{{ $value }}">
+                                            <option value="">Seleccionar usuario</option>
+                                            @foreach($users as $user)
+                                                <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                            @endforeach
+                                        </x-apps.select>
+                                        <button type="button" class="flex justify-center items-center col-span-1" wire:click="removeInputUser({{ $key }}, {{ $value }})">
+                                            <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
+                                        </button>
                                     @endif
                                 @endif
                             @endforeach
@@ -135,35 +145,49 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 mt-2">
-                        @foreach ($inputXtras as $value)
+                    <div class="grid grid-cols-12 gap-2 mt-2">
+                        @foreach ($inputXtras as $key => $value)
                             @if (!empty($xtrasTotal[$value]))
-                                <div>
-                                    <x-apps.select id="xtras" class="mt-1 block w-full" wire:model="xtrasTotal.{{ $value }}" wire:change="addXtraPayment({{ $value }})">
-                                        <option value="">Seleccionar extra</option>
-                                        @foreach($xtras as $xtra)
-                                        <option value="{{ $xtra->id }}" {{ $xtrasTotal[$value] == $xtra->id?'selected':'' }}>{{ $xtra->name }}</option>
-                                        @endforeach
-                                    </x-apps.select>
-                                </div>
-                                <div class="content_payment">
-                                    <x-input id="xtrasPayment" type="number" class="mt-1 block w-full" wire:model.live="xtrasPayment.{{ $value }}"/>
-                                </div>
-                            @else
-                                <div>
-                                    <x-apps.select id="xtras" class="mt-1 block w-full" wire:model="xtrasTotal.{{ $value }}" wire:change="addXtraPayment({{ $value }})">
+                                <div class="col-span-6">
+                                    <x-apps.select id="xtras" class="mt-1 block w-full" wire:model="xtrasTotal.{{ $key }}{{ $value }}" wire:change="addXtraPayment('{{ $key }}{{ $value }}')">
                                         <option value="">Seleccionar extra</option>
                                         @foreach($xtras as $xtra)
                                         <option value="{{ $xtra->id }}">{{ $xtra->name }}</option>
                                         @endforeach
                                     </x-apps.select>
                                 </div>
-                                <div class="content_payment">
-                                    <x-input id="xtrasPayment" type="number" class="mt-1 block w-full" wire:model.live="xtrasPayment.{{ $value }}"/>
+                                <div class="content_payment col-span-5">
+                                    <x-input id="xtrasPayment" type="number" class="mt-1 block w-full" wire:model.live="xtrasPayment.{{ $key }}{{ $value }}"/>
                                 </div>
+                                <button type="button" class="flex justify-center items-center col-span-1" wire:click="removeInputXtra({{ $key }}, '{{ $key }}{{ $value }}')">
+                                <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
+                            </button>
+                            @else
+                                <div class="col-span-6">
+                                    <x-apps.select id="xtras" class="mt-1 block w-full col-span-5" wire:model="xtrasTotal.{{ $key }}{{ $value }}" wire:change="addXtraPayment('{{ $key }}{{ $value }}')">
+                                        <option value="">Seleccionar extra</option>
+                                        @foreach($xtras as $xtra)
+                                        <option value="{{ $xtra->id }}">{{ $xtra->name }}</option>
+                                        @endforeach
+                                    </x-apps.select>
+                                </div>
+                                <div class="content_payment col-span-5">
+                                    <x-input id="xtrasPayment" type="number" class="mt-1 block w-full" wire:model.live="xtrasPayment.{{ $key }}{{ $value }}"/>
+                                </div>
+                                <button type="button" class="flex justify-center items-center col-span-1" wire:click="removeInputXtra({{ $key }}, '{{ $key }}{{ $value }}')">
+                                <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
+                            </button>
                             @endif
                         @endforeach
                     </div>
+                    @if ($xtrasTotal)
+                        <div class="pt-5">
+                            <p class="text-end mr-5">
+                                <span class="text-sm font-semibold text-gray-500">Total extras:</span>
+                                <span class="text-sm font-semibold">{{ $total_xtras }}</span>
+                            </p>
+                        </div>
+                    @endif
                 </div>
                 <div class="pt-5">
                     <div class="flex justify-between">
@@ -177,35 +201,49 @@
                             </svg>
                         </button>
                     </div>
-                    <div class="grid grid-cols-2 gap-2 mt-2">
+                    <div class="grid grid-cols-12 gap-2 mt-2">
                         @foreach ($inputTours as $key => $value)
                             @if (!empty($toursTotal[$value]))
-                                <div>
-                                    <x-apps.select id="toursTotal" class="mt-1 block w-full" wire:model="toursTotal.{{ $value }}" wire:change="addTourPayment({{ $value }})">
-                                        <option value="">Seleccionar tour</option>
-                                        @foreach($tours as $tour)
-                                        <option value="{{ $tour->id }}" {{ $toursTotal[$value]==$tour->id?'selected':'' }}>{{ $tour->name }}</option>
-                                        @endforeach
-                                    </x-apps.select>
-                                </div>
-                                <div class="content_payment">
-                                    <x-input id="toursPayment" type="number" class="mt-1 block w-full" wire:model.live="toursPayment.{{ $value }}"/>
-                                </div>
-                            @else
-                                <div>
-                                    <x-apps.select id="toursTotal" class="mt-1 block w-full" wire:model="toursTotal.{{ $value }}" wire:change="addTourPayment({{ $value }})">
+                                <div class="col-span-6">
+                                    <x-apps.select id="toursTotal" class="mt-1 block w-full col-span-5" wire:model="toursTotal.{{ $key }}{{ $value }}" wire:change="addTourPayment('{{ $key }}{{ $value }}')">
                                         <option value="">Seleccionar tour</option>
                                         @foreach($tours as $tour)
                                         <option value="{{ $tour->id }}">{{ $tour->name }}</option>
                                         @endforeach
                                     </x-apps.select>
                                 </div>
-                                <div class="content_payment">
-                                    <x-input id="toursPayment" type="number" class="mt-1 block w-full" wire:model.live="toursPayment.{{ $value }}"/>
+                                <div class="content_payment col-span-5">
+                                    <x-input id="toursPayment" type="number" class="mt-1 block w-full" wire:model.live="toursPayment.{{ $key }}{{ $value }}"/>
                                 </div>
+                                <button type="button" class="flex justify-center items-center col-span-1" wire:click="removeInputTour({{ $key }},'{{ $key }}{{ $value }}')">
+                                <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
+                            </button>
+                            @else
+                                <div class="col-span-6">
+                                    <x-apps.select id="toursTotal" class="mt-1 block w-full col-span-5" wire:model="toursTotal.{{ $key }}{{ $value }}" wire:change="addTourPayment('{{ $key }}{{ $value }}')">
+                                        <option value="">Seleccionar tour</option>
+                                        @foreach($tours as $tour)
+                                        <option value="{{ $tour->id }}">{{ $tour->name }}</option>
+                                        @endforeach
+                                    </x-apps.select>
+                                </div>
+                                <div class="content_payment col-span-5">
+                                    <x-input id="toursPayment" type="number" class="mt-1 block w-full" wire:model.live="toursPayment.{{ $key }}{{ $value }}"/>
+                                </div>
+                                <button type="button" class="flex justify-center items-center col-span-1" wire:click="removeInputTour({{ $key }},'{{ $key }}{{ $value }}')">
+                                    <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
+                                </button>
                             @endif
                         @endforeach
                     </div>
+                    @if ($toursTotal)
+                        <div class="pt-5">
+                            <p class="text-end mr-5">
+                                <span class="text-sm font-semibold text-gray-500">Total tours:</span>
+                                <span class="text-sm font-semibold">{{ $total_tours }}</span>
+                            </p>
+                        </div>
+                    @endif
                 </div>
             </div>
         </x-slot>

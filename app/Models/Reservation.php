@@ -18,8 +18,6 @@ class Reservation extends Model
         'status',
         'origin',
         'comments',
-        'total',
-        'pending_payment',
     ];
 
     protected $cast = [
@@ -33,8 +31,8 @@ class Reservation extends Model
 
     public function profits()
     {
-        $totalSales =  Reservation::whereDate('created_at', today())
-            ->sum('total');
+        $totalSales =  Payment::whereDate('created_at', today())
+            ->sum('total_reservation');
         return $totalSales * 0.18;
     }
 
@@ -46,7 +44,7 @@ class Reservation extends Model
 
     public function totalSales()
     {
-        return Reservation::whereDate('created_at', today())->sum('total');
+        return Payment::whereDate('created_at', today())->sum('total_reservation');
     }
 
     public function room()
@@ -56,7 +54,7 @@ class Reservation extends Model
 
     public function users()
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class)->withPivot('total', 'reserver');
     }
 
     public function payment()
@@ -66,11 +64,11 @@ class Reservation extends Model
 
     public function xtras()
     {
-        return $this->belongsToMany(Xtra::class);
+        return $this->belongsToMany(Xtra::class)->withPivot('total');
     }
 
     public function tours()
     {
-        return $this->belongsToMany(Tour::class);
+        return $this->belongsToMany(Tour::class)->withPivot('total');
     }
 }
