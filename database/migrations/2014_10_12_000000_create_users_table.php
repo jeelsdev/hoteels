@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('document_type');
             $table->string('document');
             $table->string('phone')->nullable();
-            $table->string('email')->unique()->nullable();
+            $table->string('email')->nullable();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('favorite')->default(false)->nullable();
