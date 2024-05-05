@@ -455,7 +455,7 @@ class CreateReservation extends Component
 
         $createdUser->save();
 
-        if($this->usersTotal[1]['id'] == $user['id'])
+        if($this->usersTotal[1]['document'] == $user['document'])
         {
             $reservation->users()->attach($createdUser->id, ['total' => $this->price, 'reserver' => true]);
             return;
