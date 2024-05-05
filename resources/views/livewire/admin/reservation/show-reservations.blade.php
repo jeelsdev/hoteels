@@ -6,7 +6,6 @@
         </script>
     @endscript
 
-    <livewire:admin.reservation.create-reservation />
     <livewire:admin.reservation.edit-reservation />
     
     <div class="calendar-container">

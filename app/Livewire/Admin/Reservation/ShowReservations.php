@@ -12,6 +12,17 @@ class ShowReservations extends Component
     public $rooms = [];
     public $reservations = [];
 
+    #[On('create-reservation')]
+    public function createRedirect($data)
+    {
+        $data = [
+            'date' => $data['date'],
+            'resource' => $data['resource']['id'],
+        ];
+        $data = http_build_query($data);
+        return redirect()->route('reservation.create', ['data'=>$data]);
+    }
+
     #[On('reservation-created')]
     public function render()
     {

@@ -26,15 +26,6 @@ class CreateReservation extends Component
     public $xtras = [];
     public $tours = [];
 
-    // users data
-    public $user;
-    public $name;
-    public $lastName;
-    public $email;
-    public $phone;
-    public $documentType;
-    public $document;
-
     #[Validate('required')]
     public $start_date;
 
@@ -43,6 +34,9 @@ class CreateReservation extends Component
 
     #[Validate('required')]
     public $room_id;
+    public $roomCode;
+    public $floor;
+    public $roomType;
 
     #[Validate('required')]
     public $origin;
@@ -50,12 +44,11 @@ class CreateReservation extends Component
     #[Validate('required')]
     public $status;
 
+    // Summaries
     #[Validate('required')]
-    public $total_reservation;
-
-    public $total_xtras;
-
-    public $total_tours;
+    public $total_reservation = 0;
+    public $total_xtras = 0;
+    public $total_tours = 0;
 
     #[Validate(['numeric', 'regex:/^\d+$/'])]
     public $price;
@@ -65,38 +58,76 @@ class CreateReservation extends Component
     public $advance_reservation;
     public $advance_xtras;
     public $advance_tours;
-    public $usersTotal = [];
+    public $usersTotal = [1=>[]];
     public $xtrasTotal = [];
     public $toursTotal = [];
 
-    public $inputUsers = [];
     public $inputXtras = [];
     public $inputTours = [];
 
     public $xtrasPayment = [];
     public $toursPayment = [];
 
-    public $uI = 0;
+    public $uI = 1;
     public $tI = 0;
     public $xI = 0;
     public $userFavorite = false;
     public $isFavorite = false;
     public $createWithNewUser = false;
 
+    public $showUser = 1;
+    public $showRoom = false;
+
     public $showAdvanceReservation = false;
+    public $numberReservation;
+
+    // calulate nights
+    public $nights;
+
+    public function findUser($key)
+    {
+        $this->validate([
+            "usersTotal.$key.documentType" => "required",
+            "usersTotal.$key.document" => "required",
+        ]);
+
+        $user = User::where('document_type', $this->usersTotal[$key]['documentType'])
+            ->where('document', $this->usersTotal[$key]['document'])
+            ->first();
+        
+        if(!isset($user))
+        {
+            $this->reset([
+                "usersTotal.$key.name",
+                "usersTotal.$key.lastName",
+                "usersTotal.$key.email",
+                "usersTotal.$key.phone",
+            ]);
+            $this->addError("usersTotal.$key.document", "Usuario no encontrado");
+            return;
+        }
+
+        $this->usersTotal[$key] = [
+            'id' => $user->id,
+            'name' => $user->name,
+            'lastName' => $user->surname,
+            'email' => $user->email,
+            'phone' => $user->phone,
+            'documentType' => $user->document_type,
+            'document' => $user->document,
+        ];
+    }
+
+    public function showUserForKey($keyUser)
+    {
+        $this->showUser = $keyUser;
+    }
 
     public function showCreateWithNewUser()
     {
         $this->createWithNewUser = true;
         $this->usersTotal[0] = null;
         $this->uI = 1;
-    }
-
-    // remove input user
-    public function removeInputUser($key, $value)
-    {
-        unset($this->inputUsers[$key]);
-        unset($this->usersTotal[$value]);
     }
     
     public function isFavoriteUser()
@@ -134,7 +165,19 @@ class CreateReservation extends Component
     {
         $i = $i + 1;
         $this->uI = $i;
-        array_push($this->inputUsers, $i);
+        $this->showUser = $i;
+        array_push($this->usersTotal, [$i]);
+    }
+
+    public function removeUserTotal($key)
+    {
+        unset($this->usersTotal[$key]);
+        $this->uI = $this->uI - 1;
+        $this->showUser = 1;
+        // reordenar usersTotal desde su indice 1
+        $this->usersTotal = array_combine(range(1, count($this->usersTotal)), array_values($this->usersTotal));
+        
+
     }
 
     // remove input tour
@@ -172,36 +215,51 @@ class CreateReservation extends Component
     public function addXtraPayment($key)
     {
         $idXtra = $this->xtrasTotal[$key];
-        $this->xtrasPayment[$key] = Xtra::find($idXtra)->price;
+        $this->xtrasPayment[$key]['price'] = Xtra::find($idXtra)->price;
+        $this->xtrasPayment[$key]['amount'] = 1;
         $this->calculateTotalPrice();
     }
 
-    public function addTourPayment($key)
-    {
-        $idTour = $this->toursTotal[$key];
-        $this->toursPayment[$key] = Tour::find($idTour)->price;
-        $this->calculateTotalPrice();
-    }
-
+    // calculate total price
     public function calculateTotalPrice()
     {
         $start = Carbon::parse($this->start_date);
         $end = Carbon::parse($this->end_date);
-        $days = $start->diffInDays($end);
+        $this->nights = $start->diffInDays($end);
 
         if(!empty($this->xtrasPayment))
         {
-            $this->total_xtras = array_sum($this->xtrasPayment);
+            $totalPrice = 0;
+            foreach($this->xtrasPayment as $xtra)
+            {
+                if(!empty($xtra['amount']) && !empty($xtra['price']))
+                {
+                    $totalPrice += $xtra['amount'] * $xtra['price'];
+                }
+            }
+            $this->total_xtras = $totalPrice;
+        }else{
+            $this->total_xtras = 0;
         }
 
-        if(!empty($this->toursPayment))
+        if(!empty($this->toursTotal) && !empty($this->toursPayment))
         {
-            $this->total_tours = array_sum($this->toursPayment);
+            $totalPrice = 0;
+            foreach($this->toursPayment as $tour)
+            {
+                if(!empty($tour['amount']) && !empty($tour['price']))
+                {
+                    $totalPrice += $tour['amount'] * $tour['price'];
+                }
+            }
+            $this->total_tours = $totalPrice;
+        }else{
+            $this->total_tours = 0;
         }
 
         if(is_numeric($this->price) && $this->price >= 0)
         {
-            $this->total_reservation = $days * $this->price;
+            $this->total_reservation = $this->nights * $this->price;
         }
 
         // calculate pending payment
@@ -211,19 +269,6 @@ class CreateReservation extends Component
         }else{
             $this->pending_payment = $this->total_reservation;
         }
-    }
-
-    #[On('openModalCreate')]
-    public function openModal($data)
-    {
-        $date = Carbon::parse($data['date']);
-        $this->room_id = $data['resource']['id'];
-        $this->open = true;
-        $this->start_date = $date->format('Y-m-d');
-        $this->end_date = $date->addDay()->format('Y-m-d');
-        $room = Room::find($this->room_id);
-        $this->price = $room->roomType->price;
-        $this->calculateTotalPrice();
     }
 
     public function updated()
@@ -251,7 +296,6 @@ class CreateReservation extends Component
             'usersTotal',
             'xtrasTotal',
             'toursTotal',
-            'inputUsers',
             'inputXtras',
             'inputTours',
             'xtrasPayment',
@@ -262,20 +306,23 @@ class CreateReservation extends Component
             'userFavorite',
             'isFavorite',
             'createWithNewUser',
+            'showUser',
+            'showRoom',
             'showAdvanceReservation',
-            'name',
-            'lastName',
-            'email',
-            'phone',
-            'documentType',
-            'document',
+            'numberReservation',
+            'nights',
         ]);
-        $this->open = false;
     }
 
     public function save()
     {
         $this->validate();
+
+        $this->validate([
+            'usersTotal.1.name' => 'required',
+            'usersTotal.1.documentType' => 'required',
+            'usersTotal.1.document' => 'required'
+        ]);
         
         if($this->status == 'booking') {
             $this->validate([
@@ -305,18 +352,36 @@ class CreateReservation extends Component
             'type' => 'CASH',
         ]);
 
-        if($this->createWithNewUser)
+        foreach($this->usersTotal as $key => $user)
         {
-            $this->createWithNewUser($reservation);
-        }else{
-            $this->createWithExistingUser($reservation);
+            if($key == 0)
+            {
+                continue;
+            }
+
+            if(!empty($user['id']))
+            {
+                $findUser = User::where('id',$user['id'])
+                    ->orWhere('document', $user['document'])
+                    ->first();
+                if($findUser)
+                {
+                    $this->createWithExistingUser($reservation, $user, $findUser);
+                }else{
+                    $this->createWithNewUser($reservation, $user);
+                }
+                continue;
+            }
+            $this->createWithNewUser($reservation, $user);
         }
 
         if(!empty($this->xtrasTotal))
         {
             foreach($this->xtrasTotal as $key => $xtra)
             {
-                $reservation->xtras()->attach($xtra, ['total' => $this->xtrasPayment[$key]]);
+
+                $this->xtrasPayment[$key]['paid'] = !empty($this->xtrasPayment[$key]['paid'])? $this->xtrasPayment[$key]['paid'] : 0;
+                $reservation->xtras()->attach($xtra, ['total' => $this->xtrasPayment[$key]['price'], 'amount' => $this->xtrasPayment[$key]['amount'], 'paid' => $this->xtrasPayment[$key]['paid']]);
             }
         }
 
@@ -324,7 +389,8 @@ class CreateReservation extends Component
         {
             foreach($this->toursTotal as $key => $tour)
             {
-                $reservation->tours()->attach($tour, ['total' => $this->toursPayment[$key]]);
+                $this->toursPayment[$key]['paid'] = !empty($this->toursPayment[$key]['paid'])? $this->toursPayment[$key]['paid'] : 0;
+                $reservation->tours()->attach($tour, ['total' => $this->toursPayment[$key]['price'], 'amount' => $this->toursPayment[$key]['amount'], 'paid' => $this->toursPayment[$key]['paid']]);
             }
         }
 
@@ -333,6 +399,30 @@ class CreateReservation extends Component
         session()->flash('flash.message', '¡Reservación creada con éxito!');
         // $this->dispatch('reservation-created');
         return redirect()->route('reservation.index');
+    }
+
+    public function mount($data)
+    {
+        parse_str($data, $data);
+
+        try {
+            $date = Carbon::parse($data['date']);
+            $room = Room::findOrFail($data['resource']);
+        } catch (\Throwable $th) {
+            return redirect()->route('reservation.index');
+        }
+
+        $this->room_id = $room->id;
+        $this->open = true;
+        $this->start_date = $date->format('Y-m-d');
+        $this->end_date = $date->addDay()->format('Y-m-d');
+        $this->price = $room->roomType->price;
+        $this->roomCode = $room->code;
+        $this->floor = $room->floor;
+        $this->roomType = $room->roomType->description;
+        $this->numberReservation = Reservation::count() + 1;
+
+        $this->calculateTotalPrice();
     }
 
     public function render()
@@ -346,65 +436,54 @@ class CreateReservation extends Component
         return view('livewire.admin.reservation.create-reservation');
     }
 
-    public function createWithNewUser($reservation)
+    public function createWithNewUser($reservation, $user)
     {
-        $this->validate([
-            'name' => 'required',
-            'lastName' => 'required',
-            'email' => 'required|email',
-            'phone' => 'required',
-            'documentType' => 'required',
-            'document' => 'required',
-        ]);
-
-        $user = User::create([
-            'name' => $this->name,
-            'surname' => $this->lastName,
-            'email' => $this->email,
-            'phone' => $this->phone,
-            'document_type' => $this->documentType,
-            'document' => $this->document,
+        $createdUser = User::create([
+            'name' => $user['name'],
+            'surname' => $user['lastName'],
+            'email' => $user['email'],
+            'phone' => $user['phone'],
+            'document_type' => $user['documentType'],
+            'document' => $user['document'],
             'password' => bcrypt('password'),
         ]);
 
         if($this->userFavorite)
         {
-            $user->favorite = true;
+            $createdUser->favorite = true;
         }
 
-        $user->save();
-        $reservation->users()->attach($user->id, ['total' => $this->price, 'reserver' => true]);
-        unset($this->usersTotal[0]);
+        $createdUser->save();
 
-        if(!empty($this->usersTotal))
+        if($this->usersTotal[1]['id'] == $user['id'])
         {
-            $reservation->users()->attach($this->usersTotal, ['total' => $this->price]);
+            $reservation->users()->attach($createdUser->id, ['total' => $this->price, 'reserver' => true]);
+            return;
         }
-        
+
+        $reservation->users()->attach($createdUser->id, ['total' => $this->price]);
     }
 
-    public function createWithExistingUser($reservation)
+    public function createWithExistingUser($reservation, $user, $findUser)
     {
-        $user = User::find($this->usersTotal[0]);
-
         if($this->userFavorite)
         {
-            $user->favorite = true;
+            $findUser->favorite = true;
         }
-        
-        $user->document_type = $this->documentType;
-        $user->document = $this->document;
-        $user->save();
-        
-        $reservation->users()->attach($user->id, ['total' => $this->price, 'reserver' => true]);
-        unset($this->usersTotal[0]);
-        
-        if(!empty($this->usersTotal))
+        $findUser->name = $user['name'];
+        $findUser->surname = $user['lastName'];
+        $findUser->email = $user['email'];
+        $findUser->phone = $user['phone'];
+        $findUser->document_type = $user['documentType'];
+        $findUser->document = $user['document'];
+        $findUser->save();
+
+        if($this->usersTotal[1]['id'] == $findUser->id)
         {
-            $reservation->users()->attach($this->usersTotal, ['total' => $this->price]);
+            $reservation->users()->attach($findUser->id, ['total' => $this->price, 'reserver' => true]);
+            return;
         }
         
-
-
+        $reservation->users()->attach($findUser->id, ['total' => $this->price]);
     }
 }
