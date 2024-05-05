@@ -5,3 +5,18 @@
 [x-cloak] {
     display: none;
 }
+
+@layer components {
+    .btn {
+        @apply px-4 py-2 bg-blue-500 text-white rounded;
+    }
+    .remove-arrow::-webkit-inner-spin-button, 
+    .remove-arrow::-webkit-outer-spin-button { 
+        -webkit-appearance: none; 
+        margin: 0
+    } 
+  
+    .remove-arrow { 
+        -moz-appearance: textfield; 
+    }
+}
