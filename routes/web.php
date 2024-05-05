@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\ReservationController;
 use App\Livewire\Admin\Dashboard\Dashboard;
+use App\Livewire\Admin\Reservation\CreateReservation;
 use App\Livewire\Admin\Reservation\EditReservation;
 use App\Livewire\Admin\Reservation\ShowReservations;
 use App\Livewire\Admin\Room\CreateRoom;
@@ -40,6 +41,7 @@ Route::middleware([
 
     Route::prefix('reservation')->group(function () {
         Route::get('/', ShowReservations::class)->name('reservation.index');
+        Route::get('/create/{data}', CreateReservation::class)->name('reservation.create');
     });
 
     Route::prefix('room')->group(function () {
