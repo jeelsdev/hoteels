@@ -81,14 +81,14 @@ class DatabaseSeeder extends Seeder
         foreach ($tours as $tour) {
             $tour->reservations()->attach(
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
-            );
+            , ['total' => random_int(10, 100), 'amount' => random_int(1, 10), 'paid' => true]);
         }
 
         $xtras = Xtra::factory(20)->create();
         foreach ($xtras as $xtra) {
             $xtra->reservations()->attach(
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
-            );
+            , ['total' => random_int(10, 100), 'amount' => random_int(1, 10), 'paid' => true]);
         }
 
     }
