@@ -10,6 +10,7 @@ enum Origin: string{
     case Llamada = 'llamada';
     case Facebook = 'facebook';
     case Calle = 'calle';
+    case HostalWorld = 'hostalworld';
 
     public static function getRandomValue()
     {
