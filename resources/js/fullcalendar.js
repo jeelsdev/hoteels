@@ -9,7 +9,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let title = '';
   let total = 0;
   let originE = '';
-      console.log(window.reservations);
+
   const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   if (window.reservations.length > 0)
   {console.log(window.reservations);
@@ -126,7 +126,7 @@ document.addEventListener('DOMContentLoaded', function() {
 })
 
 const handleDateClick = (info) => {
-  Livewire.dispatch('openModalCreate', { data: info });
+  Livewire.dispatch('create-reservation', { data: info });
 }
 
 const handleEventClick = (info) => {
