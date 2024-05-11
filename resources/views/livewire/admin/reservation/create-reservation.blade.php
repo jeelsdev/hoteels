@@ -236,23 +236,36 @@
                     <div class="flex justify-between">
                         <h2 class="font-bold mb-4">RESUMEN</h2>
                     </div>
-                    <div class="bg-white px-8 max-w-xl mx-auto">
-                        <div class="w-full text-left mb-1">
-                            <div class="grid grid-cols-3 place-items-center">
-                                <div class="text-gray-700 font-bold py-2">Reservación</div>
-                                <div class="text-gray-700 font-bold py-2">{{ $nights }}</div>
-                                <div class="text-gray-700">s/ {{ $total_reservation }}</div>
-                            </div>
-                            <div class="grid grid-cols-3 place-items-center">
-                                <div class="text-gray-700 font-bold py-2">Extras</div>
-                                <div class="text-gray-700 font-bold py-2">{{ count($xtrasPayment) }}</div>
-                                <div class="text-gray-700">s/ {{ $total_xtras }}</div>
-                            </div>
-                            <div class="grid grid-cols-3 place-items-center">
-                                <div class="text-gray-700 font-bold py-2">Tours</div>
-                                <div class="text-gray-700 font-bold py-2">{{ count($toursPayment) }}</div>
-                                <div class="text-gray-700">s/ {{ $total_tours }}</div>
-                            </div>
+                    <div class="bg-white max-w-xl mx-auto">
+                        <div class="">
+                            <x-apps.table>
+                                <x-slot:head>
+                                    <tr>
+                                        <th scope="col" class="px-6 py-4"></th>
+                                        <th scope="col" class="px-6 py-4">Cantidad</th>
+                                        <th scope="col" class="px-6 py-4">Deuda</th>
+                                        <th scope="col" class="px-6 py-4">Total</th>
+                                    </tr>
+                                </x-slot>
+                                <tr class="border-b border-neutral-200">
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">Reservación</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $nights }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $status=='booking'?$pending_payment:'' }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $total_reservation }}</td>
+                                </tr>
+                                <tr class="border-b border-neutral-200">
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">Extras</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ count($xtrasPayment) }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $debtXtra }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $total_xtras }}</td>
+                                </tr>
+                                <tr class="border-b border-neutral-200">
+                                    <td class="whitespace-nowrap px-6 py-4 font-medium">Tours</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ count($toursPayment) }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $debtTour }}</td>
+                                    <td class="whitespace-nowrap px-6 py-4 text-center">{{ $total_tours }}</td>
+                                </tr>
+                            </x-apps.table>
                         </div>
                     </div>
                 </div>
