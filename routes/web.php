@@ -42,6 +42,7 @@ Route::middleware([
     Route::prefix('reservation')->group(function () {
         Route::get('/', ShowReservations::class)->name('reservation.index');
         Route::get('/create/{data}', CreateReservation::class)->name('reservation.create');
+        Route::get('/edit/{data}', EditReservation::class)->name('reservation.edit');
     });
 
     Route::prefix('room')->group(function () {
