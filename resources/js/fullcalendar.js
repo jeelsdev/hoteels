@@ -130,5 +130,5 @@ const handleDateClick = (info) => {
 }
 
 const handleEventClick = (info) => {
-  Livewire.dispatch('open-modal-edit', { data: info });
+  Livewire.dispatch('edit-reservation', { data: info });
 }
