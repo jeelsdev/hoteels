@@ -2,7 +2,14 @@ import PieChart from 'chart.js/auto';
 
 document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('pieChart');
-    
+    const values = [
+        window.origins.booking,
+        window.origins.whatsapp,
+        window.origins.llamada,
+        window.origins.facebook,
+        window.origins.calle,
+        window.origins.hotelworld
+    ];
     const data = {
         labels: [
           'Booking',
@@ -10,16 +17,18 @@ document.addEventListener('DOMContentLoaded', function() {
           'Llamada',
           'Facebook',
           'Calle',
+          'Hotalworld'
         ],
         datasets: [{
-          label: 'Origen',
-          data: [300, 50, 100, 30, 123],
+          label: 'Total',
+          data: values,
           backgroundColor: [
             'rgb(255, 99, 132)',
             'rgb(54, 162, 235)',
             'rgb(255, 205, 86)',
             'rgb(75, 192, 192)',
             'rgb(153, 102, 255)',
+            'rgb(255, 159, 64)',
           ],
           hoverOffset: 4
         }]
