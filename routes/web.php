@@ -2,8 +2,12 @@
 
 use App\Http\Controllers\ReservationController;
 use App\Livewire\Admin\Dashboard\Dashboard;
+use App\Livewire\Admin\Dashboard\Debtor\Debtor;
+use App\Livewire\Admin\Dashboard\Diary\DailyIncome;
+use App\Livewire\Admin\Dashboard\Report\Report;
 use App\Livewire\Admin\Reservation\CreateReservation;
 use App\Livewire\Admin\Reservation\EditReservation;
+use App\Livewire\Admin\Reservation\List\ReservationList;
 use App\Livewire\Admin\Reservation\ShowReservations;
 use App\Livewire\Admin\Room\CreateRoom;
 use App\Livewire\Admin\Room\EditRoom;
@@ -37,12 +41,17 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->prefix('/admin')->group(function () {
-    Route::get('/dashboard', Dashboard::class)->name('dashboard');
+    Route::prefix('/dashboard')->group(function () {
+        Route::get('/report', Report::class)->name('dashboard.report');
+        Route::get('/daily-income', DailyIncome::class)->name('dashboard.daily-income');
+        Route::get('/debtors', Debtor::class)->name('dashboard.debtors');
+    });
 
     Route::prefix('reservation')->group(function () {
         Route::get('/', ShowReservations::class)->name('reservation.index');
         Route::get('/create/{data}', CreateReservation::class)->name('reservation.create');
         Route::get('/edit/{data}', EditReservation::class)->name('reservation.edit');
+        Route::get('/list', ReservationList::class)->name('reservation.list');
     });
 
     Route::prefix('room')->group(function () {
