@@ -12,7 +12,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
   if (window.reservations.length > 0)
-  {console.log(window.reservations);
+  {
     window.reservations.forEach(event => {
       switch (event.status) {
         case 'pending':
