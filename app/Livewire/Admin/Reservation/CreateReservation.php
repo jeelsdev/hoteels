@@ -112,12 +112,10 @@ class CreateReservation extends Component
     public function findUser($key)
     {
         $this->validate([
-            "usersTotal.$key.documentType" => "required",
             "usersTotal.$key.document" => "required",
         ]);
 
-        $user = User::where('document_type', $this->usersTotal[$key]['documentType'])
-            ->where('document', $this->usersTotal[$key]['document'])
+        $user = User::where('document', $this->usersTotal[$key]['document'])
             ->first();
 
         if (!isset($user)) {
@@ -435,7 +433,7 @@ class CreateReservation extends Component
         $this->roomCode = $room->code;
         $this->floor = $room->floor;
         $this->roomType = $room->roomType->description;
-        $this->numberReservation = Reservation::count() + 1;
+        $this->numberReservation = Reservation::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count() + 1;
 
         $this->calculateTotalPrice();
     }

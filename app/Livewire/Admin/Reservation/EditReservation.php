@@ -425,8 +425,14 @@ class EditReservation extends Component
 
     public function mount($data)
     {
-        parse_str($data, $data);
-
+        // Parse the URL and get the query part
+        $urlParts = parse_url($data);
+        $query = $urlParts['path'];
+        
+        // Replace '&amp;' with '&'
+        $query = str_replace('&amp;', '&', $query);
+        
+        parse_str($query, $data);
         try {
             $dateStart = Carbon::parse($data['start']);
             $dateEnd = Carbon::parse($data['end']);

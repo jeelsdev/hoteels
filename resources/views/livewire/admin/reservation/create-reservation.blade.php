@@ -2,9 +2,9 @@
     <form wire:submit="save">
         <div class="flex justify-between items-center mx-4 mb-4">
             <div></div>
-            <x-apps.button type="submit" class="flex px-16">
+            <x-apps.button type="submit" class="px-16">
                 <span class="text-xl">Guardar</span>
-                <img src="{{ asset('images/svg/save.svg') }}" alt="Guardar" width="25" class="ml-8 text-white">
+                <img src="{{ asset('images/svg/save.svg') }}" alt="Guardar" width="25" class="ml-4 text-white">
             </x-apps.button>
         </div>
         <div class="grid grid-cols-2 gap-5 bg-white p-4">
