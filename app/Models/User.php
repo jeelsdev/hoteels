@@ -64,6 +64,18 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function newUsersFromPreviousDay()
+    {
+        return User::whereDate('created_at', today()->subDay())
+            ->count();
+    }
+
+    public function newUsersFromCurrentDay()
+    {
+        return User::whereDate('created_at', today())
+            ->count();
+    }
+
     public function newUsers()
     {
         return User::whereDate('created_at', today())
