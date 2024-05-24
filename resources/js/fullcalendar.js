@@ -121,6 +121,14 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     },
+    datesSet: function(info) {
+      const today = new Date();
+      calendar.scrollToTime({
+        day: today.getDate(),
+        month: today.getMonth(),
+        year: today.getFullYear()
+      });
+    }
   })
   calendar.render()
 })
