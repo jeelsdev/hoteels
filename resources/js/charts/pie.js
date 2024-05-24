@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
         window.origins.llamada,
         window.origins.facebook,
         window.origins.calle,
-        window.origins.hotelworld
+        window.origins.hostalworld
     ];
     const data = {
         labels: [
@@ -17,7 +17,7 @@ document.addEventListener('DOMContentLoaded', function() {
           'Llamada',
           'Facebook',
           'Calle',
-          'Hotalworld'
+          'HostalWorld'
         ],
         datasets: [{
           label: 'Total',
