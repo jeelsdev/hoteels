@@ -42,7 +42,7 @@ Route::middleware([
     'verified',
 ])->prefix('/admin')->group(function () {
     Route::prefix('/dashboard')->group(function () {
-        Route::get('/report', Report::class)->name('dashboard.report');
+        Route::get('/', Report::class)->name('dashboard.report');
         Route::get('/daily-income', DailyIncome::class)->name('dashboard.daily-income');
         Route::get('/debtors', Debtor::class)->name('dashboard.debtors');
     });
