@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
+use App\Models\Expense;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\Tour;
@@ -90,6 +91,8 @@ class DatabaseSeeder extends Seeder
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
             , ['total' => random_int(10, 100), 'amount' => random_int(1, 10), 'paid' => true]);
         }
+
+        Expense::factory(20)->create();
 
     }
 }

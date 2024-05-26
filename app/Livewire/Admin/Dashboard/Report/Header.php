@@ -22,12 +22,14 @@ class Header extends Component
 
     public function calculatePorcentage($current, $previous)
     {
+        $previous = 40;
         if($previous == 0)
         {
-            return $current * 100;
+            return 100;
         }
-        $difference = $current - $previous;
-        return ($difference / $previous) * 100;
+        $total = $current + $previous;
+        $diference = $total - $previous;
+        return round(($diference*100)/$total);
     }
 
     public function getData()

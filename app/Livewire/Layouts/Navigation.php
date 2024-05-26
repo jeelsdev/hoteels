@@ -10,6 +10,22 @@ class Navigation extends Component
     public $icon;
     public $title;
 
+    public function movement()
+    {
+        $this->items = [
+            [
+                'name' => 'Ingresos diarios',
+                'route' => 'movement.daily-income'
+            ],
+            [
+                'name'=> 'Egresos',
+                'route'=> 'movement.expenses'
+            ]
+        ];
+        $this->icon = 'document-text.svg';
+        $this->title = 'Movimientos';
+    }
+
     public function service()
     {
         $this->items = [
@@ -74,10 +90,6 @@ class Navigation extends Component
                 'route' => 'dashboard.report'
             ],
             [
-                'name' => 'Ingresos diarios',
-                'route' => 'dashboard.daily-income'
-            ],
-            [
                 'name' => 'Informe de deudores',
                 'route' => 'dashboard.debtors'
             ]
@@ -99,6 +111,7 @@ class Navigation extends Component
             in_array('users',$urisegments) => $this->user(),
             in_array('service',$urisegments) => $this->service(),
             in_array('room',$urisegments) => $this->room(),
+            in_array('movement',$urisegments) => $this->movement(),
         };
     }
 

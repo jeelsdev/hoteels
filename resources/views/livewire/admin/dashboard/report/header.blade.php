@@ -12,13 +12,13 @@
             @if ($sales >= 0)
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-green-500">
-                    +{{ $sales }}%
+                    +{{ number_format($sales,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-up.svg') }}" alt="arrow up" class="w-6 text-green-600">
                 </div>
             @else
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-red-500">
-                    {{ $sales }}%
+                    {{ number_format($sales,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-down.svg') }}" alt="arrow down" class="w-6 text-red-600">
                 </div>
             @endif
@@ -37,13 +37,13 @@
             @if ($earnings >= 0)
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-green-500">
-                    +{{ $earnings }}%
+                    +{{ number_format($earnings,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-up.svg') }}" alt="arrow up" class="w-6 text-green-600">
                 </div>
             @else
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-red-500">
-                    {{ $earnings }}%
+                    {{ number_format($earnings,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-down.svg') }}" alt="arrow up" class="w-6 text-red-600">
                 </div>
             @endif
@@ -62,13 +62,13 @@
             @if ($newUsers >= 0)
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-green-500">
-                    +{{ $newUsers }}%
+                    +{{ number_format($newUsers,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-up.svg') }}" alt="arrow up" class="w-6 text-green-600">
                 </div>
             @else
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-red-500">
-                    {{ $newUsers }}%
+                    {{ number_format($newUsers,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-down.svg') }}" alt="arrow up" class="w-6 text-red-600">
                 </div>
             @endif
@@ -87,13 +87,13 @@
             @if ($reservations >= 0)
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-green-500">
-                    +{{ $reservations }}%
+                    +{{ number_format($reservations,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-up.svg') }}" alt="arrow up" class="w-6 text-green-600">
                 </div>
             @else
                 <div
                     class="flex flex-1 justify-end items-center ml-5 w-0 text-base font-bold text-red-500">
-                    {{ $reservations }}%
+                    {{ number_format($reservations,0) }}%
                     <img src="{{ asset('images/svg/arrow-long-down.svg') }}" alt="arrow up" class="w-6 text-red-600">
                 </div>
             @endif

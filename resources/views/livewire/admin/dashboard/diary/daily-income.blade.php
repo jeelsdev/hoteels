@@ -26,15 +26,15 @@
                     </div>
                     <div class="flex pb-4 mx-3 gap-5">
                         <div class="bg-gray-200 rounded-md py-3 pl-5 w-full">
-                            <small class="text-gray-500">Cantidad bruta</small>
-                            <p>s/ {{ $daily['total'] - $daily['total'] * 0.18 }}</p>
+                            <small class="text-gray-500">Extras</small>
+                            <p>s/ {{ $daily['xtras'] }}</p>
                         </div>
                         <div class="bg-gray-200 rounded-md py-3 pl-5 w-full">
-                            <small class="text-gray-500">IGV (18%)</small>
-                            <p>s/ {{ $daily['total'] * 0.18 }}</p>
+                            <small class="text-gray-500">Tours</small>
+                            <p>s/ {{ $daily['tours'] }}</p>
                         </div>
                         <div class="bg-gray-200 rounded-md py-3 pl-5 w-full">
-                            <small class="text-gray-500">Neto (total)</small>
+                            <small class="text-gray-500">Reservaciones</small>
                             <p>s/ {{ $daily['total'] }}</p>
                         </div>
                     </div>

@@ -5,6 +5,7 @@ use App\Livewire\Admin\Dashboard\Dashboard;
 use App\Livewire\Admin\Dashboard\Debtor\Debtor;
 use App\Livewire\Admin\Dashboard\Diary\DailyIncome;
 use App\Livewire\Admin\Dashboard\Report\Report;
+use App\Livewire\Admin\Movement\Expenses;
 use App\Livewire\Admin\Reservation\CreateReservation;
 use App\Livewire\Admin\Reservation\EditReservation;
 use App\Livewire\Admin\Reservation\List\ReservationList;
@@ -43,7 +44,6 @@ Route::middleware([
 ])->prefix('/admin')->group(function () {
     Route::prefix('/dashboard')->group(function () {
         Route::get('/', Report::class)->name('dashboard.report');
-        Route::get('/daily-income', DailyIncome::class)->name('dashboard.daily-income');
         Route::get('/debtors', Debtor::class)->name('dashboard.debtors');
     });
 
@@ -80,5 +80,9 @@ Route::middleware([
             Route::get('/create', CreateTour::class)->name('tour.create');
         });
     });
-    
+
+    Route::prefix('movement')->group(function() {
+        Route::get('/daily-income', DailyIncome::class)->name('movement.daily-income');
+        Route::get('/expenses', Expenses::class)->name('movement.expenses');
+    });
 });

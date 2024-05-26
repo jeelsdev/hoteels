@@ -60,7 +60,7 @@ class DailyIncome extends Component
     protected function getDailyIncome($start, $end)
     {
         $payments = Payment::whereBetween('created_at', [$start->startOfDay(), $end->endOfDay()])
-            ->selectRaw('DATE(created_at) as date, sum(total_reservation) as total')
+            ->selectRaw('DATE(created_at) as date, sum(total_reservation) as total, sum(total_xtras) as xtras, sum(total_tours) as tours')
             ->groupBy('date')
             ->get()
             ->keyBy('date');
@@ -73,6 +73,8 @@ class DailyIncome extends Component
             return [
                 'date' => $dateC->isoFormat('ddd D MMM YYYY'),
                 'total' => $payments->get($date, ['total' => 0])['total'],
+                'xtras' => $payments->get($date, ['xtras' => 0])['xtras'],
+                'tours' => $payments->get($date, ['tours' => 0])['tours'],
                 'close' => $dateC->toDateString() >= Carbon::now()->toDateString() ? false : true,
             ];
         });

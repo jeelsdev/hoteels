@@ -278,20 +278,29 @@
                         $_Total = $total_reservation + $total_xtras + $total_tours;
                         $igv = $_Total * 0.18;
                         $subtotal = $_Total - $igv;
-                    @endphp
-                    <div class="px-8 max-w-xl mx-auto py-3">
-                        <div class="flex justify-end mb-1">
-                            <div class="text-gray-700 mr-2">Subtotal:</div>
-                            <div class="text-gray-700">s/ {{ $subtotal }}</div>
-                        </div>
-                        <div class="flex justify-end mb-1">
-                            <div class="text-gray-700 mr-2">IGB (18%):</div>
-                            <div class="text-gray-700">s/ {{ $igv }}</div>
 
-                        </div>
-                        <div class="flex justify-end">
-                            <div class="text-gray-700 mr-2 font-bold text-2xl">Total:</div>
-                            <div class="text-gray-700 font-bold text-xl">s/ {{ $_Total }}</div>
+                        // Calculo de deudas
+                        $debtReservation = $status == 'booking' ? $pending_payment : 0;
+                        $debtTotal = $debtReservation + $debtXtra + $debtTour;
+                    @endphp
+                    <div class="pl-8 max-w-xl mx-auto py-3 flex justify-end">
+                        <div class="">
+                            <div class="grid grid-cols-2 mb-1">
+                                <div class="text-gray-700 mr-2">Total en deudas:</div>
+                                <div class="text-gray-700"><span>s/ </span>{{ $debtTotal }}</div>
+                            </div>
+                            <div class="grid grid-cols-2 mb-1">
+                                <div class="text-gray-700 mr-2">Subtotal:</div>
+                                <div class="text-gray-700"><span>s/ </span>{{ $subtotal }}</div>
+                            </div>
+                            <div class="grid grid-cols-2 mb-1">
+                                <div class="text-gray-700 mr-2">IGV (18%):</div>
+                                <div class="text-gray-700"><span>s/ </span>{{ $igv }}</div>
+                            </div>
+                            <div class="grid grid-cols-2">
+                                <div class="text-gray-700 mr-2 font-bold text-2xl">Total:</div>
+                                <div class="text-gray-700 font-bold text-xl"><span>s/ </span>{{ $_Total }}</div>
+                            </div>
                         </div>
                     </div>
                 </div>
