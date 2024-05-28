@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar')
   const calendar = new Calendar(calendarEl, {
     locales: 'es',
-    width: 100000000,
 
    headerToolbar: {
       left: 'today prev,next',
@@ -84,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
     aspectRatio: 2,
-    width: 'auto',
     height: 'auto',
     initialView: 'resourceTimelineMonth',
     plugins: [ resourceTimelinePlugin ],

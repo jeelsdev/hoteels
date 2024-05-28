@@ -3,6 +3,7 @@ import BarChart from 'chart.js/auto';
 document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('barChart');
     const labels = ['Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado', 'Domingo'];
+    if(window.reservationsForDay === undefined) return;
     const values = [
         window.reservationsForDay.Monday,
         window.reservationsForDay.Tuesday,

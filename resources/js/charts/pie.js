@@ -2,6 +2,7 @@ import PieChart from 'chart.js/auto';
 
 document.addEventListener('DOMContentLoaded', function() {
     const ctx = document.getElementById('pieChart');
+    if(window.origins === undefined) return;
     const values = [
         window.origins.booking,
         window.origins.whatsapp,
