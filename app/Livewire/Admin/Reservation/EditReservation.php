@@ -171,9 +171,9 @@ class EditReservation extends Component
         }
 
         // user find data
-        $this->user = User::find($this->usersTotal[0]);
-        $this->documentType = $this->user->document_type;
-        $this->document = $this->user->document;
+        // $this->user = User::find($this->usersTotal[0]);
+        // $this->documentType = $this->user->document_type;
+        // $this->document = $this->user->document;
     }
 
     public function addFavoriteUser()

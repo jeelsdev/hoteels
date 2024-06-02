@@ -162,10 +162,10 @@ class CreateReservation extends Component
             $this->isFavorite = false;
         }
 
-        // user find data
-        $this->user = User::find($this->usersTotal[0]);
-        $this->documentType = $this->user->document_type;
-        $this->document = $this->user->document;
+        // // user find data
+        // $this->user = User::find($this->usersTotal[0]);
+        // $this->documentType = $this->user->document_type;
+        // $this->document = $this->user->document;
     }
 
     public function addFavoriteUser()
@@ -432,7 +432,7 @@ class CreateReservation extends Component
         $this->price = $room->roomType->price;
         $this->roomCode = $room->code;
         $this->floor = $room->floor;
-        $this->roomType = $room->roomType->description;
+        $this->roomType = $room->roomType->denomination;
         $this->numberReservation = Reservation::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count() + 1;
 
         $this->calculateTotalPrice();
@@ -488,7 +488,7 @@ class CreateReservation extends Component
         $findUser->document = $user['document'];
         $findUser->save();
 
-        if ($this->usersTotal[1]['id'] == $findUser->id) {
+        if ($this->usersTotal[1]['document'] == $findUser->document) {
             $reservation->users()->attach($findUser->id, ['total' => $this->price, 'reserver' => true]);
             return;
         }
