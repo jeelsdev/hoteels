@@ -6,6 +6,7 @@ use App\Livewire\Admin\Dashboard\Debtor\Debtor;
 use App\Livewire\Admin\Dashboard\Diary\DailyIncome;
 use App\Livewire\Admin\Dashboard\Report\Report;
 use App\Livewire\Admin\Movement\Expenses;
+use App\Livewire\Admin\Movement\Index;
 use App\Livewire\Admin\Reservation\CreateReservation;
 use App\Livewire\Admin\Reservation\EditReservation;
 use App\Livewire\Admin\Reservation\List\ReservationList;
@@ -82,6 +83,7 @@ Route::middleware([
     });
 
     Route::prefix('movement')->group(function() {
+        Route::get('/', Index::class)->name('movement.index');
         Route::get('/daily-income', DailyIncome::class)->name('movement.daily-income');
         Route::get('/expenses', Expenses::class)->name('movement.expenses');
     });
