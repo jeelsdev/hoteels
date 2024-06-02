@@ -14,6 +14,10 @@ class Navigation extends Component
     {
         $this->items = [
             [
+                'name' => 'Panel',
+                'route' => 'movement.index'
+            ],
+            [
                 'name' => 'Ingresos diarios',
                 'route' => 'movement.daily-income'
             ],
@@ -46,12 +50,16 @@ class Navigation extends Component
     {
         $this->items = [
             [
-                'name' => 'Usuarios',
+                'name' => 'Lista',
                 'route' => 'users.index'
+            ],
+            [
+                'name' => 'Informe de deudores',
+                'route' => 'users.debtors'
             ]
         ];
         $this->icon = 'users.svg';
-        $this->title = 'Usuarios';
+        $this->title = 'Huéspedes';
     }
 
     public function room()
@@ -60,6 +68,14 @@ class Navigation extends Component
             [
                 'name' => 'Habitaciones',
                 'route' => 'room.index'
+            ],
+            [
+                'name'=> 'Pisos',
+                'route'=> 'room.floor'
+            ],
+            [
+                'name'=> 'Tipos de habitaciones',
+                'route'=> 'room.types'
             ]
         ];
         $this->icon = 'room.svg';
@@ -88,10 +104,6 @@ class Navigation extends Component
             [
                 'name' => 'Informe de rendimiento',
                 'route' => 'dashboard.report'
-            ],
-            [
-                'name' => 'Informe de deudores',
-                'route' => 'dashboard.debtors'
             ]
         ];
         $this->icon = 'chart-pie.svg';
