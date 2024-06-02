@@ -1,5 +1,5 @@
 <div class="mb-5">
-     <div class="flex justify-between items-center mx-4">
+    <div class="flex justify-between items-center mx-4">
         <div></div>
         <x-apps.link-button href="{{ route('user.create') }}">
             <x-slot name="svg">
@@ -9,14 +9,14 @@
                         clip-rule="evenodd"></path>
                 </svg>
             </x-slot>
-            Crear usuario
+            Agregar huésped
         </x-apps.link-button>
     </div>
     <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm lg:p-5 sm:flex">
         <div class="mb-1 w-full">
             <div class="block items-center sm:flex md:divide-x md:divide-gray-100">
                 <div class="relative mt-1 sm:w-64 xl:w-96">
-                    <x-apps.input wire:model.live="search" placeholder="Buscar por nombre">
+                    <x-apps.input wire:model.live="search" placeholder="Buscar por nombre o n° de documento">
                     </x-apps.input>
                 </div>
                 {{-- <div class="flex items-center w-full sm:justify-end gap-5">
@@ -46,58 +46,58 @@
     <x-apps.table>
         <x-slot name="head">
             <tr>
-                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                <th scope="col" class="p-2 text-xs font-medium text-left text-gray-500 uppercase lg:p-2">
                     id
                 </th>
-                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                <th scope="col" class="p-2 text-xs font-medium text-left text-gray-500 uppercase lg:p-2">
                     Nombre
                 </th>
-                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                <th scope="col" class="p-2 text-xs font-medium text-left text-gray-500 uppercase lg:p-2">
                     Tipo de documento
                 </th>
-                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                <th scope="col" class="p-2 text-xs font-medium text-left text-gray-500 uppercase lg:p-2">
                     Documento
                 </th>
-                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                <th scope="col" class="p-2 text-xs font-medium text-left text-gray-500 uppercase lg:p-2">
                     Teléfono
                 </th>
-                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                <th scope="col" class="p-2 text-xs font-medium text-left text-gray-500 uppercase lg:p-2">
                     Email
                 </th>
-                <th scope="col" class="p-4 lg:p-5 w-5">
+                <th scope="col" class="p-2 lg:p-5 w-5">
                 </th>
             </tr>
         </x-slot>
         @if ($users->isEmpty())
             <tr>
                 <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5" colspan="6">
-                    No se encontraron usuarios.
+                    No se encontraron huéspedes
                 </td>
             </tr>
         @else
             @foreach ($users as $user)
                 <tr class="hover:bg-gray-100">
 
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5">
+                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-2">
                         {{ $user->id }}
                     </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5">
+                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-2">
                         {{ $user->name }}
                     </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5">
+                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-2">
                         {{ $user->document_type }}
                     </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5">
+                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-2">
                         {{ $user->document }}
                     </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5">
-                        {{ $user->phone}}
+                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-2">
+                        {{ $user->phone }}
                     </td>
-                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-5">
+                    <td class="p-4 text-base font-medium text-gray-900 whitespace-nowrap lg:p-2">
                         {{ $user->email }}
                     </td>
-                    <td class="px-4 py-1 lg:px-5 lg:py-2 space-x-2 whitespace-nowrap flex">
-                        <a href="{{ route('user.edit', ['id'=>$user->id]) }}" class="block">
+                    <td class="px-4 py-1 lg:px-5 lg:py-2 space-x-2 whitespace-nowrap flex items-center mt-1">
+                        <a href="{{ route('user.edit', ['id' => $user->id]) }}" class="block">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path d="M17.414 2.586a2 2 0 00-2.828 0L7 10.172V13h2.828l7.586-7.586a2 2 0 000-2.828z">
@@ -107,14 +107,9 @@
                                     clip-rule="evenodd"></path>
                             </svg>
                         </a>
-                        <button type="button">
-                            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
-                                xmlns="http://www.w3.org/2000/svg">
-                                <path fill-rule="evenodd"
-                                    d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    clip-rule="evenodd"></path>
-                            </svg>
-                        </button>
+                        <a href="{{ route('user.history', ['id'=>$user->id]) }}" class="block w-6">
+                            <img src="{{ asset('images/svg/eye.svg') }}" alt="eye" width="30">
+                        </a>
                     </td>
                 </tr>
             @endforeach
