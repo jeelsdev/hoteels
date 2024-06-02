@@ -9,9 +9,9 @@ document.addEventListener('DOMContentLoaded', function() {
   let title = '';
   let total = 0;
   let originE = '';
-
+  if(window.reservations === undefined) return;
   const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  if (window.reservations.length > 0)
+  if (window.reservations !== undefined)
   {
     window.reservations.forEach(event => {
       switch (event.status) {
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  if (window.rooms.length > 0)
+  if (window.rooms !== undefined)
   {
     window.rooms.forEach(room => {
       rooms.push({
@@ -121,11 +121,13 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     datesSet: function(info) {
       const today = new Date();
-      calendar.scrollToTime({
-        day: today.getDate(),
-        month: today.getMonth(),
-        year: today.getFullYear()
-      });
+      if(today.getDate > 15){
+        calendar.scrollToTime({
+          day: today.getDate(),
+          month: today.getMonth(),
+          year: today.getFullYear()
+        });
+      }
     }
   })
   calendar.render()
