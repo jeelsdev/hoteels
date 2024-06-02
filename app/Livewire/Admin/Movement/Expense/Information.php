@@ -4,6 +4,7 @@ namespace App\Livewire\Admin\Movement\Expense;
 
 use App\Models\Expense;
 use Carbon\Carbon;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Information extends Component
@@ -20,13 +21,13 @@ class Information extends Component
         if($this->dayRange == 'day' || $this->dayRange == 'week')
         {
             return collect([
-                '0'=>0,
-                '1'=>0,
-                '2'=>0,
-                '3'=>0,
-                '4'=>0,
-                '5'=>0,
-                '6'=>0
+                '1' => 0,
+                '2'=> 0,
+                '3'=> 0,
+                '4'=> 0,
+                '5'=> 0,
+                '6'=> 0,
+                '7'=> 0
             ]);
         }else{
             return collect([
@@ -48,7 +49,10 @@ class Information extends Component
 
     public function getData($start, $end)
     {
-        if($this->dayRange == 'week')
+        $start = Carbon::parse($start)->startOfDay();
+        $end = Carbon::parse($end)->endOfDay();
+
+        if($this->dayRange == 'week' || $this->dayRange == 'day')
         {
             return Expense::whereBetween('created_at', [$start, $end])
                 ->selectRaw('DAYOFWEEK(created_at) as day, SUM(amount) as amount')
@@ -61,6 +65,7 @@ class Information extends Component
             ->get();
     }
 
+    #[On("refreshExpenses")]
     public function getDays()
     {
         $date = Carbon::parse($this->date);
@@ -93,24 +98,28 @@ class Information extends Component
 
         if($this->dayRange == 'day')
         {
-            $this->totalExpenses = $expenses->get($date->weekday());
+            $this->totalExpenses = $expenses->get($date->weekday()+1);
             $this->expenses = $expenses;
+            $this->dispatch('barChartExpenses', ['expenses'=> $this->expenses, 'dayRange' => $this->dayRange]);
             return;
         }
 
         $this->totalExpenses = $expenses->sum();
         $this->expenses = $expenses;
+        $this->dispatch('barChartExpenses', ['expenses'=> $this->expenses, 'dayRange' => $this->dayRange]);
     }
 
     public function mount()
     {
         $this->date = date("Y-m-d", strtotime("now"));
-        $this->dayRange = 'month';
+        $this->dayRange = 'week';
         $this->getDays();
     }
 
     public function render()
     {
+        $this->startDay = $this->dayRange == 'day'?Carbon::parse($this->date)->format('d/m/Y'):Carbon::parse($this->startDay)->format('d/m/Y');
+        $this->endDay = Carbon::parse($this->endDay)->format('d/m/Y');
         return view('livewire.admin.movement.expense.information');
     }
 }

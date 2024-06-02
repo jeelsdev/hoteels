@@ -1,7 +1,4 @@
 <div>
-    <script>
-        window.expenses = @json($expenses);
-    </script>
     <div class="mt-4 flex justify-start w-1/2 gap-5">
         <x-apps.input wire:model="date" type="date" wire:change="getDays()" class="max-w-40" />
         <x-apps.select wire:model="dayRange" wire:change="getDays()" class="w-40">
@@ -11,17 +8,17 @@
             <option value="year">Anual</option>
         </x-apps.select>
     </div>
-    <div class="bg-white border rounded-lg px-6 py-8 mx-auto mt-8">
-        <div class="flex justify-between mb-6">
+    <div class="bg-white border rounded-sm px-6 py-6 mx-auto mt-5">
+        <div class="flex justify-between mb-4">
             <h1 class="text-lg font-bold">Egresos</h1>
             <div class="text-gray-700 flex gap-5">
                 @if ($dayRange == 'day')
-                    <span>Fecha: </span>
+                    <span class="text-gray-400">Fecha</span>
                     <div class="text-gray-700 font-bold">{{ $startDay }}</div>
                 @else
-                    <span>Desde: </span>
+                    <span class="text-gray-400">Desde</span>
                     <div class="text-gray-700 font-bold">{{ $startDay }}</div>
-                    <span>Hasta: </span>
+                    <span class="text-gray-400">Hasta</span>
                     <div class="text-gray-700 font-bold">{{ $endDay }}</div>
                 @endif
             </div>
@@ -43,7 +40,7 @@
             </div>
         </div>
     </div>
-    <div class="mt-10">
-        <canvas id="lineChartExpenses"></canvas>
+    <div class="bg-white mt-10 p-5">
+        <canvas id="lineChartExpenses" class="w-full"></canvas>
     </div>
 </div>

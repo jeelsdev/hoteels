@@ -1,3 +1,5 @@
 import './charts/pie';
 import './charts/bar';
-import './charts/linechart-expenses';
+import './charts/bar-chart-expenses';
+import './charts/linechart-panel';
+import './charts/bar-chart-panel';

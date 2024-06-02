@@ -36,7 +36,7 @@ class Create extends Component
         $this->reset(['description', 'amount']);
         $this->create = true;
         session()->flash('flash.message', 'Egreso actualizado correctamente.');
-        $this->dispatch('refreshExpenses')->to(Expenses::class);
+        $this->dispatch('refreshExpenses');
     }
     public function save()
     {
@@ -50,7 +50,7 @@ class Create extends Component
         ]);
         $this->reset(['description', 'amount']);
         session()->flash('flash.message', 'Egreso agregado correctamente.');
-        $this->dispatch('refreshExpenses')->to(Expenses::class);
+        $this->dispatch('refreshExpenses');
     }
     public function render()
     {
