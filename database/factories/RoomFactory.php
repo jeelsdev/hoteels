@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Floor;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -19,8 +20,8 @@ class RoomFactory extends Factory
         return [
             'room_type_id' => $this->faker->numberBetween(1, 4),
             'code' => $this->faker->unique()->randomNumber(4),
-            'floor' => $this->faker->numberBetween(1, 10),
-            'description' => $this->faker->text(100),
+            'floor' => Floor::inRandomOrder()->first()->id??1,
+            'description' => $this->faker->text(30),
         ];
     }
 }
