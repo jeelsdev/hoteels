@@ -5,6 +5,7 @@ namespace Database\Seeders;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
 use App\Models\Expense;
+use App\Models\Floor;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\Tour;
@@ -39,17 +40,31 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $room_types = [
-            [1,"S",	124],
-            [2,"D"	,168],
-            [3,"T", 185],
-            [4,"M",	74],
+            [1,"Simple","S",124],
+            [2,"Doble","D",168],
+            [3,"Triple","T", 185],
+            [4,"Matrimonial","M",74],
         ];
 
         foreach ($room_types as $room_type) {
             \App\Models\RoomType::create([
                 'id' => $room_type[0],
-                'description' => $room_type[1],
-                'price' => $room_type[2],
+                'description' => $room_type[1], // 'Simple', 'Doble', 'Triple', 'Matrimonial'
+                'denomination' => $room_type[2],
+                'price' => $room_type[3],
+            ]);
+        }
+
+        $floors = [
+            [1,'Primer piso','1'],
+            [2,'Segundo piso','2'],
+        ];
+
+        foreach ($floors as $floors_type) {
+            Floor::create([
+                'id' => $floors_type[0],
+                'description' => $floors_type[1],
+                'denomination' => $floors_type[2],
             ]);
         }
 
