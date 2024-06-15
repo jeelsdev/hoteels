@@ -16,6 +16,24 @@ if (!function_exists('getEnumValue')) {
         $class = new ReflectionClass($enum);
         $constants = $class->getConstants();
 
-        return $constants[$key];
+        if (array_key_exists($key, $constants)) {
+            return $constants[$key];
+        }
+        foreach ($constants as $constant) {
+            if ($constant->value == $key) {
+                return $constant->name;
+            }
+            if($constant->name == $key){
+                return $constant->value;
+            }
+        }
+        return null;
+    }
+}
+
+if (!function_exists('getFormattedDate')) {
+    function getFormattedDate($date, $format = 'Y-m-d')
+    {
+        return date($format, strtotime($date));
     }
 }
