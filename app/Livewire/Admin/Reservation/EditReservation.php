@@ -449,21 +449,29 @@ class EditReservation extends Component
         $this->end_date = $dateEnd->format('Y-m-d');
         $this->origin = $this->reservation->origin;
 
+        if($this->reservation->users->isEmpty())
+        {
+            session()->flash('flash.message', '¡Ops! Ocurrio un error al cargar el huesped');
+            return redirect()->route('reservation.index');
+        }
+
+        $reservationUser = $this->reservation->users->first();
+
         // room data
         $this->roomType = $this->room->roomType->description;
         $this->floor = $this->room->floor;
-        $this->price = $this->reservation->users[0]->pivot->total;
+        $this->price = $reservationUser->pivot->total;
         $this->roomCode = $this->room->code;
 
         // user data
         $this->usersTotal[1] = [
-            'id' => $this->reservation->users[0]->id,
-            'name' => $this->reservation->users[0]->name,
-            'lastName' => $this->reservation->users[0]->surname,
-            'email' => $this->reservation->users[0]->email,
-            'phone' => $this->reservation->users[0]->phone,
-            'documentType' => $this->reservation->users[0]->document_type,
-            'document' => $this->reservation->users[0]->document,
+            'id' => $reservationUser->id,
+            'name' => $reservationUser->name,
+            'lastName' => $reservationUser->surname,
+            'email' => $reservationUser->email,
+            'phone' => $reservationUser->phone,
+            'documentType' => $reservationUser->document_type,
+            'document' => $reservationUser->document,
         ];
         foreach ($this->reservation->users as $key => $user) {
             if ($key == 0) {
