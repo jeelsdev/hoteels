@@ -10,7 +10,7 @@
         <div class="grid grid-cols-1 gap-2 bg-white p-4 lg:grid-cols-2 lg:gap-5">
             <div class="col">
                 <div class="border border-gray-300 rounded-sm p-4 bg-gray-100">
-                    <h2 class="">Reserva #{{ $numberReservation }} - {{ $nights }} noches</h2>
+                    <h2 class="">Reserva #{{ $numberReservation }} - <b>{{ $nights }} noches</b></h2>
                     <div class="flex justify-between gap-2 mt-3">
                         <div class="w-full">
                             <x-label for="start_date" value="Fecha de entrada" />
@@ -50,7 +50,7 @@
                     <div class="grid grid-cols-4 mt-5 transition-all duration-300 {{ $showRoom ? '' : 'hidden' }}">
                         <div class="col-span-1">
                             <span class="text-gray-500 text-sm">Tipo</span>
-                            <p>{{ $roomType }}</p>
+                            <p>{{ getEnumValue('RoomType', $roomType) }}</p>
                         </div>
                         <div class="col-span-1">
                             <span class="text-gray-500 text-sm">Piso</span>

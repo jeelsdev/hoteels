@@ -118,12 +118,10 @@ class EditReservation extends Component
     public function findUser($key)
     {
         $this->validate([
-            "usersTotal.$key.documentType" => "required",
             "usersTotal.$key.document" => "required",
         ]);
 
-        $user = User::where('document_type', $this->usersTotal[$key]['documentType'])
-            ->where('document', $this->usersTotal[$key]['document'])
+        $user = User::where('document', $this->usersTotal[$key]['document'])
             ->first();
 
         if (!isset($user)) {
@@ -132,6 +130,7 @@ class EditReservation extends Component
                 "usersTotal.$key.lastName",
                 "usersTotal.$key.email",
                 "usersTotal.$key.phone",
+                "usersTotal.$key.documentType",
             ]);
             $this->addError("usersTotal.$key.document", "Usuario no encontrado");
             return;
@@ -418,8 +417,8 @@ class EditReservation extends Component
 
         $this->resetInputs();
 
-        session()->flash('flash.message', '¡Reservación creada con éxito!');
-        // $this->dispatch('reservation-created');
+        session()->flash('flash.message', '¡Reservación actualizada correctamente!');
+
         return redirect()->route('reservation.index');
     }
 
