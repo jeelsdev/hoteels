@@ -40,10 +40,16 @@ class Debtor extends Component
             $totalTours = null;
 
             $reservation->xtras->each(function($xtra) use (&$totalXtras){
-                $totalXtras += $xtra->pivot->total;
+                if($xtra->pivot->paid != 1)
+                {
+                    $totalXtras += $xtra->pivot->total;
+                }
             });
             $reservation->tours->each(function($tour) use (&$totalTours){
-                $totalTours += $tour->pivot->total;
+                if($tour->pivot->paid != 1)
+                {
+                    $totalTours += $tour->pivot->total;
+                }
             });
 
             $user = $reservation->users->map(function($user){
@@ -53,15 +59,26 @@ class Debtor extends Component
                 }
             });
 
+            $pending_reservation = 0;
+            if($reservation->status == 'booking')
+            {
+                $pending_reservation = $reservation->payment->total_reservation-$reservation->payment->advance_reservation;
+            }
+
+            $totalTours = $totalTours??0;
+            $totalXtras = $totalXtras??0;
+
+            $total = $pending_reservation+$totalTours+$totalXtras;
+
             return [
                 'date' => $reservation->created_at->format('d-m-Y'),
                 'code'=> "#".$reservation->id.$reservation->room_id,
                 'httpData' => $this->httpData($reservation->entry_date, $reservation->exit_date, $reservation->room_id, $reservation->id),
                 'user' => $user->first()?$user->first():'Jose huesped',
-                'booking' => $reservation->status == 'booking'?$reservation->payment->total_reservation-$reservation->payment->advance_reservation:'',
+                'booking' => $pending_reservation?$pending_reservation:'',
                 'xtra' => $totalXtras?$totalXtras:'',
                 'tour' => $totalTours?$totalTours:'',
-                'total' => $reservation->payment->total_reservation,
+                'total' => $total,
             ];
         });
     }
