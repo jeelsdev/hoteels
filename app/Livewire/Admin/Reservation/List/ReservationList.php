@@ -9,17 +9,53 @@ use Livewire\WithPagination;
 class ReservationList extends Component
 {
     use WithPagination;
-    
-    public function render()
+
+    public $fromDate;
+    public $toDate;
+    public $total;
+
+    public function updateData()
     {
-        $reservationLists = Reservation::whereHas("users", function ($query) {
+        $this->getTotal();
+    }
+
+    public function getTotal()
+    {
+        $this->total = Reservation::whereHas("users", function ($query) {
+            $query->where('reserver', '1');
+        })->when($this->fromDate, function ($query) {
+            $query->whereDate('entry_date', '>=', $this->fromDate);
+        })->when($this->toDate, function ($query) {
+            $query->whereDate('entry_date', '<=', $this->toDate);
+        })->count();
+    }
+
+    protected function getReservationLists()
+    {
+        return Reservation::whereHas("users", function ($query) {
             $query->where('reserver', '1');
         })->with([
             'users',
             'payment',
             'room'
-        ])->orderBy('created_at','desc')
+        ])->when($this->fromDate, function ($query) {
+            $query->whereDate('entry_date', '>=', $this->fromDate);
+        })->when($this->toDate, function ($query) {
+            $query->whereDate('entry_date', '<=', $this->toDate);
+        })->orderBy('entry_date','desc')
         ->paginate(20);
+    }
+
+    public function mount()
+    {
+        $this->fromDate = now()->subMonth()->format('Y-m-d');
+        $this->toDate = now()->format('Y-m-d');
+        $this->getTotal();
+    }
+    
+    public function render()
+    {
+        $reservationLists = $this->getReservationLists();
 
         return view('livewire.admin.reservation.list.reservation-list', compact('reservationLists'));
     }
