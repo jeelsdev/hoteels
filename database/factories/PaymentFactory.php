@@ -19,12 +19,12 @@ class PaymentFactory extends Factory
         return [
             'type' => $this->faker->randomElement(['CASH', 'DEBIT', 'CREDIT', 'TRANSFER']),
             //'reservation_id' => $this->faker->numberBetween(1, 20),
-            'total_reservation' => $this->faker->randomFloat(2, 100, 1000),
-            'advance_reservation' => $this->faker->randomFloat(2, 100, 1000),
-            'total_xtras' => $this->faker->randomFloat(2, 100, 1000),
-            'advance_xtras' => $this->faker->randomFloat(2, 100, 1000),
-            'total_tours' => $this->faker->randomFloat(2, 100, 1000),
-            'advance_tours' => $this->faker->randomFloat(2, 100, 1000),
+            // 'total_reservation' => $this->faker->numberBetween(51, 100),
+            'advance_reservation' => $this->faker->numberBetween(10, 20),
+            'total_xtras' => $this->faker->numberBetween(51, 100),
+            'advance_xtras' => $this->faker->numberBetween(10, 20),
+            'total_tours' => $this->faker->numberBetween(51, 100),
+            'advance_tours' => $this->faker->numberBetween(10, 30),
         ];
     }
 }

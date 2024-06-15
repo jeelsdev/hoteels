@@ -40,10 +40,10 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $room_types = [
-            [1,"Simple","S",124],
-            [2,"Doble","D",168],
-            [3,"Triple","T", 185],
-            [4,"Matrimonial","M",74],
+            [1,"Simple","S",50],
+            [2,"Doble","D",68],
+            [3,"Triple","T", 80],
+            [4,"Matrimonial","M",99],
         ];
 
         foreach ($room_types as $room_type) {
@@ -79,32 +79,43 @@ class DatabaseSeeder extends Seeder
         }
         $reservations = Reservation::all();
 
-        // $this->call(PaymentSeeder::class);
-        $reservationIds = $reservations->pluck('id')->toArray();
-        foreach ($reservationIds as $reservationId) {
-            \App\Models\Payment::factory()->create([
-                'reservation_id' => $reservationId,
-            ]);
-        }
-
         foreach ($users as $user) {
             $user->reservations()->attach(
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
-            , ['total' => random_int(100, 1000), 'reserver' => true]);
+            , ['total' => random_int(50, 100), 'reserver' => true]);
         }
 
         $tours = Tour::factory(20)->create();
         foreach ($tours as $tour) {
             $tour->reservations()->attach(
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
-            , ['total' => random_int(10, 100), 'amount' => random_int(1, 10), 'paid' => true]);
+            , ['total' => random_int(10, 20), 'amount' => 1, 'paid' => true]);
         }
 
         $xtras = Xtra::factory(20)->create();
         foreach ($xtras as $xtra) {
             $xtra->reservations()->attach(
                 $reservations->random(rand(1, 3))->pluck('id')->toArray()
-            , ['total' => random_int(10, 100), 'amount' => random_int(1, 10), 'paid' => true]);
+            , ['total' => random_int(10, 20), 'amount' => 1, 'paid' => true]);
+        }
+
+        // $this->call(PaymentSeeder::class);
+        $reservationIds = $reservations->pluck('id')->toArray();
+        foreach ($reservationIds as $reservationId) {
+            $_r = Reservation::with('users')->find($reservationId);
+            $totalReservation = null;
+            if($_r){
+                foreach ($_r->users as $user) {
+                    if ($user->pivot->reserver) {
+                        $totalReservation = $user->pivot->total;
+                        break;
+                    }
+                }
+            }
+            \App\Models\Payment::factory()->create([
+                'reservation_id' => $reservationId,
+                'total_reservation' => $totalReservation? $totalReservation : 99,
+            ]);
         }
 
         Expense::factory(20)->create();
