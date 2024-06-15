@@ -48,8 +48,8 @@ class ReservationList extends Component
 
     public function mount()
     {
-        $this->fromDate = now()->subMonth()->format('Y-m-d');
-        $this->toDate = now()->format('Y-m-d');
+        $this->fromDate = now()->startOfMonth()->format('Y-m-d');
+        $this->toDate = now()->endOfMonth()->format('Y-m-d');
         $this->getTotal();
     }
     
