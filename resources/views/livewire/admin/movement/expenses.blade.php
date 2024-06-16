@@ -5,10 +5,10 @@
             <livewire:admin.movement.expense.create />
         </div>
         <div>
-            <div class="block justify-between items-center mt-4 rounded-sm lg:p-5 sm:flex">
+            <div class="block justify-between items-center mt-4 rounded-sm p-5 sm:flex">
                 <div class="mb-1 w-full">
                     <div class="block items-center sm:flex md:divide-x md:divide-gray-100">
-                        <div class="relative mt-1 mr-2 sm:w-64 xl:w-96">
+                        <div class="relative mt-1 mr-2 w-full md:w-64 xl:w-96 mb-2 md:mb-0">
                             <x-apps.input wire:model.live="search" placeholder="Buscar por descrición">
                             </x-apps.input>
                         </div>

@@ -1,5 +1,5 @@
 <div>
-    <div class="mt-4 flex justify-start w-1/2 gap-5">
+    <div class="mt-4 flex justify-between md:justify-start md:w-1/2 gap-5">
         <x-apps.input wire:model="date" type="date" wire:change="getDays()" class="max-w-40" />
         <x-apps.select wire:model="dayRange" wire:change="getDays()" class="w-40">
             <option value="day">Diario</option>
@@ -9,7 +9,7 @@
         </x-apps.select>
     </div>
     <div class="bg-white border rounded-sm px-6 py-6 mx-auto mt-5">
-        <div class="flex justify-between mb-4">
+        <div class="md:flex justify-between mb-4">
             <h1 class="text-lg font-bold">Egresos</h1>
             <div class="text-gray-700 flex gap-5">
                 @if ($dayRange == 'day')

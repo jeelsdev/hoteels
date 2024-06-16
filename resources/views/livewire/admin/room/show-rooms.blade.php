@@ -12,14 +12,14 @@
             Crear habitación
         </x-apps.link-button>
     </div>
-    <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm lg:p-5 sm:flex">
+    <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm p-5 sm:flex">
         <div class="mb-1 w-full">
             <div class="block items-center sm:flex md:divide-x md:divide-gray-100">
-                <div class="relative mt-1 sm:w-64 xl:w-96">
+                <div class="relative mt-1 sm:w-64 xl:w-96 mb-2 md:mb-0">
                     <x-apps.input wire:model.live="search" placeholder="Buscar por código">
                     </x-apps.input>
                 </div>
-                <div class="flex items-center w-full sm:justify-end gap-5">
+                <div class="flex items-center w-full sm:justify-end gap-1 md:gap-5">
                     <div>
                         <x-apps.label for="roomType" class="text-gray-500">Tipo de habitación</x-apps.label>
                         <x-apps.select wire:model.live="roomType" id="roomType" name="roomType">

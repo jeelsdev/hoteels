@@ -20,3 +20,47 @@
         -moz-appearance: textfield; 
     }
 }
+
+/* STYLE FULLCALENDAR */
+
+/* Para fijar el ancho del calendario */
+@media (max-width: 1350px) {
+    .fc .fc-view-harness {
+        min-width: 1350px;
+    }
+}
+
+/* cambia el tamaño de letra de la fecha */
+@media (max-width: 767px) {
+    .fc .fc-header-toolbar .fc-toolbar-chunk {
+        font-size: small;
+    }
+    .fc .fc-toolbar-title {
+      font-size: x-large;
+    }
+    .fc .fc-view-container {
+      overflow-x: scroll;
+    }
+    .fc .fc-scroller {
+      overflow-y: hidden;
+    }
+  }
+  
+/* fija el ancho del header del calendario */
+@media (max-width: 400px) {
+    .fc .fc-header-toolbar {
+      min-width: 350px;
+    }
+    .fc .fc-header-toolbar .fc-toolbar-chunk {
+        font-size: x-small;
+    }
+    .fc .fc-toolbar-title {
+      font-size: x-large;
+    }
+    .fc .fc-view-container {
+      overflow-x: scroll;
+    }
+    .fc .fc-scroller {
+      overflow-y: hidden;
+    }
+  }

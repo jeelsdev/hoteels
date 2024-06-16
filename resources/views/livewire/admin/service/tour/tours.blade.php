@@ -1,9 +1,9 @@
 <div class="mb-5 lg:flex">
     <div class="lg:w-2/3">
-        <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm lg:p-5 sm:flex">
+        <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm p-5 sm:flex">
             <div class="mb-1 w-full">
                 <div class="block items-center sm:flex md:divide-x md:divide-gray-100">
-                    <div class="relative mt-1 sm:w-64 xl:w-96">
+                    <div class="relative mt-1 w-full xl:w-96">
                         <x-apps.input wire:model.live="search" placeholder="Buscar por empresa">
                         </x-apps.input>
                     </div>

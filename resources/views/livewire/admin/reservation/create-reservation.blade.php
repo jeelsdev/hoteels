@@ -11,7 +11,7 @@
             <div class="col">
                 <div class="border border-gray-300 rounded-sm p-4 bg-gray-100">
                     <h2 class="">Reserva #{{ $numberReservation }} - <b>{{ $nights }} noches</b></h2>
-                    <div class="flex justify-between gap-2 mt-3">
+                    <div class="md:flex md:justify-between gap-2 mt-3">
                         <div class="w-full">
                             <x-label for="start_date" value="Fecha de entrada" />
                             <x-input id="start_date" type="date" class="mt-1 block w-full" wire:model="start_date"
@@ -89,7 +89,7 @@
                             </div>
                             <div class="border border-gray-400 py-10 px-8 bg-white">
                                 @foreach ($usersTotal as $key => $user)
-                                    <div class="grid grid-cols-2 gap-4 {{ $key !== $showUser ? 'hidden' : '' }}">
+                                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4 {{ $key !== $showUser ? 'hidden' : '' }}">
                                         <div class="w-full">
                                             <x-label for="usersTotal.{{ $key }}.documentType"
                                                 value="Tipo de documento" />
@@ -185,7 +185,7 @@
                     </div>
                     <div class="grid grid-cols-12 gap-2 mt-2">
                         @foreach ($inputTours as $key => $value)
-                            <div class="col-span-4">
+                            <div class="col-span-6 md:col-span-4">
                                 <x-apps.select id="toursTotal" class="mt-1 block w-full"
                                     wire:model="toursTotal.{{ $key }}{{ $value }}"
                                     wire:change="calculateTotalPrice()">
@@ -195,23 +195,23 @@
                                     @endforeach
                                 </x-apps.select>
                             </div>
-                            <div class="content_payment col-span-3">
+                            <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="toursPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.amount"
                                     placeholder="Cantidad" wire:change="calculateTotalPrice()" />
                             </div>
-                            <div class="content_payment col-span-3">
+                            <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="toursPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.price"
                                     placeholder="Precio" wire:change="calculateTotalPrice()" />
                             </div>
-                            <div class="content_payment col-span-1 flex flex-col-reverse justify-center items-center">
+                            <div class="content_payment col-span-3 md:col-span-1 flex flex-col-reverse justify-center items-center">
                                 <x-label for="toursPayment.{{ $key }}{{ $value }}.paid"
                                     value="Pagado" />
                                 <x-input id="toursPayment" type="checkbox" class="mt-1 block"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.paid" />
                             </div>
-                            <button type="button" class="flex justify-center items-center col-span-1"
+                            <button type="button" class="flex justify-center items-center col-span-3 md:col-span-1"
                                 wire:click="removeInputTour({{ $key }},'{{ $key }}{{ $value }}')">
                                 <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
                             </button>
@@ -346,7 +346,7 @@
                     </div>
                     <div class="grid grid-cols-12 gap-2 mt-2">
                         @foreach ($inputXtras as $key => $value)
-                            <div class="col-span-4">
+                            <div class="col-span-6 md:col-span-4">
                                 <x-apps.select id="xtras" class="mt-1 block w-full"
                                     wire:model="xtrasTotal.{{ $key }}{{ $value }}"
                                     wire:change="addXtraPayment('{{ $key }}{{ $value }}')">
@@ -356,23 +356,23 @@
                                     @endforeach
                                 </x-apps.select>
                             </div>
-                            <div class="content_payment col-span-3">
+                            <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.amount"
                                     placeholder="Cantidad" />
                             </div>
-                            <div class="content_payment col-span-3">
+                            <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.price"
                                     wire:change="calculateTotalPrice()" placeholder="Precio" />
                             </div>
-                            <div class="content_payment col-span-1 flex flex-col-reverse justify-center items-center">
+                            <div class="content_payment col-span-3 md:col-span-1 flex flex-col-reverse justify-center items-center">
                                 <x-label for="xtrasPayment.{{ $key }}{{ $value }}.paid"
                                     value="Pagado" />
                                 <x-input id="xtrasPayment" type="checkbox" class="mt-1 block"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.paid" />
                             </div>
-                            <button type="button" class="flex justify-center items-center col-span-1"
+                            <button type="button" class="flex justify-center items-center col-span-3 md:col-span-1"
                                 wire:click="removeInputXtra({{ $key }}, '{{ $key }}{{ $value }}')">
                                 <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
                             </button>

@@ -18,22 +18,22 @@
         <div class="sm:rounded-lg mb-20">
             @foreach ($dailyIncome as $daily)
                 <div class="bg-white rounded-md border-2 border-gray-500 mt-10">
-                    <div class="px-10 py-4 flex">
+                    <div class="px-3 lg:px-10 py-4 flex justify-between md:justify-normal">
                         <h3>{{ $daily['date'] }}</h3>
                         @if (!$daily['close'])
                             <small class="text-xs px-1 ml-5 bg-yellow-300 border-t inline border-b border-yellow-500 text-yellow-900 rounded-md">Todavía falta cerrar el día</small>
                         @endif
                     </div>
-                    <div class="flex pb-4 mx-3 gap-5">
-                        <div class="bg-gray-200 rounded-md py-3 pl-5 w-full">
+                    <div class="flex pb-4 mx-3 gap-1 md:gap-5">
+                        <div class="bg-gray-200 rounded-md py-3 md:pl-5 w-full text-center md:text-start">
                             <small class="text-gray-500">Extras</small>
                             <p>s/ {{ $daily['xtras'] }}</p>
                         </div>
-                        <div class="bg-gray-200 rounded-md py-3 pl-5 w-full">
+                        <div class="bg-gray-200 rounded-md py-3 md:pl-5 w-full text-center md:text-start">
                             <small class="text-gray-500">Tours</small>
                             <p>s/ {{ $daily['tours'] }}</p>
                         </div>
-                        <div class="bg-gray-200 rounded-md py-3 pl-5 w-full">
+                        <div class="bg-gray-200 rounded-md py-3 md:pl-5 w-full text-center md:text-start">
                             <small class="text-gray-500">Reservaciones</small>
                             <p>s/ {{ $daily['total'] }}</p>
                         </div>
