@@ -12,7 +12,7 @@ class CreateFloor extends Component
     public Floor $floor;
     public $create = true;
 
-    #[Validate('required', 'max:50')]
+    #[Validate(['required', 'max:50'])]
     public $description;
     #[Validate(['required','between:1,30', 'numeric', 'unique:floors,denomination'])]
     public $denomination;

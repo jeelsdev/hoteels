@@ -194,16 +194,19 @@
                                         <option value="{{ $tour->id }}">{{ $tour->name }}</option>
                                     @endforeach
                                 </x-apps.select>
+                                <x-input-error for="toursTotal.{{ $key }}{{ $value }}" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="toursPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.amount"
                                     placeholder="Cantidad" wire:change="calculateTotalPrice()" />
+                                <x-input-error for="toursPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="toursPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.price"
                                     placeholder="Precio" wire:change="calculateTotalPrice()" />
+                                <x-input-error for="toursPayment.{{ $key }}{{ $value }}.price" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-3 md:col-span-1 flex flex-col-reverse justify-center items-center">
                                 <x-label for="toursPayment.{{ $key }}{{ $value }}.paid"
@@ -358,16 +361,19 @@
                                         <option value="{{ $xtra->id }}">{{ $xtra->name }}</option>
                                     @endforeach
                                 </x-apps.select>
+                                <x-input-error for="xtrasTotal.{{ $key }}{{ $value }}" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.amount"
                                     placeholder="Cantidad" />
+                                <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
                                 <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.price"
                                     wire:change="calculateTotalPrice()" placeholder="Precio" />
+                                <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.price" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-3 md:col-span-1 flex flex-col-reverse justify-center items-center">
                                 <x-label for="xtrasPayment.{{ $key }}{{ $value }}.paid"

@@ -100,14 +100,14 @@ class EditReservation extends Component
         ]);
 
         foreach ($this->xtrasTotal as $key => $xtra) {
-            if (empty($this->xtrasPayment[$key]['paid']) && !empty($this->xtrasPayment[$key]['price'])) {
-                $this->debtXtra += $this->xtrasPayment[$key]['price'] * $this->xtrasPayment[$key]['amount'];
+            if (empty($this->xtrasPayment[$key]['paid']) && !empty($this->xtrasPayment[$key]['price']) && is_numeric($this->xtrasPayment[$key]['price'])){
+                $this->debtXtra += (int) $this->xtrasPayment[$key]['price'] * (int) $this->xtrasPayment[$key]['amount'];
             }
         }
 
         foreach ($this->toursTotal as $key => $tour) {
-            if (empty($this->toursPayment[$key]['paid']) && !empty($this->toursPayment[$key]['price'])) {
-                $this->debtTour += $this->toursPayment[$key]['price'] * $this->toursPayment[$key]['amount'];
+            if (empty($this->toursPayment[$key]['paid']) && !empty($this->toursPayment[$key]['price']) && is_numeric($this->toursPayment[$key]['price'])) {
+                $this->debtTour += (int) $this->toursPayment[$key]['price'] * (int) $this->toursPayment[$key]['amount'];
             }
         }
     }
@@ -241,9 +241,12 @@ class EditReservation extends Component
     public function addXtraPayment($key)
     {
         $idXtra = $this->xtrasTotal[$key];
-        $this->xtrasPayment[$key]['price'] = Xtra::find($idXtra)->price;
-        $this->xtrasPayment[$key]['amount'] = 1;
-        $this->calculateTotalPrice();
+        $xtra = Xtra::find($idXtra);
+        if(!empty($xtra)) {
+            $this->xtrasPayment[$key]['price'] = $xtra->price;
+            $this->xtrasPayment[$key]['amount'] = 1;
+            $this->calculateTotalPrice();
+        }
     }
 
     // calculate total price
@@ -350,6 +353,39 @@ class EditReservation extends Component
         } else {
             $this->advance_reservation = null;
         }
+
+        if (!empty($this->xtrasTotal)) {
+            $rules = [];
+            $messages = [];
+            foreach ($this->xtrasTotal as $key => $xtra) {
+                $rules["xtrasTotal.$key"] = 'required|exists:xtras,id';
+                $rules["xtrasPayment.$key.price"] = 'required|numeric';
+                $rules["xtrasPayment.$key.amount"] = 'required|numeric';
+
+                $messages["xtrasTotal.$key"] = 'Selecciona un extra';
+                $messages["xtrasPayment.$key.price.required"] = 'Precio requerido';
+                $messages["xtrasPayment.$key.amount.required"] = 'Cantidad requerida';
+            }
+
+            $this->validate($rules, $messages);
+        }
+
+        if (!empty($this->toursTotal)) {
+            $rules = [];
+            $messages = [];
+            foreach ($this->toursTotal as $key => $tour) {
+                $rules["toursTotal.$key"] = "required|exists:tours,id";
+                $rules["toursPayment.$key.price"] = 'required|numeric';
+                $rules["toursPayment.$key.amount"] = 'required|numeric';
+
+                $messages["toursTotal.$key"] = 'Selecciona un tour';
+                $messages["toursPayment.$key.price.required"] = 'Precio requerido';
+                $messages["toursPayment.$key.amount.required"] = 'Cantidad requerida';
+            }
+
+            $this->validate($rules, $messages);
+        }
+
         $this->reservation->entry_date = $this->start_date;
         $this->reservation->exit_date = $this->end_date;
         $this->reservation->room_id = $this->room->id;
