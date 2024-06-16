@@ -9,6 +9,16 @@ class Navigation extends Component
     public $items = [];
     public $icon;
     public $title;
+    public $open = false;
+
+    public function openProfileMenu()
+    {
+        if($this->open) {
+            $this->open = false;
+        } else {
+            $this->open = true;
+        }
+    }
 
     public function movement()
     {
