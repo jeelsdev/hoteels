@@ -67,7 +67,7 @@
                             <div class="relative right-0">
                                 <ul class="flex justify-start gap-3 list-none rounded-lg">
                                     @foreach ($usersTotal as $key => $value)
-                                        <li class="z-30 px-4 border border-gray-400 rounded-t-md hover:bg-gray-400 {{ $key == $showUser ? 'bg-gray-400 border-b-0' : 'bg-gray-100' }}"
+                                        <li class="z-10 px-4 border border-gray-400 rounded-t-md hover:bg-gray-400 {{ $key == $showUser ? 'bg-gray-400 border-b-0' : 'bg-gray-100' }}"
                                             wire:click="showUserForKey({{ $key }})">
                                             <a class="z-30 flex items-center px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
                                                 data-tab-target="" active role="tab" aria-selected="true">
@@ -77,7 +77,7 @@
                                             </a>
                                         </li>
                                     @endforeach
-                                    <li class="z-30 px-4 border border-gray-400 rounded-t-md hover:bg-gray-200 bg-gray-50"
+                                    <li class="z-10 px-4 border border-gray-400 rounded-t-md hover:bg-gray-200 bg-gray-50"
                                         wire:click="addUser({{ $uI }})">
                                         <a class="z-30 flex items-center px-0 py-1 mb-0 transition-all ease-in-out border-0 rounded-lg cursor-pointer text-slate-700 bg-inherit"
                                             data-tab-target="" active role="tab" aria-selected="true">

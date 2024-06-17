@@ -1,6 +1,6 @@
-<nav class="z-30 bg-gray-50 lg:ml-56 shadow-md">
+<nav class="z-20 bg-gray-50 lg:ml-56 shadow-md fixed w-full top-0 lg:mr-56">
     <div class="py-1 px-3 lg:px-5">
-        <div class="flex justify-between items-center">
+        <div class="flex justify-between items-center lg:relative">
             <div class="flex justify-start items-center">
                 <button id="toggleSidebarMobileSearch" type="button"
                     class="p-2 text-gray-500 rounded-2xl lg:hidden hover:text-gray-900 hover:bg-gray-100">
@@ -48,7 +48,7 @@
                     </ul>
                 </div>
             </div>
-            <div class="flex items-center">
+            <div class="flex items-center lg:absolute lg:right-56">
                 <img alt="tania andrew"
                     src="https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-1.2.1&amp;ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&amp;auto=format&amp;fit=crop&amp;w=1480&amp;q=80"
                     class="relative inline-block h-10 w-10 cursor-pointer rounded-full object-cover object-center" wire:click="openProfileMenu()"/>

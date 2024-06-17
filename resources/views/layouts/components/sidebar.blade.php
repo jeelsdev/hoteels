@@ -1,5 +1,5 @@
 <aside id="sidebar"
-  class="flex hidden fixed top-0 left-0 z-20 flex-col flex-shrink-0 w-56 h-full duration-200 lg:flex transition-width"
+  class="flex hidden fixed top-0 left-0 z-40 flex-col flex-shrink-0 w-56 h-full duration-200 lg:flex transition-width"
   aria-label="Sidebar">
   <div class="flex relative flex-col flex-1 pt-0 min-h-0 bg-vulcan-950 shadow-md">
     <div class="flex overflow-y-auto flex-col flex-1 pt-8 pb-4">
@@ -66,4 +66,4 @@
     </div>
 </aside>
 
-<div class="hidden fixed inset-0 z-10 bg-gray-900 opacity-50" id="sidebarBackdrop"></div>
+<div class="hidden fixed inset-0 z-30 bg-gray-900 opacity-50" id="sidebarBackdrop"></div>

@@ -11,7 +11,7 @@
     </div>
     <x-banner />
 
-    <div class="min-h-screen bg-zinc-100">
+    <div class="min-h-screen bg-zinc-100 relative">
         <livewire:layouts.navigation />
         @include('layouts.components.sidebar')
 
@@ -26,7 +26,7 @@
 
         <!-- Page Content -->
         <main>
-            <div id="main-content" class="h-full bg-zinc-100 relative overflow-y-auto mx-3 lg:ml-60 mt-5">
+            <div id="main-content" class="h-full bg-zinc-100 relative overflow-y-auto mx-3 lg:ml-60 pt-20">
                 {{ $slot }}
             </div>
         </main>
