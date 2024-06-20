@@ -12,7 +12,7 @@
 @if($message)
     <div id="flash_message" class="relative z-50">
         <div class="w-full absolute lg:left-1/3 lg:right-1/4 lg:w-1/3 rounded-sm {{ $style }}">
-            <div class="bg-orange-100 border-l-4 border-orange-500 text-orange-700 flex justify-between items-center p-2" role="alert">
+            <div class="bg-green-50 border-l-4 border-green-700 text-green-700 flex justify-between items-center p-2" role="alert">
                 <div>
                     <p class="font-bold">Información</p>
                     <p class="text-black">{{ $message }}</p>
