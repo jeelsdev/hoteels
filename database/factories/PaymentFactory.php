@@ -17,8 +17,8 @@ class PaymentFactory extends Factory
      */
     public function definition(): array
     {
-        $startDate = Carbon::now()->subDays(4);
-        $endDate = Carbon::now()->addDays(4);
+        $startDate = Carbon::now()->subDays(rand(1, 180));
+        $endDate = Carbon::now()->addDays(rand(1, 180));
         $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
         return [
             'type' => $this->faker->randomElement(['CASH', 'DEBIT', 'CREDIT', 'TRANSFER']),

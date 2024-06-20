@@ -13,7 +13,7 @@
     <div class="py-4 mx-auto mt-1 md:grid md:grid-cols-3 md:gap-5 lg:gap-16">
         <div class="p-6 bg-white shadow-sm rounded-sm">
             <dl class="space-y-2">
-                <dt class="text-center text-sm font-medium text-gray-500 ">Total de la semana</dt>
+                <dt class="text-center text-sm font-medium text-gray-500 ">Total de la {{ $dayRange=='week'?'semana':'mes' }}</dt>
 
                 <dd class="text-center text-5xl font-light">{{ $income[0]->total?$income[0]->total:0 }}</dd>
 
@@ -32,7 +32,7 @@
 
         <div class="p-6 bg-white shadow-sm rounded-sm mt-5 md:mt-0">
             <dl class="space-y-2">
-                <dt class="text-center text-sm font-medium text-gray-500 ">Total de la semana</dt>
+                <dt class="text-center text-sm font-medium text-gray-500 ">Total de la {{ $dayRange=='week'?'semana':'mes' }}</dt>
 
                 <dd class="text-5xl text-center font-light">{{ $expenses[0]->total?$expenses[0]->total:0 }}</dd>
 
@@ -51,7 +51,7 @@
 
         <div class="p-6 bg-white shadow-sm rounded-sm mt-5 md:mt-0">
             <dl class="space-y-2 m-auto">
-                <dt class="text-sm font-medium text-gray-500 text-center">Total de la semana</dt>
+                <dt class="text-sm font-medium text-gray-500 text-center">Total de la {{ $dayRange=='week'?'semana':'mes' }}</dt>
 
                 <dd class="text-5xl font-light text-center">
                     {{ $income[0]->total - $expenses[0]->total }}
