@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
@@ -16,6 +17,9 @@ class PaymentFactory extends Factory
      */
     public function definition(): array
     {
+        $startDate = Carbon::now()->subDays(4);
+        $endDate = Carbon::now()->addDays(4);
+        $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
         return [
             'type' => $this->faker->randomElement(['CASH', 'DEBIT', 'CREDIT', 'TRANSFER']),
             //'reservation_id' => $this->faker->numberBetween(1, 20),
@@ -25,6 +29,8 @@ class PaymentFactory extends Factory
             'advance_xtras' => $this->faker->numberBetween(10, 20),
             'total_tours' => $this->faker->numberBetween(51, 100),
             'advance_tours' => $this->faker->numberBetween(10, 30),
+            'created_at' => $createdAt,
+            'updated_at' => $createdAt,
         ];
     }
 }

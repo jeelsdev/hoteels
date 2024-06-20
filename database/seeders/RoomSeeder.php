@@ -13,7 +13,7 @@ class RoomSeeder extends Seeder
      */
     public function run(): void
     {
-        Room::factory(20)
+        Room::factory(30)
             ->create();
     }
 }

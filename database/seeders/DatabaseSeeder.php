@@ -21,7 +21,7 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        $users = User::factory(20)->create();
+        $users = User::factory(10)->create();
 
         \App\Models\User::factory()->create([
             'name' => 'Test User',
@@ -30,6 +30,38 @@ class DatabaseSeeder extends Seeder
             'document_type' => 'DNI',
             'phone' => '123456789',
             'email' => 'admin@yopmail.com',
+            'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
+            'favorite' => false,
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Joel',
+            'surname' => 'Huaman',
+            'document' => '12345678',
+            'document_type' => 'DNI',
+            'phone' => '123456789',
+            'email' => 'joel@yopmail.com',
+            'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
+            'favorite' => false,
+            'two_factor_secret' => null,
+            'two_factor_recovery_codes' => null,
+            'remember_token' => Str::random(10),
+            'profile_photo_path' => null,
+            'current_team_id' => null,
+        ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Sandra',
+            'surname' => 'Sandra',
+            'document' => '12345678',
+            'document_type' => 'DNI',
+            'phone' => '123456789',
+            'email' => 'sandra@yopmail.com',
             'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
             'favorite' => false,
             'two_factor_secret' => null,
@@ -73,10 +105,11 @@ class DatabaseSeeder extends Seeder
         // $this->call(ReservationSeeder::class);
         $roomIds = Room::all()->pluck('id')->toArray();
         foreach ($roomIds as $roomId) {
-            Reservation::factory()->create([
+            Reservation::factory()->count(rand(1, 5))->create([
                 'room_id' => $roomId,
             ]);
         }
+
         $reservations = Reservation::all();
 
         foreach ($users as $user) {
@@ -118,7 +151,7 @@ class DatabaseSeeder extends Seeder
             ]);
         }
 
-        Expense::factory(20)->create();
+        Expense::factory(100)->create();
 
     }
 }
