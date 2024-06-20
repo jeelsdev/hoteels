@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Expense;
 use App\Models\Reservation;
 use App\Models\Room;
 use App\Models\Tour;
@@ -27,9 +28,9 @@ class ReservationSeeder extends Seeder
 
         $reservations = Reservation::all();
         $users = User::factory(10)->create();
-        foreach ($users as $user) {
-            $user->reservations()->attach(
-                $reservations->random(rand(1, 3))->pluck('id')->toArray()
+        foreach ($reservations as $reservation) {
+            $reservation->users()->attach(
+                $users->random(rand(1, 3))->pluck('id')->toArray()
             , ['total' => random_int(50, 100), 'reserver' => true]);
         }
 
@@ -64,5 +65,7 @@ class ReservationSeeder extends Seeder
                 'total_reservation' => $totalReservation? $totalReservation : 99,
             ]);
         }
+
+        Expense::factory(20)->create();
     }
 }

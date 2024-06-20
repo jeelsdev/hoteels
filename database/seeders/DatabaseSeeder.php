@@ -8,6 +8,7 @@ use App\Models\Expense;
 use App\Models\Floor;
 use App\Models\Reservation;
 use App\Models\Room;
+use App\Models\RoomType;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Xtra;
@@ -30,38 +31,6 @@ class DatabaseSeeder extends Seeder
             'document_type' => 'DNI',
             'phone' => '123456789',
             'email' => 'admin@yopmail.com',
-            'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
-            'favorite' => false,
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
-            'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
-            'current_team_id' => null,
-        ]);
-
-        \App\Models\User::factory()->create([
-            'name' => 'Joel',
-            'surname' => 'Huaman',
-            'document' => '12345678',
-            'document_type' => 'DNI',
-            'phone' => '123456789',
-            'email' => 'joel@yopmail.com',
-            'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
-            'favorite' => false,
-            'two_factor_secret' => null,
-            'two_factor_recovery_codes' => null,
-            'remember_token' => Str::random(10),
-            'profile_photo_path' => null,
-            'current_team_id' => null,
-        ]);
-
-        \App\Models\User::factory()->create([
-            'name' => 'Sandra',
-            'surname' => 'Sandra',
-            'document' => '12345678',
-            'document_type' => 'DNI',
-            'phone' => '123456789',
-            'email' => 'sandra@yopmail.com',
             'password' => '$2y$10$nJDvcBbax3S3Q4JEMreuWOkaG6DW6COUHmKjXs2zpnsV8Yk9XNBlO', // 12345678
             'favorite' => false,
             'two_factor_secret' => null,
@@ -112,11 +81,17 @@ class DatabaseSeeder extends Seeder
 
         $reservations = Reservation::all();
 
-        foreach ($users as $user) {
-            $user->reservations()->attach(
-                $reservations->random(rand(1, 3))->pluck('id')->toArray()
+        foreach ($reservations as $reservation) {
+            $reservation->users()->attach(
+                $users->random(rand(1, 3))->pluck('id')->toArray()
             , ['total' => random_int(50, 100), 'reserver' => true]);
         }
+
+        // foreach ($users as $user) {
+        //     $user->reservations()->attach(
+        //         $reservations->random(rand(1, 3))->pluck('id')->toArray()
+        //     , ['total' => random_int(50, 100), 'reserver' => true]);
+        // }
 
         $tours = Tour::factory(20)->create();
         foreach ($tours as $tour) {

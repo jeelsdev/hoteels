@@ -17,8 +17,8 @@ class ExpenseFactory extends Factory
      */
     public function definition(): array
     {
-        $startDate = Carbon::now()->subDays(4);
-        $endDate = Carbon::now()->addDays(4);
+        $startDate = Carbon::now()->subDays(rand(1, 180));
+        $endDate = Carbon::now();
         $createdAt = $this->faker->dateTimeBetween($startDate, $endDate);
         return [
             'description' => $this->faker->words(1, true),
