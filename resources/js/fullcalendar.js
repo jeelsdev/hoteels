@@ -9,10 +9,10 @@ document.addEventListener('DOMContentLoaded', function() {
   let title = '';
   let total = 0;
   let originE = '';
-      console.log(window.reservations);
+  if(window.reservations === undefined) return;
   const dayNames = ['Domingo', 'Lunes', 'Martes', 'Miércoles', 'Jueves', 'Viernes', 'Sábado'];
-  if (window.reservations.length > 0)
-  {console.log(window.reservations);
+  if (window.reservations !== undefined)
+  {
     window.reservations.forEach(event => {
       switch (event.status) {
         case 'pending':
@@ -54,7 +54,7 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  if (window.rooms.length > 0)
+  if (window.rooms !== undefined)
   {
     window.rooms.forEach(room => {
       rooms.push({
@@ -68,7 +68,6 @@ document.addEventListener('DOMContentLoaded', function() {
   const calendarEl = document.getElementById('calendar')
   const calendar = new Calendar(calendarEl, {
     locales: 'es',
-    width: 100000000,
 
    headerToolbar: {
       left: 'today prev,next',
@@ -84,7 +83,6 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     schedulerLicenseKey: 'GPL-My-Project-Is-Open-Source',
     aspectRatio: 2,
-    width: 'auto',
     height: 'auto',
     initialView: 'resourceTimelineMonth',
     plugins: [ resourceTimelinePlugin ],
@@ -121,14 +119,24 @@ document.addEventListener('DOMContentLoaded', function() {
         }
       }
     },
+    datesSet: function(info) {
+      const today = new Date();
+      // if(today.getDate > 15){
+        calendar.scrollToTime({
+          day: today.getDate(),
+          month: today.getMonth(),
+          year: today.getFullYear()
+        });
+      // }
+    }
   })
   calendar.render()
 })
 
 const handleDateClick = (info) => {
-  Livewire.dispatch('openModalCreate', { data: info });
+  Livewire.dispatch('create-reservation', { data: info });
 }
 
 const handleEventClick = (info) => {
-  Livewire.dispatch('open-modal-edit', { data: info });
+  Livewire.dispatch('edit-reservation', { data: info });
 }

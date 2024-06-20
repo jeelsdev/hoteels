@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Admin\Room;
 
+use App\Models\Floor;
 use App\Models\Room;
 use App\Models\RoomType;
 use Livewire\Attributes\Validate;
@@ -10,12 +11,13 @@ use Livewire\Component;
 class CreateRoom extends Component
 {
     public $roomTypes = [];
+    public $floors = [];
 
-    #[Validate(['required'])]
+    #[Validate(['required', 'exists:room_types,id'])]
     public $roomType;
-    #[Validate(['required'])]
+    #[Validate(['required', 'unique:rooms,code'])]
     public $code;
-    #[Validate(['required', 'numeric'])]
+    #[Validate(['required', 'exists:floors,id'])]
     public $floor;
     public $description;
 
@@ -42,6 +44,7 @@ class CreateRoom extends Component
     public function render()
     {
         $this->roomTypes = RoomType::all();
+        $this->floors = Floor::all();
         return view('livewire.admin.room.create-room');
     }
 }

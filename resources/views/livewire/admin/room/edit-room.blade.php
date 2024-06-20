@@ -13,7 +13,7 @@
                                 <x-apps.select id="roomType" class="chosen-select mt-1 block w-full" wire:model="roomType">
                                     <option value=""></option>
                                     @foreach($roomTypes as $roomType)
-                                        <option value="{{ $roomType->id }}">{{ getEnumValue('RoomType', $roomType->description) }}</option>
+                                        <option value="{{ $roomType->id }}">{{ $roomType->denomination }}</option>
                                     @endforeach
                                 </x-apps.select>
                                 <x-input-error for="roomType" class="mt-2" />

@@ -29,6 +29,18 @@ class Reservation extends Model
 
     protected $with = ['users', 'payment', 'xtras', 'tours'];
 
+    public function reservationsFromPreviousDay()
+    {
+        return Reservation::whereDate('created_at', today()->subDay())
+            ->count();
+    }
+
+    public function reservationsFromCurrentDay()
+    {
+        return Reservation::whereDate('created_at', today())
+            ->count();
+    }
+
     public function profits()
     {
         $totalSales =  Payment::whereDate('created_at', today())
@@ -64,11 +76,11 @@ class Reservation extends Model
 
     public function xtras()
     {
-        return $this->belongsToMany(Xtra::class)->withPivot('total');
+        return $this->belongsToMany(Xtra::class)->withPivot('total', 'amount', 'paid');
     }
 
     public function tours()
     {
-        return $this->belongsToMany(Tour::class)->withPivot('total');
+        return $this->belongsToMany(Tour::class)->withPivot('total', 'amount', 'paid');
     }
 }

@@ -19,14 +19,17 @@ class ReservationFactory extends Factory
      */
     public function definition(): array
     {
-        $date = Carbon::now();
-        $date->addDays(random_int(1, 30));
+        $startDate = Carbon::now()->subDays(rand(0, 365));
+        $endDate = $startDate->copy()->addDays(rand(1, 4));
+
         return [
-            'entry_date' => $date,
-            'exit_date' => $date->copy()->addDays(1),
+            'entry_date' => $startDate,
+            'exit_date' => $endDate,
             'status' => Status::getRandomValue(),
             'origin' => Origin::getRandomValue(),
             'comments' => $this->faker->sentence(),
+            'created_at' => $startDate,
+            'updated_at' => $endDate,
         ];
     }
 }

@@ -15,7 +15,9 @@ return new class extends Migration
             $table->id();
             $table->foreignId('tour_id');
             $table->foreignId('reservation_id');
+            $table->string('amount')->nullable();
             $table->string('total')->nullable();
+            $table->string('paid')->nullable();
         });
     }
 

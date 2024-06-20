@@ -12,14 +12,14 @@
             Crear habitación
         </x-apps.link-button>
     </div>
-    <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm lg:p-5 sm:flex">
+    <div class="block justify-between items-center mx-4 mt-4 bg-white rounded-sm p-5 sm:flex">
         <div class="mb-1 w-full">
             <div class="block items-center sm:flex md:divide-x md:divide-gray-100">
-                <div class="relative mt-1 sm:w-64 xl:w-96">
+                <div class="relative mt-1 sm:w-64 xl:w-96 mb-2 md:mb-0">
                     <x-apps.input wire:model.live="search" placeholder="Buscar por código">
                     </x-apps.input>
                 </div>
-                <div class="flex items-center w-full sm:justify-end gap-5">
+                <div class="flex items-center w-full sm:justify-end gap-1 md:gap-5">
                     <div>
                         <x-apps.label for="roomType" class="text-gray-500">Tipo de habitación</x-apps.label>
                         <x-apps.select wire:model.live="roomType" id="roomType" name="roomType">
@@ -53,6 +53,9 @@
                     Codigo
                 </th>
                 <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                    Descripción
+                </th>
+                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
                     Tipo de habitación
                 </th>
                 <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
@@ -60,6 +63,9 @@
                 </th>
                 <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
                     Piso
+                </th>
+                <th scope="col" class="p-4 text-xs font-medium text-left text-gray-500 uppercase lg:p-5">
+                    Estado
                 </th>
                 <th scope="col" class="p-4 lg:p-5 w-5">
                 </th>
@@ -81,14 +87,20 @@
                     <td class="px-4 py-1 lg:px-5 lg:py-2 text-base font-medium text-gray-900 whitespace-nowrap">
                         {{ $room->code }}
                     </td>
+                    <td class="px-4 py-1 lg:px-5 lg:py-2 text-base font-medium text-gray-900 whitespace-nowrap w-1/3">
+                        {{ $room->description }}
+                    </td>
                     <td class="px-4 py-1 lg:px-5 lg:py-2 text-base font-medium text-gray-900 whitespace-nowrap">
-                        {{ getEnumValue('RoomType', $room->roomType->description) }}
+                        {{ $room->roomType->description }}
                     </td>
                     <td class="px-4 py-1 lg:px-5 lg:py-2 text-base font-medium text-gray-900 whitespace-nowrap">
                         {{ $room->roomType->price }}
                     </td>
                     <td class="px-4 py-1 lg:px-5 lg:py-2 text-base font-medium text-gray-900 whitespace-nowrap">
                         {{ $room->floor }}
+                    </td>
+                    <td class="px-4 py-1 lg:px-5 lg:py-2 text-base font-medium text-gray-900 whitespace-nowrap">
+                        {{-- {{ getEnumValue('RoomStatus', $room->status) }} --}}Disponible
                     </td>
                     <td class="px-4 py-1 lg:px-5 lg:py-2 space-x-2 whitespace-nowrap flex">
                         <a href="{{ route('room.edit', ['id'=>$room->id]) }}" class="block">
@@ -101,14 +113,14 @@
                                     clip-rule="evenodd"></path>
                             </svg>
                         </a>
-                        <button type="button">
+                        {{-- <button type="button">
                             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 20 20"
                                 xmlns="http://www.w3.org/2000/svg">
                                 <path fill-rule="evenodd"
                                     d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
                                     clip-rule="evenodd"></path>
                             </svg>
-                        </button>
+                        </button> --}}
                     </td>
                 </tr>
             @endforeach

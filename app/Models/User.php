@@ -64,6 +64,18 @@ class User extends Authenticatable
         'profile_photo_url',
     ];
 
+    public function newUsersFromPreviousDay()
+    {
+        return User::whereDate('created_at', today()->subDay())
+            ->count();
+    }
+
+    public function newUsersFromCurrentDay()
+    {
+        return User::whereDate('created_at', today())
+            ->count();
+    }
+
     public function newUsers()
     {
         return User::whereDate('created_at', today())
@@ -72,6 +84,6 @@ class User extends Authenticatable
 
     public function reservations()
     {
-        return $this->belongsToMany(Reservation::class);
+        return $this->belongsToMany(Reservation::class)->withPivot('total', 'reserver');
     }
 }

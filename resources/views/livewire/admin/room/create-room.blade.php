@@ -13,7 +13,7 @@
                                 <x-apps.select id="roomType" class="chosen-select mt-1 block w-full" wire:model="roomType">
                                     <option value=""></option>
                                     @foreach($roomTypes as $roomType)
-                                    <option value="{{ $roomType->id }}">{{ getEnumValue('RoomType', $roomType->description) }}</option>
+                                    <option value="{{ $roomType->id }}">{{ $roomType->description }}</option>
                                     @endforeach
                                 </x-apps.select>
                                 <x-input-error for="roomType" class="mt-2" />
@@ -26,7 +26,12 @@
                                 </div>
                                 <div>
                                     <x-label for="floor" value="Piso" />
-                                    <x-input id="floor" type="text" class="mt-1 block w-full" wire:model="floor"/>
+                                    <x-apps.select id="floor" class="chosen-select mt-1 block w-full" wire:model="floor">
+                                        <option value=""></option>
+                                        @foreach($floors as $floor)
+                                        <option value="{{ $floor->id }}">{{ $floor->description }}</option>
+                                        @endforeach
+                                    </x-apps.select>
                                     <x-input-error for="floor" class="mt-2" />
                                 </div>
                                 

@@ -1,4 +1,4 @@
-<div class="grid grid-cols-1 gap-6 mb-6 w-full md:grid-cols-2 lg:grid-cols-2">
+<div class="grid grid-cols-1 gap-6 mb-6 w-full lg:grid-cols-2">
     <div class="bg-white rounded-sm p-4 ">
         <div class="flex items-center">
             <div class="flex-shrink-0 ml-3">

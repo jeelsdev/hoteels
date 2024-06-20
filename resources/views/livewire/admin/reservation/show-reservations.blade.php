@@ -6,20 +6,8 @@
         </script>
     @endscript
 
-    <livewire:admin.reservation.create-reservation />
-    <livewire:admin.reservation.edit-reservation />
-    
     <div class="calendar-container">
         <div id="calendar"></div>
     </div>
 
-    @script
-        <script>
-            window.handleEventClick = (info) => {
-                console.log(info)
-                $wire.dispatch('abrir-modal-evento', { data: info });
-                console.log("evento clickeado")
-                }
-        </script>
-    @endscript
-</div> 
+</div>

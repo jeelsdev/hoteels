@@ -18,6 +18,7 @@ return new class extends Migration
             $table->foreign('room_type_id')->references('id')->on('room_types');
             $table->integer('floor');
             $table->string('description');
+            $table->string('status')->default('available');
             $table->timestamps();
         });
     }
