@@ -16,6 +16,6 @@ class Xtra extends Model
 
     public function reservations()
     {
-        return $this->belongsToMany(Reservation::class)->withPivot('total');
+        return $this->belongsToMany(Reservation::class)->withPivot('total', 'amount', 'paid');
     }
 }
