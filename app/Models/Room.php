@@ -22,4 +22,9 @@ class Room extends Model
     {
         return $this->belongsTo(RoomType::class, 'room_type_id');
     }
+
+    public function roomHistories()
+    {
+        return $this->hasMany(RoomHistory::class);
+    }
 }

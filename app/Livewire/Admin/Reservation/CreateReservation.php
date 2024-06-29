@@ -7,6 +7,7 @@ use App\Enums\Status;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\Room;
+use App\Models\RoomHistory;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Xtra;
@@ -387,6 +388,13 @@ class CreateReservation extends Component
             'status' => $this->status,
             'origin' => $this->origin,
             'comments' => $this->comments,
+        ]);
+
+        RoomHistory::create([
+            'room_id' => $this->room_id,
+            'status' => 'occupied',
+            'from' => $this->start_date,
+            'to' => $this->end_date,
         ]);
 
         Payment::create([
