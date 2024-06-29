@@ -120,12 +120,12 @@ class CreateReservation extends Component
             ->first();
 
         if (!isset($user)) {
-            $this->reset([
+            /*$this->reset([
                 "usersTotal.$key.name",
                 "usersTotal.$key.lastName",
                 "usersTotal.$key.email",
                 "usersTotal.$key.phone",
-            ]);
+            ]);*/
             $this->addError("usersTotal.$key.document", "Usuario no encontrado");
             return;
         }
