@@ -34,7 +34,7 @@
             </x-partials.link-sidebar>
           </li>
           <li>
-            <x-partials.link-sidebar href="{{ route('room.index') }}" :active="Route::is('room.index')">
+            <x-partials.link-sidebar href="{{ route('room.rooms') }}" :active="Route::is('room.index')">
                 <x-slot:svg >
                   <img src="{{ asset('images/svg/room.svg') }}" alt="room" class="w-6">
                 </x-slot:svg>

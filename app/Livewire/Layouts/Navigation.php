@@ -77,6 +77,10 @@ class Navigation extends Component
         $this->items = [
             [
                 'name' => 'Habitaciones',
+                'route' => 'room.rooms'
+            ],
+            [
+                'name' => 'Lista',
                 'route' => 'room.index'
             ],
             [

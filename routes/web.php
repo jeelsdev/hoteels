@@ -14,6 +14,8 @@ use App\Livewire\Admin\Reservation\ShowReservations;
 use App\Livewire\Admin\Room\CreateRoom;
 use App\Livewire\Admin\Room\EditRoom;
 use App\Livewire\Admin\Room\Floor\Floor;
+use App\Livewire\Admin\Room\Rooms;
+use App\Livewire\Admin\Room\SeeRoom;
 use App\Livewire\Admin\Room\ShowRooms;
 use App\Livewire\Admin\Room\Type\Types;
 use App\Livewire\Admin\Service\Tour\CreateTour;
@@ -61,8 +63,10 @@ Route::middleware([
         Route::get('/', ShowRooms::class)->name('room.index');
         Route::get('/create', CreateRoom::class)->name('room.create');
         Route::get('/edit/{id}', EditRoom::class)->name('room.edit');
+        Route::get('/show/{id}', SeeRoom::class)->name('room.see');
         Route::get('/floor', Floor::class)->name('room.floor');
         Route::get('/types', Types::class)->name('room.types');
+        Route::get('/rooms', Rooms::class)->name('room.rooms');
     });
     
     Route::prefix('room')->group(function () {
