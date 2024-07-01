@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Room\Floor;
 
 use App\Models\Floor;
+use App\Livewire\Admin\Room\Floor\Floor as RoomFloor;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
@@ -36,7 +37,7 @@ class CreateFloor extends Component
         $this->reset(['description', 'denomination']);
         $this->create = true;
         session()->flash('flash.message', 'Tipo de habitación actualizado correctamente.');
-        $this->dispatch('refreshFloors')->to(Floor::class);
+        $this->dispatch('refreshFloors')->to(RoomFloor::class);
     }
 
     public function save()
@@ -48,7 +49,7 @@ class CreateFloor extends Component
         ]);
         $this->reset(['description', 'denomination']);
         session()->flash('flash.message', 'Servicio: extra agregado correctamente.');
-        $this->dispatch('refreshFloors')->to(Floor::class);
+        $this->dispatch('refreshFloors')->to(RoomFloor::class);
     }
 
     public function render()
