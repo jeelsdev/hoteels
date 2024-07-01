@@ -121,13 +121,13 @@ document.addEventListener('DOMContentLoaded', function() {
     },
     datesSet: function(info) {
       const today = new Date();
-      // if(today.getDate > 15){
+      if(today.getDate() > 15){
         calendar.scrollToTime({
           day: today.getDate(),
           month: today.getMonth(),
           year: today.getFullYear()
         });
-      // }
+      }
     }
   })
   calendar.render()
