@@ -475,7 +475,7 @@ class CreateReservation extends Component
         $this->price = $room->roomType->price;
         $this->roomCode = $room->code;
         $this->floor = $room->floor;
-        $this->roomType = $room->roomType->denomination;
+        $this->roomType = $room->roomType->description;
         $this->numberReservation = Reservation::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count() + 1;
 
         $this->calculateTotalPrice();

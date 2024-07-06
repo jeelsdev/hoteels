@@ -50,7 +50,7 @@
                     <div class="grid grid-cols-4 mt-5 transition-all duration-300 {{ $showRoom ? '' : 'hidden' }}">
                         <div class="col-span-1">
                             <span class="text-gray-500 text-sm">Tipo</span>
-                            <p>{{ getEnumValue('RoomType', $roomType) }}</p>
+                            <p>{{ $roomType }}</p>
                         </div>
                         <div class="col-span-1">
                             <span class="text-gray-500 text-sm">Piso</span>
