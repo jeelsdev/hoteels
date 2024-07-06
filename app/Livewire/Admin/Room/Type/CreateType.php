@@ -14,7 +14,7 @@ class CreateType extends Component
 
     #[Validate('required', 'max:50')]
     public $description;
-    #[Validate(['required', 'size:1', 'alpha'])]
+    #[Validate(['required', 'max:20'])]
     public $denomination;
     #[Validate(['required', 'numeric'])]
     public $price;

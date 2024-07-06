@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Room\Type;
 
 use App\Models\RoomType;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Types extends Component
@@ -16,6 +17,7 @@ class Types extends Component
             })->orderBy('created_at','desc')
             ->get();
     }
+    #[On('refreshTypes')]
     public function render()
     {
         $this->getRoomTypes();
