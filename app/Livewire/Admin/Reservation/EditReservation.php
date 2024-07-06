@@ -47,7 +47,7 @@ class EditReservation extends Component
     public $total_xtras = 0;
     public $total_tours = 0;
 
-    #[Validate(['numeric', 'regex:/^\d+$/'])]
+    #[Validate(['numeric'])]
     public $price;
 
     public $comments;
@@ -407,7 +407,7 @@ class EditReservation extends Component
         
         $this->reservation->users()->detach();
         foreach ($this->usersTotal as $key => $user) {
-            if ($key == 0) {
+            if ($key == 0 || empty($user['document']) || empty($user['documentType'])) {
                 continue;
             }
 
@@ -583,10 +583,10 @@ class EditReservation extends Component
     public function createWithNewUser($user)
     {
         $createdUser = User::create([
-            'name' => $user['name'],
-            'surname' => $user['lastName'],
-            'email' => $user['email'],
-            'phone' => $user['phone'],
+            'name' => isset($user['name']) ? $user['name'] : '',
+            'surname' => isset($user['lastName']) ? $user['lastName'] : '',
+            'email' => isset($user['email']) ? $user['email'] : '',
+            'phone' => isset($user['phone']) ? $user['phone'] : '',
             'document_type' => $user['documentType'],
             'document' => $user['document'],
             'password' => bcrypt('password'),
@@ -611,10 +611,10 @@ class EditReservation extends Component
         if ($this->userFavorite) {
             $findUser->favorite = true;
         }
-        $findUser->name = $user['name'];
-        $findUser->surname = $user['lastName'];
-        $findUser->email = $user['email'];
-        $findUser->phone = $user['phone'];
+        $findUser->name = isset($user['name']) ? $user['name'] : '';
+        $findUser->surname = isset($user['lastName']) ? $user['lastName'] : '';
+        $findUser->email = isset($user['email']) ? $user['email'] : '';
+        $findUser->phone = isset($user['phone']) ? $user['phone'] : '';
         $findUser->document_type = $user['documentType'];
         $findUser->document = $user['document'];
         $findUser->save();
