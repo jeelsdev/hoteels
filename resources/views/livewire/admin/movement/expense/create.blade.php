@@ -15,7 +15,7 @@
                             </div>
                             <div>
                                 <x-label for="amount" value="Monto" />
-                                <x-input id="amount" type="number" step="0.01" class="mt-1 block w-full" wire:model="amount"/>
+                                <x-input id="amount" type="number" step="any" class="mt-1 block w-full" wire:model="amount"/>
                                 <x-input-error for="amount" class="mt-2" />
                             </div>
                             

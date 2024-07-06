@@ -58,7 +58,7 @@
                         </div>
                         <div class="col-span-2">
                             <x-label for="price" value="Precio" />
-                            <x-input id="price" type="number" class="mt-1 block w-full" wire:model.live="price"
+                            <x-input id="price" type="number" step="any" class="mt-1 block w-full" wire:model.live="price"
                                 min="0" max="100000" />
                         </div>
                     </div>
@@ -203,7 +203,7 @@
                                 <x-input-error for="toursPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
-                                <x-input id="toursPayment" type="number" class="mt-1 block w-full"
+                                <x-input id="toursPayment" type="number" step="any" class="mt-1 block w-full"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.price"
                                     placeholder="Precio" wire:change="calculateTotalPrice()" />
                                 <x-input-error for="toursPayment.{{ $key }}{{ $value }}.price" class="mt-2" />
@@ -322,14 +322,14 @@
                     <div class="grid grid-cols-2 gap-5 mt-2">
                         <div class="content_payment {{ !$showAdvanceReservation ? 'hidden' : '' }}">
                             <x-label for="advance_reservation" value="Ingresar adelanto" />
-                            <x-input id="advance_reservation" type="number" class="mt-1 block w-full"
+                            <x-input id="advance_reservation"  step="any" class="mt-1 block w-full"
                                 wire:model.live="advance_reservation" min="1"
                                 max="{{ $total_reservation }}" />
                             <x-input-error for="advance_reservation" class="mt-2" />
                         </div>
                         <div class="content_payment {{ !$showAdvanceReservation ? 'hidden' : '' }}">
                             <x-label for="pending_payment" value="Monto pendiente" class="text-gray-500" />
-                            <x-input id="pending_payment" type="number" class="mt-1 block w-full"
+                            <x-input id="pending_payment" type="number" step="any" class="mt-1 block w-full"
                                 wire:model="pending_payment" disabled />
                             <x-input-error for="pending_payment" class="mt-2" />
                         </div>
@@ -370,7 +370,7 @@
                                 <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
-                                <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
+                                <x-input id="xtrasPayment" type="number" step="any" class="mt-1 block w-full"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.price"
                                     wire:change="calculateTotalPrice()" placeholder="Precio" />
                                 <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.price" class="mt-2" />
