@@ -11,7 +11,9 @@
             <div class="col">
                 <div class="border border-gray-300 rounded-sm p-4 bg-gray-100">
                     <div class="flex justify-between">
-                        <h2 class="">Reserva #{{ $numberReservation }} - <b>{{ $nights }} noches</b></h2>
+                        <h2 class="">Reserva #{{ $numberReservation }} - <b>{{ $nights }} noches</b>
+                            <span class="pl-3 text-gray-500">COD: {{ $reservationCode }}</span>
+                        </h2>
                         <button type="button" wire:click="$toggle('showTimeSetting')">
                             @if ($showTimeSetting)
                                 <img src="{{ asset('images/svg/arrow-up.svg') }}" alt="Editar" width="20" />

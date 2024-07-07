@@ -16,8 +16,6 @@ class ShowReservations extends Component
     public function editRedirect($data)
     {
         $data = [
-            'start' => $data['event']['start'],
-            'end' => $data['event']['end'],
             'resource' => $data['event']['extendedProps']['custom_data']['room_id'],
             'reservation' => $data['event']['extendedProps']['custom_data']['reservation_id'],
         ];

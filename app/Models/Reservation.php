@@ -18,13 +18,14 @@ class Reservation extends Model
         'status',
         'origin',
         'comments',
+        'reservation_code'
     ];
 
     protected $cast = [
         'origin' => Origin::class,
         'status' => Status::class,
-        'entry_date' => 'date',
-        'exit_date' => 'date',
+        'entry_date' => 'datetime',
+        'exit_date' => 'datetime',
     ];
 
     protected $with = ['users', 'payment', 'xtras', 'tours'];

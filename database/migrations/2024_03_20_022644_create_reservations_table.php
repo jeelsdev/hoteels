@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('reservations', function (Blueprint $table) {
             $table->id();
+            $table->string('reservation_code')->unique();
             $table->timestamp('entry_date');
             $table->timestamp('exit_date')->nullable();
             $table->string('origin');

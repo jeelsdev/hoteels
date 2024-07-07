@@ -13,6 +13,24 @@ class ReservationList extends Component
     public $fromDate;
     public $toDate;
     public $total;
+    public $search;
+    public $openModalDelete = false;
+    public $reservationModalId;
+    public function openModalD($id)
+    {
+        $this->openModalDelete = true;
+        $this->reservationModalId = $id;
+    }
+    public function reservationDelete($id)
+    {
+        $reservation = Reservation::findOrFail($id);
+        $reservation->payment->delete();
+        $reservation->users()->detach();
+        $reservation->xtras()->detach();
+        $reservation->tours()->detach();
+        $reservation->delete();
+        $this->openModalDelete = false;
+    }
 
     public function updateData()
     {
@@ -38,7 +56,9 @@ class ReservationList extends Component
             'users',
             'payment',
             'room'
-        ])->when($this->fromDate, function ($query) {
+        ])->when($this->search, function ($query) {
+            $query->where('reservation_code', 'like', '%'.$this->search.'%');
+        })->when($this->fromDate, function ($query) {
             $query->whereDate('entry_date', '>=', $this->fromDate);
         })->when($this->toDate, function ($query) {
             $query->whereDate('entry_date', '<=', $this->toDate);

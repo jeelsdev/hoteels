@@ -80,6 +80,7 @@ class EditReservation extends Component
     public $showTimeSetting = false;
     public $showAdvanceReservation = false;
     public $numberReservation;
+    public $reservationCode;
 
     // debt
     public $debtTour;
@@ -468,10 +469,10 @@ class EditReservation extends Component
         
         parse_str($query, $data);
         try {
-            $dateStart = Carbon::parse($data['start']);
-            $dateEnd = Carbon::parse($data['end']);
             $this->room = Room::findOrFail($data['resource']);
             $this->reservation = Reservation::findOrFail($data['reservation']);
+            $dateStart = Carbon::parse($this->reservation->entry_date);
+            $dateEnd = Carbon::parse($this->reservation->exit_date);
         } catch (\Throwable $th) {
             session()->flash('flash.message', '¡No se encontró la reservación!');
             return redirect()->route('reservation.index');
@@ -484,6 +485,8 @@ class EditReservation extends Component
         $this->start_time = $dateStart->format('H:i');
         $this->end_time = $dateEnd->format('H:i');
         $this->origin = $this->reservation->origin;
+        $partsCode = explode('-', $this->reservation->reservation_code);
+        $this->reservationCode = $partsCode[0].'-'.$partsCode[1];
 
         if($this->reservation->users->isEmpty())
         {

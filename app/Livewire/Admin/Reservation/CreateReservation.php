@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class CreateReservation extends Component
 {
@@ -392,6 +393,7 @@ class CreateReservation extends Component
             'status' => $this->status,
             'origin' => $this->origin,
             'comments' => $this->comments,
+            'reservation_code' => Str::uuid()->toString(),
         ]);
 
         RoomHistory::create([
