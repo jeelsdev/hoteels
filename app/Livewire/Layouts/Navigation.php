@@ -20,6 +20,18 @@ class Navigation extends Component
         }
     }
 
+    public function profile()
+    {
+        $this->items = [
+            [
+                'name' => 'Configuración',
+                'route' => 'profile.show'
+            ],
+        ];
+        $this->icon = 'users.svg';
+        $this->title = 'Perfil';
+    }
+
     public function movement()
     {
         $this->items = [
@@ -138,6 +150,7 @@ class Navigation extends Component
             in_array('service',$urisegments) => $this->service(),
             in_array('room',$urisegments) => $this->room(),
             in_array('movement',$urisegments) => $this->movement(),
+            in_array('profile',$urisegments) => $this->profile(),
         };
     }
 
