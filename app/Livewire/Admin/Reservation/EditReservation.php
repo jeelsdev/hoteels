@@ -453,11 +453,7 @@ class EditReservation extends Component
                 ]]);
             }
         }
-
-        $this->resetInputs();
-
         session()->flash('flash.message', '¡Reservación actualizada correctamente!');
-
         return redirect()->route('reservation.index');
     }
 
