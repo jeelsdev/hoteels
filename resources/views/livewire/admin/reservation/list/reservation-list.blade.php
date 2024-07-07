@@ -38,8 +38,8 @@
                 @foreach ($reservationLists as $key => $reservation)
                     <tr class="border-b border-neutral-200">
                         <td class="whitespace-nowrap py-1 font-medium text-center">{{ $reservation->id }}</td>
-                        <td class="whitespace-nowrap py-1">{{ getFormattedDate($reservation->entry_date)  }}</td>
-                        <td class="whitespace-nowrap py-1">{{ getFormattedDate($reservation->exit_date) }}</td>
+                        <td class="whitespace-nowrap py-1">{{ getFormattedDate($reservation->entry_date, 'Y-m-d H:i')  }}</td>
+                        <td class="whitespace-nowrap py-1">{{ getFormattedDate($reservation->exit_date, 'Y-m-d H:i') }}</td>
                         <td class="whitespace-nowrap py-1">{{ $reservation->room->code }}</td>
                         <td class="whitespace-nowrap py-1">{{ $reservation->users[0]->name }}</td>
                         <td class="whitespace-nowrap py-1">{{ $reservation->users[0]->email }}</td>

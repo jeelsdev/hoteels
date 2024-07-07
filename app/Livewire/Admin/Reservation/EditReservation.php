@@ -30,7 +30,10 @@ class EditReservation extends Component
 
     #[Validate('required')]
     public $end_date;
-
+    #[validate('required')]
+    public $start_time;
+    #[validate('required')]
+    public $end_time;
     public $roomCode;
     public $floor;
     public $roomType;
@@ -74,7 +77,7 @@ class EditReservation extends Component
 
     public $showUser = 1;
     public $showRoom = false;
-
+    public $showTimeSetting = false;
     public $showAdvanceReservation = false;
     public $numberReservation;
 
@@ -386,8 +389,8 @@ class EditReservation extends Component
             $this->validate($rules, $messages);
         }
 
-        $this->reservation->entry_date = $this->start_date;
-        $this->reservation->exit_date = $this->end_date;
+        $this->reservation->entry_date = Carbon::parse($this->start_date. ' ' . $this->start_time);
+        $this->reservation->exit_date =  Carbon::parse($this->end_date. ' ' . $this->end_time);
         $this->reservation->room_id = $this->room->id;
         $this->reservation->status = $this->status;
         $this->reservation->origin = $this->origin;
@@ -482,6 +485,8 @@ class EditReservation extends Component
         $this->numberReservation = $this->reservation->id;
         $this->start_date = $dateStart->format('Y-m-d');
         $this->end_date = $dateEnd->format('Y-m-d');
+        $this->start_time = $dateStart->format('H:i');
+        $this->end_time = $dateEnd->format('H:i');
         $this->origin = $this->reservation->origin;
 
         if($this->reservation->users->isEmpty())

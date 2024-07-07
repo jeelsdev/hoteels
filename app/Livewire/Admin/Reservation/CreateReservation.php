@@ -32,7 +32,10 @@ class CreateReservation extends Component
 
     #[Validate('required')]
     public $end_date;
-
+    #[validate('required')]
+    public $start_time;
+    #[validate('required')]
+    public $end_time;
     #[Validate('required')]
     public $room_id;
     public $roomCode;
@@ -78,6 +81,7 @@ class CreateReservation extends Component
 
     public $showUser = 1;
     public $showRoom = false;
+    public $showTimeSetting = false;
 
     public $showAdvanceReservation = false;
     public $numberReservation;
@@ -382,8 +386,8 @@ class CreateReservation extends Component
         }
 
         $reservation = Reservation::create([
-            'entry_date' => $this->start_date,
-            'exit_date' => $this->end_date,
+            'entry_date' => Carbon::parse($this->start_date. ' ' . $this->start_time),
+            'exit_date' => Carbon::parse($this->end_date. ' ' . $this->end_time),
             'room_id' => $this->room_id,
             'status' => $this->status,
             'origin' => $this->origin,
@@ -472,6 +476,8 @@ class CreateReservation extends Component
         $this->open = true;
         $this->start_date = $date->format('Y-m-d');
         $this->end_date = $date->addDay()->format('Y-m-d');
+        $this->start_time = '10:00';
+        $this->end_time = '12:00';
         $this->price = $room->roomType->price;
         $this->roomCode = $room->code;
         $this->floor = $room->floor;

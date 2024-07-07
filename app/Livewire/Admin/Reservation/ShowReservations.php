@@ -30,7 +30,7 @@ class ShowReservations extends Component
     public function createRedirect($data)
     {
         $data = [
-            'date' => $data['date'],
+            'date' => $data['dateStr'],
             'resource' => $data['resource']['id'],
         ];
         $data = http_build_query($data);
