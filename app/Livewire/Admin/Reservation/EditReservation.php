@@ -7,6 +7,7 @@ use App\Enums\Status;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\Room;
+use App\Models\RoomHistory;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Xtra;
@@ -388,6 +389,16 @@ class EditReservation extends Component
             }
 
             $this->validate($rules, $messages);
+        }
+
+        if($this->reservation->entry_date != Carbon::parse($this->start_date. ' ' . $this->start_time) || $this->reservation->exit_date != Carbon::parse($this->end_date. ' ' . $this->end_time))
+        {
+            RoomHistory::create([
+                'room_id' => $this->reservation->room_id,
+                'status' => 'clean',
+                'from' => Carbon::parse($this->start_date. ' ' . $this->start_time),
+                'to' => Carbon::parse($this->end_date. ' ' . $this->end_time),
+            ]);
         }
 
         $this->reservation->entry_date = Carbon::parse($this->start_date. ' ' . $this->start_time);

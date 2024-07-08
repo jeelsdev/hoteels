@@ -398,9 +398,9 @@ class CreateReservation extends Component
 
         RoomHistory::create([
             'room_id' => $this->room_id,
-            'status' => 'occupied',
-            'from' => $this->start_date,
-            'to' => $this->end_date,
+            'status' => 'clean',
+            'from' => Carbon::parse($this->start_date. ' ' . $this->start_time),
+            'to' => Carbon::parse($this->end_date. ' ' . $this->end_time),
         ]);
 
         Payment::create([
@@ -474,7 +474,7 @@ class CreateReservation extends Component
         $this->open = true;
         $this->start_date = $date->format('Y-m-d');
         $this->end_date = $date->addDay()->format('Y-m-d');
-        $this->start_time = '10:00';
+        $this->start_time = $this->start_date == now()->format('Y-m-d') ? now()->format('H:i') : '10:00';
         $this->end_time = '12:00';
         $this->price = $room->roomType->price;
         $this->roomCode = $room->code;
