@@ -13,6 +13,7 @@ class Rooms extends Component
     public $roomTypes;
     public $roomType;
     public $status;
+    public $search;
 
     public function redirectReservation($id)
     {
@@ -62,7 +63,9 @@ class Rooms extends Component
 
     private function getRooms()
     {
-        $this->rooms = Room::when($this->roomType, function ($query) {
+        $this->rooms = Room::when($this->search, function ($query) {
+            return $query->where('code', 'like', '%'.$this->search.'%');
+        })->when($this->roomType, function ($query) {
             return $query->where('room_type_id', $this->roomType);
         })->when($this->status, function ($query) {
             return $query->where('status', $this->status);

@@ -7,6 +7,7 @@ use App\Enums\Status;
 use App\Models\Payment;
 use App\Models\Reservation;
 use App\Models\Room;
+use App\Models\RoomHistory;
 use App\Models\Tour;
 use App\Models\User;
 use App\Models\Xtra;
@@ -30,7 +31,10 @@ class EditReservation extends Component
 
     #[Validate('required')]
     public $end_date;
-
+    #[validate('required')]
+    public $start_time;
+    #[validate('required')]
+    public $end_time;
     public $roomCode;
     public $floor;
     public $roomType;
@@ -47,7 +51,7 @@ class EditReservation extends Component
     public $total_xtras = 0;
     public $total_tours = 0;
 
-    #[Validate(['numeric', 'regex:/^\d+$/'])]
+    #[Validate(['numeric'])]
     public $price;
 
     public $comments;
@@ -74,9 +78,10 @@ class EditReservation extends Component
 
     public $showUser = 1;
     public $showRoom = false;
-
+    public $showTimeSetting = false;
     public $showAdvanceReservation = false;
     public $numberReservation;
+    public $reservationCode;
 
     // debt
     public $debtTour;
@@ -386,8 +391,18 @@ class EditReservation extends Component
             $this->validate($rules, $messages);
         }
 
-        $this->reservation->entry_date = $this->start_date;
-        $this->reservation->exit_date = $this->end_date;
+        if($this->reservation->entry_date != Carbon::parse($this->start_date. ' ' . $this->start_time) || $this->reservation->exit_date != Carbon::parse($this->end_date. ' ' . $this->end_time))
+        {
+            RoomHistory::create([
+                'room_id' => $this->reservation->room_id,
+                'status' => 'clean',
+                'from' => Carbon::parse($this->start_date. ' ' . $this->start_time),
+                'to' => Carbon::parse($this->end_date. ' ' . $this->end_time),
+            ]);
+        }
+
+        $this->reservation->entry_date = Carbon::parse($this->start_date. ' ' . $this->start_time);
+        $this->reservation->exit_date =  Carbon::parse($this->end_date. ' ' . $this->end_time);
         $this->reservation->room_id = $this->room->id;
         $this->reservation->status = $this->status;
         $this->reservation->origin = $this->origin;
@@ -407,7 +422,7 @@ class EditReservation extends Component
         
         $this->reservation->users()->detach();
         foreach ($this->usersTotal as $key => $user) {
-            if ($key == 0) {
+            if ($key == 0 || empty($user['document']) || empty($user['documentType'])) {
                 continue;
             }
 
@@ -450,11 +465,7 @@ class EditReservation extends Component
                 ]]);
             }
         }
-
-        $this->resetInputs();
-
         session()->flash('flash.message', '¡Reservación actualizada correctamente!');
-
         return redirect()->route('reservation.index');
     }
 
@@ -469,10 +480,10 @@ class EditReservation extends Component
         
         parse_str($query, $data);
         try {
-            $dateStart = Carbon::parse($data['start']);
-            $dateEnd = Carbon::parse($data['end']);
             $this->room = Room::findOrFail($data['resource']);
             $this->reservation = Reservation::findOrFail($data['reservation']);
+            $dateStart = Carbon::parse($this->reservation->entry_date);
+            $dateEnd = Carbon::parse($this->reservation->exit_date);
         } catch (\Throwable $th) {
             session()->flash('flash.message', '¡No se encontró la reservación!');
             return redirect()->route('reservation.index');
@@ -482,7 +493,11 @@ class EditReservation extends Component
         $this->numberReservation = $this->reservation->id;
         $this->start_date = $dateStart->format('Y-m-d');
         $this->end_date = $dateEnd->format('Y-m-d');
+        $this->start_time = $dateStart->format('H:i');
+        $this->end_time = $dateEnd->format('H:i');
         $this->origin = $this->reservation->origin;
+        $partsCode = explode('-', $this->reservation->reservation_code);
+        $this->reservationCode = $partsCode[0].'-'.$partsCode[1];
 
         if($this->reservation->users->isEmpty())
         {
@@ -583,10 +598,10 @@ class EditReservation extends Component
     public function createWithNewUser($user)
     {
         $createdUser = User::create([
-            'name' => $user['name'],
-            'surname' => $user['lastName'],
-            'email' => $user['email'],
-            'phone' => $user['phone'],
+            'name' => isset($user['name']) ? $user['name'] : '',
+            'surname' => isset($user['lastName']) ? $user['lastName'] : '',
+            'email' => isset($user['email']) ? $user['email'] : '',
+            'phone' => isset($user['phone']) ? $user['phone'] : '',
             'document_type' => $user['documentType'],
             'document' => $user['document'],
             'password' => bcrypt('password'),
@@ -611,10 +626,10 @@ class EditReservation extends Component
         if ($this->userFavorite) {
             $findUser->favorite = true;
         }
-        $findUser->name = $user['name'];
-        $findUser->surname = $user['lastName'];
-        $findUser->email = $user['email'];
-        $findUser->phone = $user['phone'];
+        $findUser->name = isset($user['name']) ? $user['name'] : '';
+        $findUser->surname = isset($user['lastName']) ? $user['lastName'] : '';
+        $findUser->email = isset($user['email']) ? $user['email'] : '';
+        $findUser->phone = isset($user['phone']) ? $user['phone'] : '';
         $findUser->document_type = $user['documentType'];
         $findUser->document = $user['document'];
         $findUser->save();

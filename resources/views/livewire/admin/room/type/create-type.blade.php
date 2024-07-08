@@ -20,7 +20,7 @@
                             </div>
                             <div>
                                 <x-label for="price" value="Precio" />
-                                <x-input id="price" type="number" class="mt-1 block w-full" wire:model="price"/>
+                                <x-input id="price" type="number" step="any" class="mt-1 block w-full" wire:model="price"/>
                                 <x-input-error for="price" class="mt-2" />
                             </div>
                             

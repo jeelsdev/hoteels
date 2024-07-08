@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Room\Floor;
 
 use App\Models\Floor as ModelsFloor;
+use Livewire\Attributes\On;
 use Livewire\Component;
 
 class Floor extends Component
@@ -16,6 +17,7 @@ class Floor extends Component
             })->orderBy('denomination','asc')
             ->get();
     }
+    #[On('refreshFloors')]
     public function render()
     {
         $this->getFloors();

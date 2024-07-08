@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Room;
 
 use App\Models\Room;
+use App\Models\RoomType;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 use Livewire\Attributes\On;
@@ -30,7 +31,7 @@ class ShowRooms extends Component
                 $query->orderBy('floor', $this->floor);
             })->paginate(20);
 
-        $this->roomTypes = getEnumValues('RoomType');
+        $this->roomTypes = RoomType::all()->keyBy('denomination');
         return view('livewire.admin.room.show-rooms', compact('rooms'));
     }
 }

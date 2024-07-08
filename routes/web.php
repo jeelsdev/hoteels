@@ -97,4 +97,10 @@ Route::middleware([
         Route::get('/daily-income', DailyIncome::class)->name('movement.daily-income');
         Route::get('/expenses', Expenses::class)->name('movement.expenses');
     });
+
+    Route::prefix('profile')->group(function() {
+        Route::get('/config', function(){
+            return view('profile.show');
+        })->name('profile.show');
+    });
 });

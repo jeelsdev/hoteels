@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Livewire\Attributes\On;
 use Livewire\Attributes\Validate;
 use Livewire\Component;
+use Illuminate\Support\Str;
 
 class CreateReservation extends Component
 {
@@ -32,7 +33,10 @@ class CreateReservation extends Component
 
     #[Validate('required')]
     public $end_date;
-
+    #[validate('required')]
+    public $start_time;
+    #[validate('required')]
+    public $end_time;
     #[Validate('required')]
     public $room_id;
     public $roomCode;
@@ -51,7 +55,7 @@ class CreateReservation extends Component
     public $total_xtras = 0;
     public $total_tours = 0;
 
-    #[Validate(['numeric', 'regex:/^\d+$/'])]
+    #[Validate(['numeric'])]
     public $price;
 
     public $comments;
@@ -78,6 +82,7 @@ class CreateReservation extends Component
 
     public $showUser = 1;
     public $showRoom = false;
+    public $showTimeSetting = false;
 
     public $showAdvanceReservation = false;
     public $numberReservation;
@@ -382,19 +387,20 @@ class CreateReservation extends Component
         }
 
         $reservation = Reservation::create([
-            'entry_date' => $this->start_date,
-            'exit_date' => $this->end_date,
+            'entry_date' => Carbon::parse($this->start_date. ' ' . $this->start_time),
+            'exit_date' => Carbon::parse($this->end_date. ' ' . $this->end_time),
             'room_id' => $this->room_id,
             'status' => $this->status,
             'origin' => $this->origin,
             'comments' => $this->comments,
+            'reservation_code' => Str::uuid()->toString(),
         ]);
 
         RoomHistory::create([
             'room_id' => $this->room_id,
-            'status' => 'occupied',
-            'from' => $this->start_date,
-            'to' => $this->end_date,
+            'status' => 'clean',
+            'from' => Carbon::parse($this->start_date. ' ' . $this->start_time),
+            'to' => Carbon::parse($this->end_date. ' ' . $this->end_time),
         ]);
 
         Payment::create([
@@ -409,7 +415,7 @@ class CreateReservation extends Component
         ]);
 
         foreach ($this->usersTotal as $key => $user) {
-            if ($key == 0) {
+            if ($key == 0 || empty($user['document'] || empty($user['documentType']))) {
                 continue;
             }
 
@@ -449,11 +455,7 @@ class CreateReservation extends Component
                 ]);
             }
         }
-
-        $this->resetInputs();
-
         session()->flash('flash.message', '¡Reservación creada con éxito!');
-        // $this->dispatch('reservation-created');
         return redirect()->route('reservation.index');
     }
 
@@ -472,10 +474,12 @@ class CreateReservation extends Component
         $this->open = true;
         $this->start_date = $date->format('Y-m-d');
         $this->end_date = $date->addDay()->format('Y-m-d');
+        $this->start_time = $this->start_date == now()->format('Y-m-d') ? now()->format('H:i') : '10:00';
+        $this->end_time = '12:00';
         $this->price = $room->roomType->price;
         $this->roomCode = $room->code;
         $this->floor = $room->floor;
-        $this->roomType = $room->roomType->denomination;
+        $this->roomType = $room->roomType->description;
         $this->numberReservation = Reservation::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count() + 1;
 
         $this->calculateTotalPrice();
@@ -495,10 +499,10 @@ class CreateReservation extends Component
     public function createWithNewUser($reservation, $user)
     {
         $createdUser = User::create([
-            'name' => $user['name'],
-            'surname' => $user['lastName'],
-            'email' => $user['email'],
-            'phone' => $user['phone'],
+            'name' => isset($user['name']) ? $user['name'] : '',
+            'surname' => isset($user['lastName']) ? $user['lastName'] : '',
+            'email' => isset($user['email']) ? $user['email'] : '',
+            'phone' => isset($user['phone']) ? $user['phone'] : '',
             'document_type' => $user['documentType'],
             'document' => $user['document'],
             'password' => bcrypt('password'),
@@ -523,10 +527,10 @@ class CreateReservation extends Component
         if ($this->userFavorite) {
             $findUser->favorite = true;
         }
-        $findUser->name = $user['name'];
-        $findUser->surname = $user['lastName'];
-        $findUser->email = $user['email'];
-        $findUser->phone = $user['phone'];
+        $findUser->name = isset($user['name']) ? $user['name'] : $findUser->name;
+        $findUser->surname = isset($user['lastName']) ? $user['lastName'] : $findUser->surname;
+        $findUser->email = isset($user['email']) ? $user['email'] : $findUser->email;
+        $findUser->phone = isset($user['phone']) ? $user['phone'] : $findUser->phone;
         $findUser->document_type = $user['documentType'];
         $findUser->document = $user['document'];
         $findUser->save();

@@ -10,7 +10,18 @@
         <div class="grid grid-cols-1 lg:grid-cols-2 lg:gap-5 bg-white p-4">
             <div class="col">
                 <div class="border border-gray-300 rounded-sm p-4 bg-gray-100">
-                    <h2 class="">Reserva #{{ $numberReservation }} - <b>{{ $nights }} noches</b></h2>
+                    <div class="flex justify-between">
+                        <h2 class="">Reserva #{{ $numberReservation }} - <b>{{ $nights }} noches</b>
+                            <span class="pl-3 text-gray-500">COD: {{ $reservationCode }}</span>
+                        </h2>
+                        <button type="button" wire:click="$toggle('showTimeSetting')">
+                            @if ($showTimeSetting)
+                                <img src="{{ asset('images/svg/arrow-up.svg') }}" alt="Editar" width="20" />
+                            @else
+                                <img src="{{ asset('images/svg/arrow-down.svg') }}" alt="Cerrar" width="20" />
+                            @endif
+                        </button>
+                    </div>
                     <div class="md:flex md:justify-between gap-2 mt-3">
                         <div class="w-full">
                             <x-label for="start_date" value="Fecha de entrada" />
@@ -33,6 +44,22 @@
                                 @endforeach
                             </x-apps.select>
                             <x-input-error for="origin" class="mt-2" />
+                        </div>
+                    </div>
+                    <div class="md:flex md:justify-between gap-2 mt-3 transition-all duration-300 {{ $showTimeSetting ? '' : 'hidden md:hidden' }}">
+                        <div class="w-full">
+                            <x-label for="start_time" value="Hora de entrada" />
+                            <x-input id="start_time" type="time" class="mt-1 block w-full" wire:model="start_time"
+                                wire:change="calculateTotalPrice()"/>
+                            <x-input-error for="start_time" class="mt-2" />
+                        </div>
+                        <div class="w-full">
+                            <x-label for="end_time" value="Hora de salida" />
+                            <x-input id="end_time" type="time" class="mt-1 block w-full" wire:model="end_time"
+                                wire:change="calculateTotalPrice()"/>
+                            <x-input-error for="end_time" class="mt-2" />
+                        </div>
+                        <div class="w-full">
                         </div>
                     </div>
                 </div>
@@ -58,7 +85,7 @@
                         </div>
                         <div class="col-span-2">
                             <x-label for="price" value="Precio" />
-                            <x-input id="price" type="number" class="mt-1 block w-full" wire:model.live="price"
+                            <x-input id="price" type="number" step="any" class="mt-1 block w-full" wire:model.live="price"
                                 min="0" max="100000" />
                         </div>
                     </div>
@@ -203,7 +230,7 @@
                                 <x-input-error for="toursPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
-                                <x-input id="toursPayment" type="number" class="mt-1 block w-full"
+                                <x-input id="toursPayment" type="number" step="any" class="mt-1 block w-full"
                                     wire:model.live="toursPayment.{{ $key }}{{ $value }}.price"
                                     placeholder="Precio" wire:change="calculateTotalPrice()" />
                                 <x-input-error for="toursPayment.{{ $key }}{{ $value }}.price" class="mt-2" />
@@ -322,14 +349,14 @@
                     <div class="grid grid-cols-2 gap-5 mt-2">
                         <div class="content_payment {{ !$showAdvanceReservation ? 'hidden' : '' }}">
                             <x-label for="advance_reservation" value="Ingresar adelanto" />
-                            <x-input id="advance_reservation" type="number" class="mt-1 block w-full"
+                            <x-input id="advance_reservation"  step="any" class="mt-1 block w-full"
                                 wire:model.live="advance_reservation" min="1"
                                 max="{{ $total_reservation }}" />
                             <x-input-error for="advance_reservation" class="mt-2" />
                         </div>
                         <div class="content_payment {{ !$showAdvanceReservation ? 'hidden' : '' }}">
                             <x-label for="pending_payment" value="Monto pendiente" class="text-gray-500" />
-                            <x-input id="pending_payment" type="number" class="mt-1 block w-full"
+                            <x-input id="pending_payment" type="number" step="any" class="mt-1 block w-full"
                                 wire:model="pending_payment" disabled />
                             <x-input-error for="pending_payment" class="mt-2" />
                         </div>
@@ -370,7 +397,7 @@
                                 <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
                             </div>
                             <div class="content_payment col-span-6 md:col-span-3">
-                                <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
+                                <x-input id="xtrasPayment" type="number" step="any" class="mt-1 block w-full"
                                     wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.price"
                                     wire:change="calculateTotalPrice()" placeholder="Precio" />
                                 <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.price" class="mt-2" />

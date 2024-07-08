@@ -17,12 +17,7 @@
                 </div>
             </div>
             <div class="mt-5 lg:mt-0">
-                @if ($status == 'occupied')
-                    <div class="bg-orange-500 text-white p-3 rounded-lg text-center">
-                        <strong>Estado:</strong>
-                        <b class="uppercase">Ocupado</b>
-                    </div>
-                @else
+                @if (false)
                     <form method="post" class="w-full lg:w-1/2">
                         <div>
                             <x-apps.label for="status" class="text-gray-500">Estado</x-apps.label>

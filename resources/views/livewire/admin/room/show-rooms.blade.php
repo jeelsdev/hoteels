@@ -25,7 +25,7 @@
                         <x-apps.select wire:model.live="roomType" id="roomType" name="roomType">
                             <option></option>
                             @foreach ($roomTypes as $key => $type)
-                                <option value="{{ $key }}">{{ $type }}</option>
+                                <option value="{{ $key }}">{{ $type->description }}</option>
                             @endforeach
                         </x-apps.select>
                     </div>
