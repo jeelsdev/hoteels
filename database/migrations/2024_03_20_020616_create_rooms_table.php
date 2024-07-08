@@ -17,7 +17,7 @@ return new class extends Migration
             $table->unsignedBigInteger('room_type_id');
             $table->foreign('room_type_id')->references('id')->on('room_types');
             $table->integer('floor');
-            $table->string('description');
+            $table->string('description')->nullable();
             $table->string('status')->default('available');
             $table->timestamps();
         });
