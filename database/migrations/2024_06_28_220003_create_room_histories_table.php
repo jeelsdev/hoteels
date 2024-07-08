@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('room_histories', function (Blueprint $table) {
             $table->id();
             $table->foreignId('room_id')->constrained();
+            $table->string('reservation_code');
             $table->string('status')->nullable();
             $table->timestamp('from')->nullable();
             $table->timestamp('to')->nullable();

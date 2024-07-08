@@ -3,6 +3,7 @@
 namespace App\Livewire\Admin\Reservation\List;
 
 use App\Models\Reservation;
+use App\Models\RoomHistory;
 use Livewire\Component;
 use Livewire\WithPagination;
 
@@ -24,6 +25,10 @@ class ReservationList extends Component
     public function reservationDelete($id)
     {
         $reservation = Reservation::findOrFail($id);
+        $reservationhistories = RoomHistory::where('reservation_code', $reservation->reservation_code)->get();
+        foreach ($reservationhistories as $reservationhistory) {
+            $reservationhistory->delete();
+        }
         $reservation->payment->delete();
         $reservation->users()->detach();
         $reservation->xtras()->detach();

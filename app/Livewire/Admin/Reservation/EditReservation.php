@@ -395,6 +395,7 @@ class EditReservation extends Component
         {
             RoomHistory::create([
                 'room_id' => $this->reservation->room_id,
+                'reservation_code' => $this->reservation->reservation_code,
                 'status' => 'clean',
                 'from' => Carbon::parse($this->start_date. ' ' . $this->start_time),
                 'to' => Carbon::parse($this->end_date. ' ' . $this->end_time),

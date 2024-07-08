@@ -12,7 +12,8 @@ class RoomHistory extends Model
         'room_id',
         'status',
         'from',
-        'to'
+        'to',
+        'reservation_code'
     ];
     protected $casts = [
         'from' => 'datetime',

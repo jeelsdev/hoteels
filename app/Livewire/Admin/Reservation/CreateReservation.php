@@ -398,6 +398,7 @@ class CreateReservation extends Component
 
         RoomHistory::create([
             'room_id' => $this->room_id,
+            'reservation_code' => $reservation->reservation_code,
             'status' => 'clean',
             'from' => Carbon::parse($this->start_date. ' ' . $this->start_time),
             'to' => Carbon::parse($this->end_date. ' ' . $this->end_time),
