@@ -36,5 +36,15 @@ class RouteServiceProvider extends ServiceProvider
             Route::middleware('web')
                 ->group(base_path('routes/web.php'));
         });
+
+        $this->routesPattern();
+    }
+
+    /**
+     * Define the route pattern.
+     */
+    public function routesPattern(): void
+    {
+        Route::pattern('id', '[0-9]+');
     }
 }
