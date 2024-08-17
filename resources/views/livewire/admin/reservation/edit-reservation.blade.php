@@ -281,7 +281,7 @@
                                     <td class="whitespace-nowrap px-6 py-4 font-medium">Reservación</td>
                                     <td class="whitespace-nowrap px-6 py-4 text-center">{{ $nights }}</td>
                                     <td class="whitespace-nowrap px-6 py-4 text-center">
-                                        {{ $status == 'booking' ? $pending_payment : '' }}</td>
+                                        {{ $status == 'booking' || $status == 'confirmed' ? $pending_payment : '' }}</td>
                                     <td class="whitespace-nowrap px-6 py-4 text-center">{{ $total_reservation }}</td>
                                 </tr>
                                 <tr class="border-b border-neutral-200">
@@ -310,7 +310,7 @@
                         $subtotal = $_Total - $igv;
 
                         // Calculo de deudas
-                        $debtReservation = $status == 'booking' ? $pending_payment : 0;
+                        $debtReservation = $status == 'booking' || $status == 'confirmed' ? $pending_payment : 0;
                         $debtTotal = $debtReservation + $debtXtra + $debtTour;
                     @endphp
                     <div class="pl-8 max-w-xl mx-auto py-3 flex justify-end">

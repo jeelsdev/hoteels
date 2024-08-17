@@ -181,7 +181,7 @@ class CreateReservation extends Component
 
     public function checkStatusPending()
     {
-        if ($this->status == 'booking') {
+        if ($this->status == 'booking' || $this->status == 'confirmed') {
             $this->showAdvanceReservation = true;
         } else {
             $this->showAdvanceReservation = false;
@@ -350,7 +350,11 @@ class CreateReservation extends Component
             $this->validate([
                 'advance_reservation' => 'required|numeric',
             ]);
-        } else {
+        }elseif ($this->status == 'confirmed') {
+            $this->validate([
+                'advance_reservation' => 'numeric',
+            ]);
+        }else {
             $this->advance_reservation = null;
         }
 

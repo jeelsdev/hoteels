@@ -48,25 +48,25 @@ Route::middleware([
     config('jetstream.auth_session'),
     'verified',
 ])->prefix('/admin')->group(function () {
-    Route::prefix('/dashboard')->group(function () {
-        Route::get('/', Report::class)->name('dashboard.report');
+    Route::prefix('/dashboard')->name('dashboard.')->group(function () {
+        Route::get('/', Report::class)->name('report');
     });
     
-    Route::prefix('reservation')->group(function () {
-        Route::get('/', ShowReservations::class)->name('reservation.index');
-        Route::get('/create/{data}', CreateReservation::class)->name('reservation.create');
-        Route::get('/edit/{data}', EditReservation::class)->name('reservation.edit');
-        Route::get('/list', ReservationList::class)->name('reservation.list');
+    Route::prefix('reservation')->name('reservation.')->group(function () {
+        Route::get('/', ShowReservations::class)->name('index');
+        Route::get('/create/{data}', CreateReservation::class)->name('create');
+        Route::get('/edit/{data}', EditReservation::class)->name('edit');
+        Route::get('/list', ReservationList::class)->name('list');
     });
     
-    Route::prefix('room')->group(function () {
-        Route::get('/', ShowRooms::class)->name('room.index');
-        Route::get('/create', CreateRoom::class)->name('room.create');
-        Route::get('/edit/{id}', EditRoom::class)->name('room.edit');
-        Route::get('/show/{id}', SeeRoom::class)->name('room.see');
-        Route::get('/floor', Floor::class)->name('room.floor');
-        Route::get('/types', Types::class)->name('room.types');
-        Route::get('/rooms', Rooms::class)->name('room.rooms');
+    Route::prefix('room')->name('room.')->group(function () {
+        Route::get('/', ShowRooms::class)->name('index');
+        Route::get('/create', CreateRoom::class)->name('create');
+        Route::get('/edit/{id}', EditRoom::class)->name('edit');
+        Route::get('/show/{id}', SeeRoom::class)->name('see');
+        Route::get('/floor', Floor::class)->name('floor');
+        Route::get('/types', Types::class)->name('types');
+        Route::get('/rooms', Rooms::class)->name('rooms');
     });
     
     Route::prefix('room')->group(function () {
@@ -92,15 +92,15 @@ Route::middleware([
         });
     });
 
-    Route::prefix('movement')->group(function() {
-        Route::get('/', Index::class)->name('movement.index');
-        Route::get('/daily-income', DailyIncome::class)->name('movement.daily-income');
-        Route::get('/expenses', Expenses::class)->name('movement.expenses');
+    Route::prefix('movement')->name('movement.')->group(function() {
+        Route::get('/', Index::class)->name('index');
+        Route::get('/daily-income', DailyIncome::class)->name('daily-income');
+        Route::get('/expenses', Expenses::class)->name('expenses');
     });
 
-    Route::prefix('profile')->group(function() {
+    Route::prefix('profile')->name('profile.')->group(function() {
         Route::get('/config', function(){
             return view('profile.show');
-        })->name('profile.show');
+        })->name('show');
     });
 });
