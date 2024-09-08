@@ -53,7 +53,8 @@ Route::middleware([
     });
     
     Route::prefix('reservation')->name('reservation.')->group(function () {
-        Route::get('/', ShowReservations::class)->name('index');
+        // Route::get('/', ShowReservations::class)->name('index');
+        Route::get('/', [ReservationController::class, 'index'])->name('index');
         Route::get('/create/{data}', CreateReservation::class)->name('create');
         Route::get('/edit/{data}', EditReservation::class)->name('edit');
         Route::get('/list', ReservationList::class)->name('list');
