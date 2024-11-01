@@ -28,6 +28,9 @@ class CreateReservation extends Component
     public $xtras = [];
     public $tours = [];
 
+    public $date;
+    public $room;
+
     #[Validate('required')]
     public $start_date;
 
@@ -464,16 +467,10 @@ class CreateReservation extends Component
         return redirect()->route('reservation.index');
     }
 
-    public function mount($data)
+    public function mount(Room $room, $date)
     {
-        parse_str($data, $data);
-
-        try {
-            $date = Carbon::parse($data['date']);
-            $room = Room::findOrFail($data['resource']);
-        } catch (\Throwable $th) {
-            return redirect()->route('reservation.index');
-        }
+        $this->date = $date;
+        $this->room = $room;
 
         $this->room_id = $room->id;
         $this->open = true;
@@ -485,7 +482,6 @@ class CreateReservation extends Component
         $this->roomCode = $room->code;
         $this->floor = $room->floor;
         $this->roomType = $room->roomType->description;
-        $this->numberReservation = Reservation::whereMonth('created_at', date('m'))->whereYear('created_at', date('Y'))->count() + 1;
 
         $this->calculateTotalPrice();
     }
