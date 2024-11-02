@@ -18,10 +18,8 @@
 
                 <livewire:components.reservation.tour />
 
-                <div class="border border-gray-300 rounded-sm p-4 mt-5">
-                    <x-label for="comments" value="Comentarios" />
-                    <x-apps.textarea wire:model="comments" />
-                </div>
+                <livewire:components.reservation.comment comment="" />
+                
             </div>
             <div>
                 <div class="border border-b-0 border-gray-300 rounded-sm p-4">
