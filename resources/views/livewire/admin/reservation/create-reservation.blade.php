@@ -17,7 +17,7 @@
                 <livewire:components.reservation.guest />
 
                 <livewire:components.reservation.tour />
-                
+
                 <div class="border border-gray-300 rounded-sm p-4 mt-5">
                     <x-label for="comments" value="Comentarios" />
                     <x-apps.textarea wire:model="comments" />
@@ -121,67 +121,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="border border-gray-300 rounded-sm p-4 mt-5">
-                    <div class="flex justify-between">
-                        <h2 class="text-lg">Extras</h2>
-                        <button type="button" class="mr-5 hover:text-stone-700"
-                            wire:click="addXtra({{ $xI }})">
-                            <span class="text-xs font-semibold pl-2.5 py-1">
-                                Agregar extra
-                            </span>
-                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"
-                                stroke-width="1.5" stroke="currentColor" class="w-5 h-5 inline-block">
-                                <path stroke-linecap="round" stroke-linejoin="round"
-                                    d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
-                            </svg>
-                        </button>
-                    </div>
-                    <div class="grid grid-cols-12 gap-2 mt-2">
-                        @foreach ($inputXtras as $key => $value)
-                            <div class="col-span-6 md:col-span-4">
-                                <x-apps.select id="xtras" class="mt-1 block w-full"
-                                    wire:model="xtrasTotal.{{ $key }}{{ $value }}"
-                                    wire:change="addXtraPayment('{{ $key }}{{ $value }}')">
-                                    <option value="">Seleccionar extra</option>
-                                    @foreach ($xtras as $xtra)
-                                        <option value="{{ $xtra->id }}">{{ $xtra->name }}</option>
-                                    @endforeach
-                                </x-apps.select>
-                                <x-input-error for="xtrasTotal.{{ $key }}{{ $value }}" class="mt-2" />
-                            </div>
-                            <div class="content_payment col-span-6 md:col-span-3">
-                                <x-input id="xtrasPayment" type="number" class="mt-1 block w-full"
-                                    wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.amount"
-                                    placeholder="Cantidad" />
-                                <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.amount" class="mt-2" />
-                            </div>
-                            <div class="content_payment col-span-6 md:col-span-3">
-                                <x-input id="xtrasPayment" type="number" step="any" class="mt-1 block w-full"
-                                    wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.price"
-                                    wire:change="calculateTotalPrice()" placeholder="Precio" />
-                                <x-input-error for="xtrasPayment.{{ $key }}{{ $value }}.price" class="mt-2" />
-                            </div>
-                            <div class="content_payment col-span-3 md:col-span-1 flex flex-col-reverse justify-center items-center">
-                                <x-label for="xtrasPayment.{{ $key }}{{ $value }}.paid"
-                                    value="Pagado" />
-                                <x-input id="xtrasPayment" type="checkbox" class="mt-1 block"
-                                    wire:model.live="xtrasPayment.{{ $key }}{{ $value }}.paid" />
-                            </div>
-                            <button type="button" class="flex justify-center items-center col-span-3 md:col-span-1"
-                                wire:click="removeInputXtra({{ $key }}, '{{ $key }}{{ $value }}')">
-                                <img width="20px" src="{{ asset('images/svg/tash.svg') }}" alt="tash" />
-                            </button>
-                        @endforeach
-                    </div>
-                    @if ($xtrasTotal)
-                        <div class="pt-5">
-                            <p class="text-end mr-5">
-                                <span class="text-sm font-semibold text-gray-500">Total extras:</span>
-                                <span class="text-sm font-semibold">{{ $total_xtras }}</span>
-                            </p>
-                        </div>
-                    @endif
-                </div>
+                
+                <livewire:components.reservation.extra />
+
             </div>
         </div>
 </div>
