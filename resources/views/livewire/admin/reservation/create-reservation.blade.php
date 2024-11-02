@@ -93,34 +93,8 @@
                         </div>
                     </div>
                 </div>
-                <div class="border border-gray-300 rounded-sm p-4 mt-5 bg-gray-100">
-                    <x-label for="status" value="Estado" />
-                    <x-apps.select id="status" class="mt-1 block w-full" wire:model="status"
-                        wire:change="checkStatusPending()">
-                        <option value="">Seleccionar estado</option>
-                        @foreach ($statuses as $status)
-                            @if ($status->value != 'pending')
-                                <option value="{{ $status->value }}">{{ $status->name }}</option>
-                            @endif
-                        @endforeach
-                    </x-apps.select>
-                    <x-input-error for="status" class="mt-2" />
-                    <div class="grid grid-cols-2 gap-5 mt-2">
-                        <div class="content_payment {{ !$showAdvanceReservation ? 'hidden' : '' }}">
-                            <x-label for="advance_reservation" value="Ingresar adelanto" />
-                            <x-input id="advance_reservation" type="number" step="any" class="mt-1 block w-full"
-                                wire:model.live="advance_reservation" min="1"
-                                max="{{ $total_reservation }}" />
-                            <x-input-error for="advance_reservation" class="mt-2" />
-                        </div>
-                        <div class="content_payment {{ !$showAdvanceReservation ? 'hidden' : '' }}">
-                            <x-label for="pending_payment" value="Monto pendiente" class="text-gray-500" />
-                            <x-input id="pending_payment" type="number" step="any" class="mt-1 block w-full"
-                                wire:model="pending_payment" disabled />
-                            <x-input-error for="pending_payment" class="mt-2" />
-                        </div>
-                    </div>
-                </div>
+
+                <livewire:components.reservation.status :total="0" :advance="0" :show="false"  />
                 
                 <livewire:components.reservation.extra />
 
