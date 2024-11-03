@@ -3,5 +3,5 @@
         for="comments"
         value="Comentarios" />
     <x-apps.textarea
-        wire:model="comments" />
+        wire:model="comment" />
 </div>
