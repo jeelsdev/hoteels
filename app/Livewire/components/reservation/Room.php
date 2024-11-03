@@ -15,6 +15,27 @@ class Room extends Component
     
     public int $price;
 
+    protected $listeners = ['before-save-reservation' => 'beforeSave'];
+
+    public function beforeSave(): void
+    {
+        $this->validate([
+            'price' => 'required|numeric|min:0',
+        ]);
+
+        $this->dispatch('validate-saved-reservation', [
+            'component' => 'room',
+            'data' => [
+                'price' => $this->price,
+            ],
+        ]);
+    }
+
+    public function calculate(): void
+    {
+        $this->dispatch('update-summary-r-total', $this->price);
+    }
+
     public function mount(ModelsRoom $room)
     {
         $this->roomCode = $room->code;
