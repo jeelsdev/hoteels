@@ -39,7 +39,7 @@
                     step="any"
                     class="mt-1 block w-full"
                     wire:model.live="extras.{{ $key }}.price"
-                    wire:change="calculatePrice"
+                    wire:change="calculate('e-total')"
                     placeholder="Precio" />
                 <x-input-error
                     for="extras.{{ $key }}.price"
@@ -47,13 +47,14 @@
             </div>
             <div class="content_payment col-span-6 md:col-span-3">
                 <x-input
-                    id="amount-{{ $key }}"
+                    id="quantity-{{ $key }}"
                     type="number"
                     class="mt-1 block w-full"
-                    wire:model.live="extras.{{ $key }}.amount"
+                    wire:model.live="extras.{{ $key }}.quantity"
+                    wire:change="calculate('e-total')"
                     placeholder="Cantidad" />
                 <x-input-error
-                    for="extras.{{ $key }}.amount"
+                    for="extras.{{ $key }}.quantity"
                     class="mt-2" />
             </div>
             <div class="content_payment col-span-3 md:col-span-1 flex flex-col-reverse justify-center items-center">
@@ -64,7 +65,8 @@
                     id="paid-{{ $key }}"
                     type="checkbox"
                     class="mt-1 block"
-                    wire:model.live="extras.{{ $key }}.paid" />
+                    wire:model.live="extras.{{ $key }}.paid"
+                    wire:change="calculate('e-debt')" />
             </div>
             <button
                 type="button"
