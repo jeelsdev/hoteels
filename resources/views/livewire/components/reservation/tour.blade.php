@@ -40,7 +40,7 @@
                     class="mt-1 block w-full"
                     wire:model.live="tours.{{ $key }}.price"
                     placeholder="Precio"
-                    wire:change="calculatePrice()" />
+                    wire:change="calculate('t-total')" />
                 <x-input-error
                     for="tours.{{ $key }}.price"
                     class="mt-2" />
@@ -52,7 +52,7 @@
                     class="mt-1 block w-full"
                     wire:model.live="tours.{{ $key }}.quantity"
                     placeholder="Cantidad"
-                    wire:change="calculatePrice()" />
+                    wire:change="calculate('t-total')" />
                 <x-input-error
                     for="tours.{{ $key }}.quantity"
                     class="mt-2" />
@@ -65,7 +65,8 @@
                     id="paid-{{ $key }}"
                     type="checkbox"
                     class="mt-1 block"
-                    wire:model.live="tours.{{ $key }}.paid" />
+                    wire:model.live="tours.{{ $key }}.paid"
+                    wire:change="calculate('t-debt')" />
             </div>
             <button
                 type="button"
