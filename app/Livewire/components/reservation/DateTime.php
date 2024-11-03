@@ -30,12 +30,41 @@ class DateTime extends Component
 
     public bool $showTimeSetting = false;
 
+    public string $origin;
+
+    protected $listeners = ['before-save-reservation' => 'beforeSave'];
+
+    public function beforeSave(): void
+    {
+        $this->validate([
+            'startDate' => 'required|date',
+            'endDate' => 'required|date',
+            'origin' => 'required|string',
+            'startTime' => 'required',
+            'endTime' => 'required',
+        ]);
+
+        $this->dispatch('validate-saved-reservation', [
+            'component' => 'date-time',
+            'data' => [
+                'startDate' => $this->startDate,
+                'endDate' => $this->endDate,
+                'origin' => $this->origin,
+                'startTime' => $this->startTime,
+                'endTime' => $this->endTime,
+                'night' => $this->nights,
+            ],
+        ]);
+    }
+
     public function calculate(): void
     {
         $start = Carbon::parse($this->startDate);
         $end = Carbon::parse($this->endDate);
 
         $this->nights = $start->diffInDays($end);
+
+        $this->dispatch('update-summary-nights', $this->nights);
     }
 
     public function mount(Carbon $date)
