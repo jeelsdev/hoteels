@@ -18,19 +18,18 @@
         for="status"
         class="mt-2" />
     <div class="grid grid-cols-2 gap-5 mt-2">
-        <div class="content_payment {{ !$show ? 'hidden' : '' }}">
+        <div class="content_payment">
             <x-label
                 for="advance"
                 value="Ingresar adelanto" />
             <x-input
                 id="advance"
+                name="advance"
                 type="number"
                 step="any"
                 class="mt-1 block w-full"
-                wire:model.live="advance"
-                wire:change="setPending"
-                min="1"
-                max="{{ $total }}" />
+                wire:model="advance"
+                wire:change="setPending" />
             <x-input-error
                 for="advance"
                 class="mt-2" />
@@ -42,6 +41,7 @@
                 class="text-gray-500" />
             <x-input
                 id="pending"
+                name="pending"
                 type="number"
                 step="any"
                 class="mt-1 block w-full"

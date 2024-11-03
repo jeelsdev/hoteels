@@ -19,6 +19,33 @@ class Status extends Component
 
     public bool $show;
 
+    protected $listeners = [
+        'before-save-reservation' => 'beforeSave',
+        'update-status-total' => 'setTotal',
+    ];
+
+    public function beforeSave(): void
+    {
+        $this->validate([
+            'status' => 'required|in:booking,confirmed,cancelled',
+        ]);
+
+        $this->dispatch('validate-saved-reservation', [
+            'component' => 'status',
+            'data' => [
+                'status' => $this->status,
+                'advance' => $this->advance,
+            ],
+        ]);
+    }
+
+    public function setTotal(int $total): void
+    {
+        $this->total = $total;
+
+        $this->setPending();
+    }
+
     public function setPending(): void
     {
         $this->pending = $this->total - $this->advance;
