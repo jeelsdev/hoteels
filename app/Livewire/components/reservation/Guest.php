@@ -12,32 +12,25 @@ class Guest extends Component
     
     public String $tab;
 
+    protected $listeners = ['before-save-reservation' => 'beforeSave'];
+
     protected $rules = [
         'users.*.name' => 'required|string',
-        'users.*.lastName' => 'required|string',
-        'users.*.email' => 'required|email',
+        'users.*.lastName' => 'string',
+        'users.*.email' => 'email',
         'users.*.phone' => 'numeric',
         'users.*.document' => 'required|numeric',
         'users.*.documentType' => 'required|string',
     ];
 
-    public function save(): void
+    public function beforeSave(): void
     {
         $this->validate();
 
-        foreach ($this->users as $user)
-        {
-            User::create([
-                'name' => $user['name'],
-                'surname' => $user['lastName'],
-                'email' => $user['email'],
-                'phone' => $user['phone'],
-                'document' => $user['document'],
-                'document_type' => $user['documentType'],
-            ]);
-        }
-
-        $this->emit('saved');
+        $this->dispatch('validate-saved-reservation', [
+            'component' => 'guest',
+            'data' => $this->users,
+        ]);
     }
 
     public function setUser(): void
