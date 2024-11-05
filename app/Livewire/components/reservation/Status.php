@@ -42,32 +42,34 @@ class Status extends Component
     public function setTotal(int $total): void
     {
         $this->total = $total;
-
-        $this->setPending();
+        $this->pending = $total - ( $this->advance ?? 0 );
     }
 
     public function setPending(): void
     {
-        $this->pending = $this->total - $this->advance;
+        $this->pending = $this->total - ( $this->advance ?? 0 );
+
+        $this->dispatch('update-summary-r-debt', $this->pending);
     }
 
     public function setShow(): void
     {
-        if ($this->status == 'booking' || $this->status == 'confirmed') {
-            $this->show = true;
+        if($this->status == 'confirmed') {
+            $this->show = false;
             return;
         }
 
-        $this->show = false;
+        $this->show = true;
     }
 
-    public function mount(int $total, int $advance, bool $show): void
+    public function mount(int $total, int $advance, bool $show, string $status): void
     {
         $this->enumsStatus = EnumsStatus::getArrayValues();
         $this->total = $total;
         $this->advance = $advance;
         $this->show = $show;
-        $this->setPending();
+        $this->status = $status;
+        $this->pending = $total - $advance;
     }
 
     public function render()

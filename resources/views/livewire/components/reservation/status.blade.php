@@ -17,39 +17,41 @@
     <x-input-error
         for="status"
         class="mt-2" />
-    <div class="grid grid-cols-2 gap-5 mt-2">
-        <div class="content_payment">
-            <x-label
-                for="advance"
-                value="Ingresar adelanto" />
-            <x-input
-                id="advance"
-                name="advance"
-                type="number"
-                step="any"
-                class="mt-1 block w-full"
-                wire:model="advance"
-                wire:change="setPending" />
-            <x-input-error
-                for="advance"
-                class="mt-2" />
+    @if ($show)
+        <div class="grid grid-cols-2 gap-5 mt-2">
+            <div class="content_payment">
+                <x-label
+                    for="advance"
+                    value="Ingresar adelanto" />
+                <x-input
+                    id="advance"
+                    name="advance"
+                    type="number"
+                    step="any"
+                    class="mt-1 block w-full"
+                    wire:model="advance"
+                    wire:change="setPending" />
+                <x-input-error
+                    for="advance"
+                    class="mt-2" />
+            </div>
+            <div class="content_payment">
+                <x-label
+                    for="pending"
+                    value="Monto pendiente"
+                    class="text-gray-500" />
+                <x-input
+                    id="pending"
+                    name="pending"
+                    type="number"
+                    step="any"
+                    class="mt-1 block w-full"
+                    wire:model="pending"
+                    disabled />
+                <x-input-error
+                    for="pending"
+                    class="mt-2" />
+            </div>
         </div>
-        <div class="content_payment {{ !$show ? 'hidden' : '' }}">
-            <x-label
-                for="pending"
-                value="Monto pendiente"
-                class="text-gray-500" />
-            <x-input
-                id="pending"
-                name="pending"
-                type="number"
-                step="any"
-                class="mt-1 block w-full"
-                wire:model="pending"
-                disabled />
-            <x-input-error
-                for="pending"
-                class="mt-2" />
-        </div>
-    </div>
+    @endif
 </div>
