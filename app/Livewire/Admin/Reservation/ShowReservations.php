@@ -2,16 +2,11 @@
 
 namespace App\Livewire\Admin\Reservation;
 
-use App\Models\Reservation;
-use App\Models\Room;
 use Livewire\Attributes\On;
 use Livewire\Component;
 
 class ShowReservations extends Component
 {
-    public $rooms = [];
-    public $reservations = [];
-
     #[On('edit-reservation')]
     public function editRedirect($data)
     {
@@ -35,15 +30,18 @@ class ShowReservations extends Component
         return redirect()->route('reservation.create', ['data'=>$data]);
     }
 
+    public function mount($rooms, $reservations)
+    {
+        // See the 'load-calendar' event in resources/js/fullcalendar.js
+        $this->dispatch('load-calendar', [
+            'rooms' => $rooms,
+            'reservations' => $reservations,
+        ]);
+    }
+
     #[On('reservation-created')]
     public function render()
     {
-        $this->rooms = Room::with('roomType')
-            ->orderBy('floor', 'asc')
-            ->get();
-
-        $this->reservations = Reservation::all();
-//dd($this->reservations[0]->users[0]->pivot);
         return view('livewire.admin.reservation.show-reservations');
     }
 }

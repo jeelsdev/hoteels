@@ -1,16 +1,13 @@
 <?php
 
 use App\Http\Controllers\ReservationController;
-use App\Livewire\Admin\Dashboard\Dashboard;
 use App\Livewire\Admin\Dashboard\Debtor\Debtor;
 use App\Livewire\Admin\Dashboard\Diary\DailyIncome;
 use App\Livewire\Admin\Dashboard\Report\Report;
 use App\Livewire\Admin\Movement\Expenses;
 use App\Livewire\Admin\Movement\Index;
-use App\Livewire\Admin\Reservation\CreateReservation;
 use App\Livewire\Admin\Reservation\EditReservation;
 use App\Livewire\Admin\Reservation\List\ReservationList;
-use App\Livewire\Admin\Reservation\ShowReservations;
 use App\Livewire\Admin\Room\CreateRoom;
 use App\Livewire\Admin\Room\EditRoom;
 use App\Livewire\Admin\Room\Floor\Floor;
@@ -53,8 +50,8 @@ Route::middleware([
     });
     
     Route::prefix('reservation')->name('reservation.')->group(function () {
-        Route::get('/', ShowReservations::class)->name('index');
-        Route::get('/create/{data}', CreateReservation::class)->name('create');
+        Route::get('/', [ReservationController::class, 'index'])->name('index');
+        Route::get('/create/{data}', [ReservationController::class, 'create'])->name('create');
         Route::get('/edit/{data}', EditReservation::class)->name('edit');
         Route::get('/list', ReservationList::class)->name('list');
     });

@@ -1,5 +1,3 @@
 <x-app-layout>
-    <div class="pt-24 px-8">
-        <div id="calendar"></div>
-    </div>
+    <livewire:admin.reservation.show-reservations :rooms="$rooms" :reservations="$reservations" />
 </x-app-layout>
