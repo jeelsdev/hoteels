@@ -5,8 +5,7 @@
     <x-apps.select
         id="status"
         class="mt-1 block w-full"
-        wire:model="status"
-        wire:change="setShow">
+        wire:model.live="status">
         <option value="">Seleccionar estado</option>
         @foreach ($enumsStatus as $enumStatus)
             @if ($enumStatus->value != 'pending')
@@ -29,8 +28,7 @@
                     type="number"
                     step="any"
                     class="mt-1 block w-full"
-                    wire:model="advance"
-                    wire:change="setPending" />
+                    wire:model.live="advance" />
                 <x-input-error
                     for="advance"
                     class="mt-2" />
@@ -46,7 +44,7 @@
                     type="number"
                     step="any"
                     class="mt-1 block w-full"
-                    wire:model="pending"
+                    wire:model="rDebt"
                     disabled />
                 <x-input-error
                     for="pending"

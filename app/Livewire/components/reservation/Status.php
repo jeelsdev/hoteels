@@ -15,13 +15,13 @@ class Status extends Component
 
     public int $advance;
 
-    public int $pending;
+    public int $rDebt;
 
     public bool $show;
 
     protected $listeners = [
         'before-save-reservation' => 'beforeSave',
-        'update-status-total' => 'setTotal',
+        'summary-updated-r-total' => 'updatedTotal',
     ];
 
     public function beforeSave(): void
@@ -39,22 +39,27 @@ class Status extends Component
         ]);
     }
 
-    public function setTotal(int $total): void
+    public function updatedTotal(int $total): void
     {
         $this->total = $total;
-        $this->pending = $total - ( $this->advance ?? 0 );
+        $this->rDebt = $total - ( $this->advance ?? 0 );
     }
 
-    public function setPending(): void
+    public function updatedAdvance(): void
     {
-        $this->pending = $this->total - ( $this->advance ?? 0 );
-
-        $this->dispatch('update-summary-r-debt', $this->pending);
+        $this->updatedRDebt();
     }
 
-    public function setShow(): void
+    public function updatedRDebt(): void
     {
-        if($this->status == 'confirmed') {
+        $this->rDebt = $this->total - ( $this->advance ?? 0 );
+
+        $this->dispatch('status-updated-r-debt', $this->rDebt);
+    }
+
+    public function updatedStatus(): void
+    {
+        if($this->status == 'canceled') {
             $this->show = false;
             return;
         }
@@ -69,7 +74,7 @@ class Status extends Component
         $this->advance = $advance;
         $this->show = $show;
         $this->status = $status;
-        $this->pending = $total - $advance;
+        $this->rDebt = $total - $advance;
     }
 
     public function render()
