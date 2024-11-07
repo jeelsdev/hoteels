@@ -31,9 +31,9 @@ class Room extends Component
         ]);
     }
 
-    public function calculate(): void
+    public function updatedPrice(): void
     {
-        $this->dispatch('update-summary-r-total', $this->price);
+        $this->dispatch('room-updated-price', $this->price);
     }
 
     public function mount(ModelsRoom $room)

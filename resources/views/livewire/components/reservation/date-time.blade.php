@@ -24,8 +24,7 @@
                 id="startDate"
                 type="date"
                 class="mt-1 block w-full"
-                wire:model="startDate"
-                wire:change="calculate()" />
+                wire:model.live="startDate" />
             <x-input-error
                 for="startDate"
                 class="mt-2" />
@@ -38,8 +37,7 @@
                 id="endDate"
                 type="date"
                 class="mt-1 block w-full"
-                wire:model="endDate"
-                wire:change="calculate()" />
+                wire:model.live="endDate" />
             <x-input-error
                 for="endDate"
                 class="mt-2" />

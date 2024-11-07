@@ -57,6 +57,16 @@ class DateTime extends Component
         ]);
     }
 
+    public function updatedStartDate(): void
+    {
+        $this->calculate();
+    }
+
+    public function updatedEndDate(): void
+    {
+        $this->calculate();
+    }
+
     public function calculate(): void
     {
         $start = Carbon::parse($this->startDate);
@@ -64,7 +74,7 @@ class DateTime extends Component
 
         $this->nights = $start->diffInDays($end);
 
-        $this->dispatch('update-summary-nights', $this->nights);
+        $this->dispatch('date-time-updated-nights', $this->nights);
     }
 
     public function mount(Carbon $date)

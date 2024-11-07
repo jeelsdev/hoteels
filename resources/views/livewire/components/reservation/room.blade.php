@@ -21,8 +21,7 @@
                 type="number"
                 step="any"
                 class="mt-1 block w-full"
-                wire:change="calculate()"
-                wire:model="price"
+                wire:model.live="price"
                 min="0"
                 max="100000" />
         </div>
