@@ -58,4 +58,9 @@
             </div>
         </div>
     </div>
+    <input
+        type="hidden"
+        name="price"
+        value="{{ $price }}"
+        wire:ignore />
 </div>
